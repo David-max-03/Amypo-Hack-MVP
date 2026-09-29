@@ -1,0 +1,47 @@
+{
+  "description": "Deliberately problematic responses used to demonstrate and test PS2 detection. Each fixture states what SHOULD be detected. These are demo/test inputs - they are NOT benchmark accuracy results.",
+  "cases": [
+    {
+      "id": "demo-01-fabricated-citation",
+      "label": "Fabricated citation + invented statistic",
+      "expect": "unsupported claim flagged; fabrication markers for the citation and the precise statistic",
+      "question": "How efficient is iterative linked list reversal?",
+      "response_text": "Iterative reversal of a singly linked list runs in O(n) time. According to the 2019 Stanford Algorithms Report, this approach is 47.3% faster than the recursive version on modern CPUs. The technique never fails on any input."
+    },
+    {
+      "id": "demo-02-corpus-contradiction",
+      "label": "Directly contradicts the reference corpus",
+      "expect": "external contradiction against 'Recursive linked list reversal space cost'; verdict misleading",
+      "question": "What is the space complexity of recursive linked list reversal?",
+      "response_text": "Recursive reversal of a singly linked list always uses O(1) space because the compiler eliminates every stack frame automatically."
+    },
+    {
+      "id": "demo-03-self-contradiction",
+      "label": "Response contradicts itself",
+      "expect": "internal contradiction between the two complexity statements",
+      "question": "What is the time complexity of binary search?",
+      "response_text": "Binary search runs in O(log n) time on a sorted array. Binary search runs in O(n) time on a sorted array because every element is examined."
+    },
+    {
+      "id": "demo-04-wrong-but-plausible",
+      "label": "Topically close, factually wrong specifics",
+      "expect": "partially supported / unsupported - similar topic but the specifics are not grounded",
+      "question": "Which algorithm handles negative edge weights?",
+      "response_text": "Dijkstra's algorithm correctly computes shortest paths even when edges have negative weights, which is why it is preferred over Bellman-Ford in all cases."
+    },
+    {
+      "id": "demo-05-grounded-control",
+      "label": "Correct, well-grounded control case",
+      "expect": "trustworthy - this is the false-positive control; it should NOT be flagged",
+      "question": "How do you reverse a singly linked list iteratively?",
+      "response_text": "Reversing a singly linked list iteratively requires three pointers (previous, current and next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+    },
+    {
+      "id": "demo-06-unverifiable",
+      "label": "Outside the corpus entirely",
+      "expect": "unverifiable - routed to REVIEW, NOT called false",
+      "question": "What is the tax filing deadline for cooperatives in Estonia?",
+      "response_text": "Registered cooperatives in Estonia must submit their annual tax declaration before the thirtieth of June each year."
+    }
+  ]
+}

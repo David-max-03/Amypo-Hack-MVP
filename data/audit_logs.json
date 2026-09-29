@@ -1,0 +1,13 @@
+{
+  "events": [
+    {
+      "ts": "2026-09-28T13:47:51+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.5282,
+      "hallucination_probability": 0.6,
+      "flagged_spans": 6,
+      "analysis_ms": 213.79
+    }
+  ]
+}

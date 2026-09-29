@@ -1,0 +1,451 @@
+{
+  "description": "Trusted local reference corpus for the PS2 Source Verification Layer. Every entry is a short, verifiable statement with a named source. This file is the ONLY grounding evidence PS2 uses - no external knowledge API is called. The corpus is deliberately incomplete: a claim with no matching entry is reported as unsupported/unverifiable and routed to REVIEW, never auto-failed.",
+  "version": "1.0",
+  "entry_count": 36,
+  "entries": [
+    {
+      "id": "prog-001",
+      "title": "Singly linked list reversal",
+      "text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once.",
+      "domain": "programming",
+      "source": "CLRS, Introduction to Algorithms, 3rd edition, Chapter 10",
+      "tags": [
+        "linked list",
+        "reversal",
+        "pointers",
+        "o(n)"
+      ]
+    },
+    {
+      "id": "prog-002",
+      "title": "Recursive linked list reversal space cost",
+      "text": "A recursive reversal of a singly linked list uses O(n) space because each of the n recursive calls occupies a stack frame. It is not a constant-space solution.",
+      "domain": "programming",
+      "source": "CLRS, Introduction to Algorithms, 3rd edition, Chapter 10",
+      "tags": [
+        "linked list",
+        "recursion",
+        "space complexity"
+      ]
+    },
+    {
+      "id": "prog-003",
+      "title": "Reversing a linked list in groups of k",
+      "text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order.",
+      "domain": "programming",
+      "source": "LeetCode problem 25, Reverse Nodes in k-Group",
+      "tags": [
+        "linked list",
+        "k-group",
+        "reversal"
+      ]
+    },
+    {
+      "id": "prog-004",
+      "title": "Linked list traversal is sequential",
+      "text": "A singly linked list does not support random access. Reaching the i-th element requires traversing i nodes from the head, so indexed access costs O(n), unlike an array which costs O(1).",
+      "domain": "programming",
+      "source": "CLRS, Introduction to Algorithms, 3rd edition, Chapter 10",
+      "tags": [
+        "linked list",
+        "random access",
+        "array"
+      ]
+    },
+    {
+      "id": "prog-005",
+      "title": "Binary search requires a sorted array",
+      "text": "Binary search runs in O(log n) time but only works on a sorted sequence with random access. On an unsorted array it gives incorrect results, and on a linked list it loses its advantage because seeking the midpoint costs O(n).",
+      "domain": "programming",
+      "source": "CLRS, Introduction to Algorithms, 3rd edition, Chapter 12",
+      "tags": [
+        "binary search",
+        "sorting",
+        "o(log n)"
+      ]
+    },
+    {
+      "id": "prog-006",
+      "title": "Comparison sort lower bound",
+      "text": "Any comparison-based sorting algorithm needs at least O(n log n) comparisons in the worst case. Merge sort and heap sort achieve this bound; quicksort averages O(n log n) but degrades to O(n^2) in the worst case.",
+      "domain": "programming",
+      "source": "CLRS, Introduction to Algorithms, 3rd edition, Chapter 8",
+      "tags": [
+        "sorting",
+        "complexity",
+        "merge sort",
+        "quicksort"
+      ]
+    },
+    {
+      "id": "prog-007",
+      "title": "Hash table average and worst case",
+      "text": "Hash table lookup, insertion and deletion average O(1) time. The worst case degrades to O(n) when many keys collide into the same bucket, for example under a poor hash function or an adversarial key set.",
+      "domain": "programming",
+      "source": "CLRS, Introduction to Algorithms, 3rd edition, Chapter 11",
+      "tags": [
+        "hash table",
+        "collision",
+        "o(1)"
+      ]
+    },
+    {
+      "id": "prog-008",
+      "title": "Stack and queue ordering",
+      "text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time.",
+      "domain": "programming",
+      "source": "CLRS, Introduction to Algorithms, 3rd edition, Chapter 10",
+      "tags": [
+        "stack",
+        "queue",
+        "lifo",
+        "fifo"
+      ]
+    },
+    {
+      "id": "prog-009",
+      "title": "Binary search tree operation costs",
+      "text": "Binary search tree search, insert and delete cost O(h) where h is the tree height. For a balanced tree h is O(log n), but an unbalanced tree can degenerate to a linked list with h equal to n, making operations O(n).",
+      "domain": "programming",
+      "source": "CLRS, Introduction to Algorithms, 3rd edition, Chapter 12",
+      "tags": [
+        "bst",
+        "tree",
+        "balance",
+        "height"
+      ]
+    },
+    {
+      "id": "prog-010",
+      "title": "Breadth-first and depth-first search",
+      "text": "Breadth-first search explores a graph level by level using a queue and finds shortest paths in unweighted graphs. Depth-first search explores as deep as possible using a stack or recursion. Both run in O(V + E) time on an adjacency list.",
+      "domain": "programming",
+      "source": "CLRS, Introduction to Algorithms, 3rd edition, Chapter 22",
+      "tags": [
+        "bfs",
+        "dfs",
+        "graph",
+        "shortest path"
+      ]
+    },
+    {
+      "id": "prog-011",
+      "title": "Dijkstra's algorithm and negative weights",
+      "text": "Dijkstra's algorithm computes single-source shortest paths in O((V + E) log V) time with a binary heap, but it requires non-negative edge weights. Graphs with negative edges need the Bellman-Ford algorithm instead.",
+      "domain": "programming",
+      "source": "CLRS, Introduction to Algorithms, 3rd edition, Chapter 24",
+      "tags": [
+        "dijkstra",
+        "shortest path",
+        "negative weights"
+      ]
+    },
+    {
+      "id": "prog-012",
+      "title": "Detecting a cycle in a linked list",
+      "text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space.",
+      "domain": "programming",
+      "source": "Floyd, Non-deterministic Algorithms, JACM 1967",
+      "tags": [
+        "cycle detection",
+        "two pointers",
+        "floyd"
+      ]
+    },
+    {
+      "id": "prog-013",
+      "title": "Python list is a dynamic array",
+      "text": "A Python list is implemented as a dynamic array, not a linked list. Appending is amortised O(1), indexing is O(1), and inserting or deleting at the front is O(n) because later elements must shift.",
+      "domain": "programming",
+      "source": "CPython source, Objects/listobject.c",
+      "tags": [
+        "python",
+        "list",
+        "dynamic array",
+        "amortised"
+      ]
+    },
+    {
+      "id": "prog-014",
+      "title": "In-place algorithms and auxiliary space",
+      "text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory.",
+      "domain": "programming",
+      "source": "CLRS, Introduction to Algorithms, 3rd edition",
+      "tags": [
+        "in-place",
+        "space complexity",
+        "auxiliary space"
+      ]
+    },
+    {
+      "id": "prog-015",
+      "title": "Doubly linked list trade-offs",
+      "text": "A doubly linked list stores both next and previous pointers, allowing O(1) deletion given a node reference and bidirectional traversal, at the cost of one extra pointer of memory per node.",
+      "domain": "programming",
+      "source": "CLRS, Introduction to Algorithms, 3rd edition, Chapter 10",
+      "tags": [
+        "doubly linked list",
+        "memory",
+        "deletion"
+      ]
+    },
+    {
+      "id": "math-001",
+      "title": "Power rule for derivatives",
+      "text": "The power rule states that the derivative of x^n with respect to x is n*x^(n-1) for any real number n. The derivative of a constant is zero, and differentiation is linear.",
+      "domain": "mathematics",
+      "source": "Stewart, Calculus: Early Transcendentals, 8th edition",
+      "tags": [
+        "derivative",
+        "power rule",
+        "calculus"
+      ]
+    },
+    {
+      "id": "math-002",
+      "title": "Quadratic formula and discriminant",
+      "text": "The roots of ax^2 + bx + c = 0 with a non-zero are given by x = (-b +/- sqrt(b^2 - 4ac)) / (2a). The discriminant b^2 - 4ac determines the nature of the roots: positive gives two distinct real roots, zero gives one repeated real root, and negative gives two complex conjugate roots.",
+      "domain": "mathematics",
+      "source": "Stewart, Precalculus, 7th edition",
+      "tags": [
+        "quadratic",
+        "discriminant",
+        "roots"
+      ]
+    },
+    {
+      "id": "math-003",
+      "title": "Pythagorean theorem",
+      "text": "In a right-angled triangle the square of the hypotenuse equals the sum of the squares of the other two sides: a^2 + b^2 = c^2. It applies only to right-angled triangles in Euclidean geometry.",
+      "domain": "mathematics",
+      "source": "Euclid, Elements, Book I, Proposition 47",
+      "tags": [
+        "pythagoras",
+        "triangle",
+        "geometry"
+      ]
+    },
+    {
+      "id": "math-004",
+      "title": "Mean, median and outliers",
+      "text": "The arithmetic mean is the sum of values divided by their count. The median is the middle value of the sorted data. The median is more robust to outliers than the mean, because a single extreme value shifts the mean but barely moves the median.",
+      "domain": "mathematics",
+      "source": "Moore, Introduction to the Practice of Statistics, 9th edition",
+      "tags": [
+        "mean",
+        "median",
+        "outliers",
+        "statistics"
+      ]
+    },
+    {
+      "id": "math-005",
+      "title": "Probability axioms",
+      "text": "A probability is a real number between 0 and 1 inclusive. The probabilities of all mutually exclusive outcomes in a sample space sum to 1. For independent events A and B, P(A and B) = P(A) * P(B).",
+      "domain": "mathematics",
+      "source": "Ross, A First Course in Probability, 9th edition",
+      "tags": [
+        "probability",
+        "independence",
+        "axioms"
+      ]
+    },
+    {
+      "id": "math-006",
+      "title": "Matrix multiplication dimensions",
+      "text": "Matrix multiplication is defined for an m-by-n matrix times an n-by-p matrix, producing an m-by-p result. It is associative and distributive but not commutative: A*B generally does not equal B*A.",
+      "domain": "mathematics",
+      "source": "Strang, Introduction to Linear Algebra, 5th edition",
+      "tags": [
+        "matrix",
+        "multiplication",
+        "linear algebra"
+      ]
+    },
+    {
+      "id": "sci-001",
+      "title": "Hydrogen bonding and water's boiling point",
+      "text": "Water has an unusually high boiling point of 100 degrees Celsius at standard atmospheric pressure because its molecules form hydrogen bonds. Methane, which has a similar molar mass but cannot hydrogen bond, boils at about -161 degrees Celsius.",
+      "domain": "science",
+      "source": "Atkins, Physical Chemistry, 11th edition",
+      "tags": [
+        "hydrogen bond",
+        "boiling point",
+        "water",
+        "methane"
+      ]
+    },
+    {
+      "id": "sci-002",
+      "title": "Newton's second law",
+      "text": "Newton's second law states that the net force on an object equals its mass times its acceleration, F = ma. Force is measured in newtons, mass in kilograms and acceleration in metres per second squared.",
+      "domain": "science",
+      "source": "Halliday, Resnick and Walker, Fundamentals of Physics, 10th edition",
+      "tags": [
+        "newton",
+        "force",
+        "acceleration"
+      ]
+    },
+    {
+      "id": "sci-003",
+      "title": "Photosynthesis inputs and outputs",
+      "text": "Photosynthesis in green plants converts carbon dioxide and water into glucose and oxygen using light energy captured by chlorophyll. The overall reaction is 6CO2 + 6H2O + light energy -> C6H12O6 + 6O2.",
+      "domain": "science",
+      "source": "Campbell Biology, 11th edition, Chapter 10",
+      "tags": [
+        "photosynthesis",
+        "chlorophyll",
+        "glucose"
+      ]
+    },
+    {
+      "id": "sci-004",
+      "title": "Speed of light in vacuum",
+      "text": "The speed of light in a vacuum is exactly 299,792,458 metres per second by definition of the metre. Light travels more slowly in any material medium, which is what refractive index measures.",
+      "domain": "science",
+      "source": "BIPM, SI Brochure, 9th edition",
+      "tags": [
+        "speed of light",
+        "vacuum",
+        "constant"
+      ]
+    },
+    {
+      "id": "sci-005",
+      "title": "Cell membrane structure",
+      "text": "The cell membrane is a phospholipid bilayer with embedded proteins, described by the fluid mosaic model. It is selectively permeable, controlling which substances enter and leave the cell.",
+      "domain": "science",
+      "source": "Campbell Biology, 11th edition, Chapter 7",
+      "tags": [
+        "cell membrane",
+        "phospholipid",
+        "fluid mosaic"
+      ]
+    },
+    {
+      "id": "health-001",
+      "title": "Insulin and blood glucose",
+      "text": "Insulin is a hormone produced by the beta cells of the pancreatic islets. It lowers blood glucose by promoting glucose uptake into muscle and fat tissue and by stimulating glycogen synthesis in the liver. Glucagon raises blood glucose and opposes insulin.",
+      "domain": "health",
+      "source": "Guyton and Hall, Textbook of Medical Physiology, 14th edition",
+      "tags": [
+        "insulin",
+        "glucose",
+        "pancreas",
+        "glucagon"
+      ]
+    },
+    {
+      "id": "health-002",
+      "title": "Normal resting heart rate in adults",
+      "text": "A normal resting heart rate for a healthy adult is between 60 and 100 beats per minute. Well-trained endurance athletes can have resting rates below 60, which is not pathological in that context.",
+      "domain": "health",
+      "source": "American Heart Association clinical guidance",
+      "tags": [
+        "heart rate",
+        "vital signs",
+        "adult"
+      ]
+    },
+    {
+      "id": "health-003",
+      "title": "Type 1 and type 2 diabetes",
+      "text": "Type 1 diabetes results from autoimmune destruction of pancreatic beta cells causing absolute insulin deficiency. Type 2 diabetes involves insulin resistance with relative insulin deficiency and is strongly associated with obesity and physical inactivity.",
+      "domain": "health",
+      "source": "World Health Organization, Classification of Diabetes Mellitus, 2019",
+      "tags": [
+        "diabetes",
+        "insulin resistance",
+        "type 1",
+        "type 2"
+      ]
+    },
+    {
+      "id": "biz-001",
+      "title": "Break-even point formula",
+      "text": "The break-even point in units equals fixed costs divided by the contribution margin per unit, where contribution margin is the selling price per unit minus the variable cost per unit. Below this volume the business makes a loss.",
+      "domain": "business",
+      "source": "Horngren, Cost Accounting: A Managerial Emphasis, 16th edition",
+      "tags": [
+        "break-even",
+        "contribution margin",
+        "fixed costs"
+      ]
+    },
+    {
+      "id": "biz-002",
+      "title": "Gross margin definition",
+      "text": "Gross margin is revenue minus cost of goods sold, usually expressed as a percentage of revenue. It measures production profitability and excludes operating expenses such as marketing, administration and research.",
+      "domain": "business",
+      "source": "Horngren, Cost Accounting: A Managerial Emphasis, 16th edition",
+      "tags": [
+        "gross margin",
+        "revenue",
+        "cogs"
+      ]
+    },
+    {
+      "id": "biz-003",
+      "title": "Law of supply and demand",
+      "text": "In a competitive market, an increase in price generally reduces quantity demanded and increases quantity supplied. Market equilibrium occurs at the price where quantity supplied equals quantity demanded.",
+      "domain": "business",
+      "source": "Mankiw, Principles of Economics, 8th edition",
+      "tags": [
+        "supply",
+        "demand",
+        "equilibrium",
+        "price"
+      ]
+    },
+    {
+      "id": "lang-001",
+      "title": "Subject and predicate",
+      "text": "Every complete English sentence has a subject, which names what the sentence is about, and a predicate, which contains the verb and states something about the subject. In 'The old library closed last winter', the subject is 'The old library' and the predicate is 'closed last winter'.",
+      "domain": "language",
+      "source": "Huddleston and Pullum, The Cambridge Grammar of the English Language",
+      "tags": [
+        "subject",
+        "predicate",
+        "syntax"
+      ]
+    },
+    {
+      "id": "lang-002",
+      "title": "Active and passive voice",
+      "text": "In the active voice the subject performs the action, as in 'The committee approved the plan'. In the passive voice the subject receives it, as in 'The plan was approved by the committee'. The passive is formed with a form of 'to be' plus a past participle.",
+      "domain": "language",
+      "source": "Huddleston and Pullum, The Cambridge Grammar of the English Language",
+      "tags": [
+        "active voice",
+        "passive voice",
+        "grammar"
+      ]
+    },
+    {
+      "id": "gk-001",
+      "title": "The Seine in Paris",
+      "text": "The Seine is the river that flows through Paris, France. It divides the city into the Right Bank and the Left Bank, and historically served as the principal trade route that shaped the city's development.",
+      "domain": "general_knowledge",
+      "source": "Encyclopaedia Britannica, entry: Seine River",
+      "tags": [
+        "seine",
+        "paris",
+        "river",
+        "france"
+      ]
+    },
+    {
+      "id": "gk-002",
+      "title": "Structure of the United Nations",
+      "text": "The United Nations was founded in 1945 and has six principal organs, including the General Assembly and the Security Council. The Security Council has five permanent members with veto power: China, France, Russia, the United Kingdom and the United States.",
+      "domain": "general_knowledge",
+      "source": "United Nations Charter, 1945",
+      "tags": [
+        "united nations",
+        "security council",
+        "veto"
+      ]
+    }
+  ]
+}
