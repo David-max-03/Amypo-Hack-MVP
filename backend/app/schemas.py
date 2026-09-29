@@ -45,6 +45,10 @@ class VariationPlanItem(BaseModel):
     instruction: str
     preserve: list[str]
     change: list[str]
+    # Solution-method axis (coding only); None when the seed has no method axis.
+    method: str | None = None
+    method_label: str = ""
+    method_instruction: str = ""
 
 
 class TestCase(BaseModel):
@@ -68,6 +72,7 @@ class Candidate(BaseModel):
     test_cases: list[TestCase] = Field(default_factory=list)
     variation_strategy: str
     strategy_label: str = ""
+    solution_method: str | None = None
     # Provenance so the UI can show where a candidate came from.
     attempt: int = 0
     regenerated: bool = False
@@ -183,6 +188,13 @@ class GenerateRequest(BaseModel):
         default=None,
         description="Request an explicit difficulty shift. None preserves the seed's.",
     )
+    regenerate: bool = Field(
+        default=True,
+        description=(
+            "Regenerate structurally rejected candidates from their rejection reasons, "
+            "up to max_regeneration_attempts each."
+        ),
+    )
 
 
 class GenerateVariation(BaseModel):
@@ -202,6 +214,7 @@ class GenerateVariation(BaseModel):
     test_cases: list[TestCase] = Field(default_factory=list)
     variation_strategy: str
     strategy_label: str = ""
+    solution_method: str | None = None
     structural_validation: StructuralValidation | None = None
 
 
@@ -213,6 +226,8 @@ class GenerateResponse(BaseModel):
     generated_count: int
     accepted_count: int
     rejected_count: int
+    regeneration_attempts: int = 0
+    regenerated_accepted: int = 0
     seed_metadata: SeedMetadata | None = None
     rejected: list[dict[str, Any]] = Field(default_factory=list)
     timings_ms: dict[str, float] = Field(default_factory=dict)

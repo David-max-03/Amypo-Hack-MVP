@@ -1,0 +1,23 @@
+# One-command startup:  docker compose up --build
+# Prerequisite: Ollama running on the host with the model pulled (see README).
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      AMYPO_OLLAMA_HOST: http://host.docker.internal:11434
+      # Match the host's OLLAMA_NUM_PARALLEL; leave at 1 if Ollama runs without it.
+      AMYPO_GENERATION_CONCURRENCY: ${AMYPO_GENERATION_CONCURRENCY:-1}
+    extra_hosts:
+      # Makes host.docker.internal resolve on Linux too (built in on macOS/Windows).
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./data:/app/data
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend

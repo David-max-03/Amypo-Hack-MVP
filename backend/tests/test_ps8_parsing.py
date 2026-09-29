@@ -209,3 +209,40 @@ class TestCandidateBuilder:
         )
         assert len(cand.test_cases) == 1
         assert cand.test_cases[0].expected_output == "[3,2,1]"
+
+
+class TestCodeFencesInsideJson:
+    """An answer_key containing a ```python block is still a JSON response."""
+
+    RAW = (
+        '{"question": "Reverse a singly linked list of train carriages in place.", '
+        '"answer_key": "```python\\ndef reverse(head):\\n    return head\\n```", '
+        '"difficulty": "medium", "test_cases": []}'
+    )
+
+    def test_valid_json_with_fenced_code_parses(self):
+        parsed, warnings = extract_json_object(self.RAW)
+        assert parsed is not None and "def reverse" in parsed["answer_key"]
+        assert warnings == []
+
+    def test_json_with_fenced_code_inside_prose_still_parses(self):
+        parsed, _ = extract_json_object("Here you go:\n" + self.RAW)
+        assert parsed is not None and "def reverse" in parsed["answer_key"]
+
+    def test_genuinely_fenced_json_still_unwrapped(self):
+        parsed, warnings = extract_json_object("```json\n" + self.RAW + "\n```")
+        assert parsed is not None
+
+
+class TestAnswerKeyFences:
+    def test_fences_are_stripped_from_the_answer_key(self, seed, plan):
+        from backend.app.ps8.candidate_builder import build_candidate
+
+        raw = (
+            '{"question": "Reverse a singly linked list of playing cards in place.", '
+            '"answer_key": "```python\\ndef reverse(head):\\n    return head\\n```"}'
+        )
+        cand = build_candidate(raw, seed, plan[0])
+        assert "```" not in cand.answer_key
+        assert cand.answer_key.startswith("def reverse(head):")
+        assert any("fences" in w for w in cand.parse_warnings)

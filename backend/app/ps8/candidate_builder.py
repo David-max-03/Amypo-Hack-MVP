@@ -98,7 +98,37 @@ def extract_json_object(raw: str) -> tuple[dict[str, Any] | None, list[str]]:
     if not raw or not raw.strip():
         return None, ["model returned empty output"]
 
+    # Valid JSON first: an answer_key that itself contains a ```python block must not
+    # be mistaken for a fenced response (that used to discard the whole object).
+    try:
+        parsed = json.loads(raw)
+        if isinstance(parsed, dict):
+            return parsed, warnings
+        if isinstance(parsed, list) and parsed and isinstance(parsed[0], dict):
+            warnings.append("model returned a list; used the first object")
+            return parsed[0], warnings
+    except json.JSONDecodeError:
+        pass
+
+    # A string-aware brace match over the raw text survives code fences both around
+    # and inside the JSON, which the fence regex alone cannot.
+    balanced = _find_balanced_object(raw)
+    if balanced is not None and balanced.endswith("}"):
+        try:
+            parsed = json.loads(balanced)
+            if isinstance(parsed, dict):
+                if "```" in raw.replace(balanced, ""):
+                    warnings.append("output was wrapped in markdown fences")
+                else:
+                    warnings.append("extracted JSON object from surrounding text")
+                return parsed, warnings
+        except json.JSONDecodeError:
+            pass
+
     text, fenced = _strip_fences(raw)
+    if fenced and not text.lstrip().startswith(("{", "[")):
+        # The fence held something other than JSON (e.g. code inside a JSON string).
+        text, fenced = raw.strip(), False
     if fenced:
         warnings.append("output was wrapped in markdown fences")
 
@@ -166,6 +196,12 @@ def _as_text(value: Any) -> str:
     return str(value).strip()
 
 
+def _strip_code_fences(text: str) -> str:
+    """Drop ```lang / ``` fence lines, keeping everything between them."""
+    kept = [line for line in text.splitlines() if not line.strip().startswith("```")]
+    return "\n".join(kept).strip()
+
+
 def _parse_test_cases(value: Any) -> list[TestCase]:
     if not isinstance(value, list):
         return []
@@ -192,16 +228,38 @@ def build_candidate(
     regenerated: bool = False,
     keep_raw: bool = True,
 ) -> Candidate | None:
-    """Convert raw model output into a validated Candidate, or None if unusable.
+    """Convert raw model output into a validated Candidate, or None if unusable."""
+    candidate, _ = parse_candidate(
+        raw_output,
+        seed,
+        plan,
+        attempt=attempt,
+        regenerated=regenerated,
+        keep_raw=keep_raw,
+    )
+    return candidate
+
+
+def parse_candidate(
+    raw_output: str,
+    seed: SeedMetadata,
+    plan: VariationPlanItem,
+    *,
+    attempt: int = 0,
+    regenerated: bool = False,
+    keep_raw: bool = True,
+) -> tuple[Candidate | None, str | None]:
+    """Like `build_candidate`, but also returns why an unusable output was dropped.
 
     Missing non-essential fields are filled from the seed. A candidate is only
     rejected outright when it has no usable question text - everything else is
-    recoverable and recorded as a warning.
+    recoverable and recorded as a warning. The failure reason is surfaced to the
+    API so a dropped variation is never silent.
     """
     parsed, warnings = extract_json_object(raw_output)
     if parsed is None:
         logger.warning("Unparseable model output for plan %s: %s", plan.index, warnings)
-        return None
+        return None, "; ".join(warnings) or "model output was not parseable JSON"
 
     parsed, unwrap_warnings = _unwrap(parsed)
     warnings.extend(unwrap_warnings)
@@ -209,7 +267,7 @@ def build_candidate(
     question = _as_text(parsed.get("question"))
     if not question or len(question) < 15:
         logger.warning("Candidate rejected: question text missing or too short")
-        return None
+        return None, "model output had no usable question text"
 
     answer_key = _as_text(
         parsed.get("answer_key")
@@ -217,6 +275,11 @@ def build_candidate(
         or parsed.get("solution")
         or parsed.get("answerKey")
     )
+    if "```" in answer_key:
+        # Markdown fences inside a JSON string are presentation noise; they would be
+        # exported verbatim into the question bank.
+        answer_key = _strip_code_fences(answer_key)
+        warnings.append("removed markdown code fences from answer_key")
     if not answer_key:
         # PS8 makes the answer key mandatory, so record the gap loudly rather than
         # silently shipping a question without one. Validation will fail it.
@@ -235,8 +298,9 @@ def build_candidate(
     subtopic = _as_text(parsed.get("subtopic")) or None
     if subtopic and subtopic.lower() in {"null", "none", "n/a", ""}:
         subtopic = None
+    subtopic = subtopic or seed.subtopic
 
-    return Candidate(
+    candidate = Candidate(
         id=f"q_{uuid.uuid4().hex[:10]}",
         question=question,
         answer_key=answer_key,
@@ -252,8 +316,10 @@ def build_candidate(
         test_cases=_parse_test_cases(parsed.get("test_cases")),
         variation_strategy=plan.strategy,
         strategy_label=plan.strategy_label,
+        solution_method=plan.method,
         attempt=attempt,
         regenerated=regenerated,
         raw_model_output=(raw_output[:4000] if keep_raw else None),
         parse_warnings=warnings,
     )
+    return candidate, None

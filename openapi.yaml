@@ -1,0 +1,1278 @@
+# Generated from the FastAPI app (backend/app/main.py) - do not edit by hand.
+# Regenerate: .venv/bin/python scripts/export_openapi.py
+openapi: 3.1.0
+info:
+  title: Code Titans — PS8 + PS2 Question Trust Pipeline
+  description: "\n**Code Titans — HackWithAMYPO 2026 Stage 2 MVP**\n\nTwo problem\
+    \ statements wired into one pipeline:\n\n* **PS8** — Assignment Question Iteration\
+    \ & Variation Generation\n* **PS2** — AI Hallucination Detection & Reliability\
+    \ Scoring\n\n```\nseed -> parse -> plan -> generate (Qwen2.5-Coder 7B via Ollama)\n\
+    \     -> PS8 structural validation -> PS2 reliability verification\n     -> decision\
+    \ -> PASS | REVIEW | REJECT -> (regenerate on REJECT)\n```\n\nEverything runs\
+    \ locally. No paid third-party APIs are used anywhere.\n"
+  version: 1.0.0
+paths:
+  /api/v1/health:
+    get:
+      tags:
+      - System
+      summary: System health
+      description: 'Report what is actually available, so a demo never silently degrades.
+
+
+        Status is "degraded" (not "ok") whenever generation is impossible or PS2 is
+
+        running on the fallback vectoriser instead of MiniLM.'
+      operationId: health_api_v1_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+  /api/v1/domains:
+    get:
+      tags:
+      - PS8
+      summary: List supported domains
+      operationId: get_domains_api_v1_domains_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DomainInfo'
+                type: array
+                title: Response Get Domains Api V1 Domains Get
+  /api/v1/strategies:
+    get:
+      tags:
+      - PS8
+      summary: List variation strategies
+      operationId: get_strategies_api_v1_strategies_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  additionalProperties: true
+                  type: object
+                type: array
+                title: Response Get Strategies Api V1 Strategies Get
+  /api/v1/generate:
+    post:
+      tags:
+      - PS8
+      summary: 'PS8: generate question variations from a seed'
+      description: 'Generate variations and run PS8 structural validation on each.
+
+
+        This is the PS8-only contract. It does NOT run PS2 verification - use
+
+        /generate-and-verify for the integrated trust pipeline.'
+      operationId: generate_api_v1_generate_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/verify:
+    post:
+      tags:
+      - PS2
+      summary: 'PS2: verify an AI response for hallucination and reliability'
+      description: Analyse one AI-generated response and return a reliability verdict.
+      operationId: verify_api_v1_verify_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/demo/problematic-responses:
+    get:
+      tags:
+      - PS2
+      summary: Demo fixtures for PS2
+      description: 'Curated responses that demonstrate PS2 detecting specific problems.
+
+
+        These are fixtures for the demo and the test suite, not benchmark results.'
+      operationId: problematic_responses_api_v1_demo_problematic_responses_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Problematic Responses Api V1 Demo Problematic Responses
+                  Get
+  /api/v1/corpus/stats:
+    get:
+      tags:
+      - PS2
+      summary: Reference corpus statistics
+      operationId: corpus_stats_api_v1_corpus_stats_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Corpus Stats Api V1 Corpus Stats Get
+  /api/v1/generate-and-verify:
+    post:
+      tags:
+      - Integrated
+      summary: 'Run the full pipeline: generate -> validate -> verify -> decide ->
+        regenerate'
+      description: Execute the complete Code Titans trust pipeline for one seed question.
+      operationId: generate_and_verify_api_v1_generate_and_verify_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateAndVerifyRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateAndVerifyResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/questions:
+    get:
+      tags:
+      - Storage
+      summary: Accepted question bank
+      operationId: get_questions_api_v1_questions_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 200
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Questions Api V1 Questions Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/review-queue:
+    get:
+      tags:
+      - Storage
+      summary: Questions awaiting human review
+      operationId: get_review_queue_api_v1_review_queue_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 200
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Review Queue Api V1 Review Queue Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/validation-reports:
+    get:
+      tags:
+      - Storage
+      summary: Combined PS8 + PS2 validation reports
+      operationId: get_validation_reports_api_v1_validation_reports_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Validation Reports Api V1 Validation Reports Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/audit-logs:
+    get:
+      tags:
+      - Storage
+      summary: Audit trail
+      operationId: get_audit_logs_api_v1_audit_logs_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 100
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Audit Logs Api V1 Audit Logs Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/export:
+    get:
+      tags:
+      - Storage
+      summary: Export the question bank as JSON or CSV
+      description: Bulk export module (PS8 mandatory component).
+      operationId: export_bank_api_v1_export_get
+      parameters:
+      - name: fmt
+        in: query
+        required: false
+        schema:
+          type: string
+          pattern: ^(json|csv)$
+          default: json
+          title: Fmt
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Candidate:
+      properties:
+        id:
+          type: string
+          title: Id
+        question:
+          type: string
+          title: Question
+        answer_key:
+          type: string
+          title: Answer Key
+        domain:
+          type: string
+          title: Domain
+        topic:
+          type: string
+          title: Topic
+        subtopic:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Subtopic
+        difficulty:
+          type: string
+          enum:
+          - easy
+          - medium
+          - hard
+          title: Difficulty
+        difficulty_score:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Difficulty Score
+          default: 0.5
+        question_type:
+          type: string
+          title: Question Type
+        learning_objective:
+          type: string
+          title: Learning Objective
+        test_cases:
+          items:
+            $ref: '#/components/schemas/TestCase'
+          type: array
+          title: Test Cases
+        variation_strategy:
+          type: string
+          title: Variation Strategy
+        strategy_label:
+          type: string
+          title: Strategy Label
+          default: ''
+        solution_method:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Solution Method
+        attempt:
+          type: integer
+          title: Attempt
+          default: 0
+        regenerated:
+          type: boolean
+          title: Regenerated
+          default: false
+        raw_model_output:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Raw Model Output
+        parse_warnings:
+          items:
+            type: string
+          type: array
+          title: Parse Warnings
+      type: object
+      required:
+      - id
+      - question
+      - answer_key
+      - domain
+      - topic
+      - difficulty
+      - question_type
+      - learning_objective
+      - variation_strategy
+      title: Candidate
+      description: A generated question candidate before (or after) validation.
+    Claim:
+      properties:
+        text:
+          type: string
+          title: Text
+        claim_type:
+          type: string
+          enum:
+          - factual
+          - answer
+          - citation
+          - assumption
+          - opinion
+          - inference
+          title: Claim Type
+        start:
+          type: integer
+          title: Start
+        end:
+          type: integer
+          title: End
+      type: object
+      required:
+      - text
+      - claim_type
+      - start
+      - end
+      title: Claim
+    DomainInfo:
+      properties:
+        id:
+          type: string
+          title: Id
+        label:
+          type: string
+          title: Label
+        description:
+          type: string
+          title: Description
+        example_seed:
+          type: string
+          title: Example Seed
+      type: object
+      required:
+      - id
+      - label
+      - description
+      - example_seed
+      title: DomainInfo
+    EvidenceItem:
+      properties:
+        claim:
+          type: string
+          title: Claim
+        supported:
+          type: boolean
+          title: Supported
+        status:
+          type: string
+          enum:
+          - supported
+          - partially_supported
+          - unsupported
+          - contradicted
+          title: Status
+        similarity:
+          type: number
+          title: Similarity
+        keyword_grounding:
+          type: number
+          title: Keyword Grounding
+        source_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Id
+        source_title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Title
+        source_text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Text
+      type: object
+      required:
+      - claim
+      - supported
+      - status
+      - similarity
+      - keyword_grounding
+      title: EvidenceItem
+    FlaggedSpan:
+      properties:
+        text:
+          type: string
+          title: Text
+        reason:
+          type: string
+          title: Reason
+        start:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Start
+        end:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: End
+        severity:
+          type: string
+          enum:
+          - low
+          - medium
+          - high
+          title: Severity
+          default: medium
+        claim_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Claim Type
+        best_evidence:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Best Evidence
+        best_similarity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Best Similarity
+      type: object
+      required:
+      - text
+      - reason
+      title: FlaggedSpan
+      description: Exactly the shape PS2's API contract requires, plus optional offsets.
+    GenerateAndVerifyRequest:
+      properties:
+        seed_question:
+          type: string
+          minLength: 5
+          title: Seed Question
+        domain:
+          type: string
+          title: Domain
+          default: programming
+        count:
+          type: integer
+          maximum: 60.0
+          minimum: 1.0
+          title: Count
+          default: 5
+        difficulty_shift:
+          anyOf:
+          - type: string
+            enum:
+            - easy
+            - medium
+            - hard
+          - type: 'null'
+          title: Difficulty Shift
+        enable_regeneration:
+          type: boolean
+          title: Enable Regeneration
+          default: true
+        persist:
+          type: boolean
+          title: Persist
+          description: Write accepted/review results to local JSON stores.
+          default: true
+      type: object
+      required:
+      - seed_question
+      title: GenerateAndVerifyRequest
+    GenerateAndVerifyResponse:
+      properties:
+        seed_metadata:
+          anyOf:
+          - $ref: '#/components/schemas/SeedMetadata'
+          - type: 'null'
+        results:
+          items:
+            $ref: '#/components/schemas/PipelineCandidate'
+          type: array
+          title: Results
+        summary:
+          $ref: '#/components/schemas/PipelineSummary'
+        timings_ms:
+          additionalProperties:
+            type: number
+          type: object
+          title: Timings Ms
+        warnings:
+          items:
+            type: string
+          type: array
+          title: Warnings
+      type: object
+      required:
+      - results
+      - summary
+      title: GenerateAndVerifyResponse
+    GenerateRequest:
+      properties:
+        seed_question:
+          type: string
+          minLength: 5
+          title: Seed Question
+        domain:
+          type: string
+          title: Domain
+          default: programming
+        count:
+          type: integer
+          maximum: 60.0
+          minimum: 1.0
+          title: Count
+          default: 10
+        difficulty_shift:
+          anyOf:
+          - type: string
+            enum:
+            - easy
+            - medium
+            - hard
+          - type: 'null'
+          title: Difficulty Shift
+          description: Request an explicit difficulty shift. None preserves the seed's.
+        regenerate:
+          type: boolean
+          title: Regenerate
+          description: Regenerate structurally rejected candidates from their rejection
+            reasons, up to max_regeneration_attempts each.
+          default: true
+      type: object
+      required:
+      - seed_question
+      title: GenerateRequest
+    GenerateResponse:
+      properties:
+        variations:
+          items:
+            $ref: '#/components/schemas/GenerateVariation'
+          type: array
+          title: Variations
+        duplicate_rate:
+          type: number
+          title: Duplicate Rate
+        requested_count:
+          type: integer
+          title: Requested Count
+        generated_count:
+          type: integer
+          title: Generated Count
+        accepted_count:
+          type: integer
+          title: Accepted Count
+        rejected_count:
+          type: integer
+          title: Rejected Count
+        regeneration_attempts:
+          type: integer
+          title: Regeneration Attempts
+          default: 0
+        regenerated_accepted:
+          type: integer
+          title: Regenerated Accepted
+          default: 0
+        seed_metadata:
+          anyOf:
+          - $ref: '#/components/schemas/SeedMetadata'
+          - type: 'null'
+        rejected:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Rejected
+        timings_ms:
+          additionalProperties:
+            type: number
+          type: object
+          title: Timings Ms
+        warnings:
+          items:
+            type: string
+          type: array
+          title: Warnings
+      type: object
+      required:
+      - variations
+      - duplicate_rate
+      - requested_count
+      - generated_count
+      - accepted_count
+      - rejected_count
+      title: GenerateResponse
+    GenerateVariation:
+      properties:
+        question:
+          type: string
+          title: Question
+        answer_key:
+          type: string
+          title: Answer Key
+        difficulty:
+          type: number
+          title: Difficulty
+        id:
+          type: string
+          title: Id
+        difficulty_label:
+          type: string
+          enum:
+          - easy
+          - medium
+          - hard
+          title: Difficulty Label
+        domain:
+          type: string
+          title: Domain
+        topic:
+          type: string
+          title: Topic
+        subtopic:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Subtopic
+        question_type:
+          type: string
+          title: Question Type
+        learning_objective:
+          type: string
+          title: Learning Objective
+        test_cases:
+          items:
+            $ref: '#/components/schemas/TestCase'
+          type: array
+          title: Test Cases
+        variation_strategy:
+          type: string
+          title: Variation Strategy
+        strategy_label:
+          type: string
+          title: Strategy Label
+          default: ''
+        solution_method:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Solution Method
+        structural_validation:
+          anyOf:
+          - $ref: '#/components/schemas/StructuralValidation'
+          - type: 'null'
+      type: object
+      required:
+      - question
+      - answer_key
+      - difficulty
+      - id
+      - difficulty_label
+      - domain
+      - topic
+      - question_type
+      - learning_objective
+      - variation_strategy
+      title: GenerateVariation
+      description: PS8's required response item, with our additive metadata.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    HealthResponse:
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - degraded
+          title: Status
+        version:
+          type: string
+          title: Version
+        ollama:
+          additionalProperties: true
+          type: object
+          title: Ollama
+        embeddings:
+          additionalProperties: true
+          type: object
+          title: Embeddings
+        corpus:
+          additionalProperties: true
+          type: object
+          title: Corpus
+        storage:
+          additionalProperties: true
+          type: object
+          title: Storage
+        config:
+          additionalProperties: true
+          type: object
+          title: Config
+      type: object
+      required:
+      - status
+      - version
+      - ollama
+      - embeddings
+      - corpus
+      - storage
+      - config
+      title: HealthResponse
+    PipelineCandidate:
+      properties:
+        candidate:
+          $ref: '#/components/schemas/Candidate'
+        decision:
+          type: string
+          enum:
+          - PASS
+          - REVIEW
+          - REJECT
+          title: Decision
+        decision_reasons:
+          items:
+            type: string
+          type: array
+          title: Decision Reasons
+        structural_validation:
+          anyOf:
+          - $ref: '#/components/schemas/StructuralValidation'
+          - type: 'null'
+        reliability_verification:
+          anyOf:
+          - $ref: '#/components/schemas/ReliabilityVerification'
+          - type: 'null'
+        status:
+          type: string
+          enum:
+          - generated
+          - validated
+          - verified
+          - accepted
+          - rejected
+          - review
+          title: Status
+          default: generated
+        attempts:
+          type: integer
+          title: Attempts
+          default: 1
+        regeneration_history:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Regeneration History
+      type: object
+      required:
+      - candidate
+      - decision
+      title: PipelineCandidate
+      description: A candidate plus everything both gates concluded about it.
+    PipelineSummary:
+      properties:
+        requested:
+          type: integer
+          title: Requested
+        generated:
+          type: integer
+          title: Generated
+        passed:
+          type: integer
+          title: Passed
+        review:
+          type: integer
+          title: Review
+        rejected:
+          type: integer
+          title: Rejected
+        duplicate_rate:
+          type: number
+          title: Duplicate Rate
+        regeneration_attempts:
+          type: integer
+          title: Regeneration Attempts
+        mean_reliability_score:
+          type: number
+          title: Mean Reliability Score
+        flagged_span_count:
+          type: integer
+          title: Flagged Span Count
+      type: object
+      required:
+      - requested
+      - generated
+      - passed
+      - review
+      - rejected
+      - duplicate_rate
+      - regeneration_attempts
+      - mean_reliability_score
+      - flagged_span_count
+      title: PipelineSummary
+    ReliabilityVerification:
+      properties:
+        reliability_score:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Reliability Score
+        confidence_score:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Confidence Score
+        hallucination_probability:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Hallucination Probability
+        verdict:
+          type: string
+          enum:
+          - trustworthy
+          - partially_reliable
+          - misleading
+          - fabricated
+          - unverifiable
+          title: Verdict
+        flagged_spans:
+          items:
+            $ref: '#/components/schemas/FlaggedSpan'
+          type: array
+          title: Flagged Spans
+        evidence:
+          items:
+            $ref: '#/components/schemas/EvidenceItem'
+          type: array
+          title: Evidence
+        claims:
+          items:
+            $ref: '#/components/schemas/Claim'
+          type: array
+          title: Claims
+        signals:
+          additionalProperties:
+            type: number
+          type: object
+          title: Signals
+        contradictions:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Contradictions
+        reasons:
+          items:
+            type: string
+          type: array
+          title: Reasons
+        recommendations:
+          items:
+            type: string
+          type: array
+          title: Recommendations
+        embedding_backend:
+          type: string
+          title: Embedding Backend
+          default: ''
+        self_consistency_used:
+          type: boolean
+          title: Self Consistency Used
+          default: false
+        timings_ms:
+          additionalProperties:
+            type: number
+          type: object
+          title: Timings Ms
+      type: object
+      required:
+      - reliability_score
+      - confidence_score
+      - hallucination_probability
+      - verdict
+      title: ReliabilityVerification
+    SeedMetadata:
+      properties:
+        domain:
+          type: string
+          title: Domain
+        topic:
+          type: string
+          title: Topic
+        subtopic:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Subtopic
+        core_concept:
+          type: string
+          title: Core Concept
+        question_type:
+          type: string
+          title: Question Type
+        difficulty:
+          type: string
+          enum:
+          - easy
+          - medium
+          - hard
+          title: Difficulty
+        difficulty_score:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Difficulty Score
+        learning_objective:
+          type: string
+          title: Learning Objective
+        keywords:
+          items:
+            type: string
+          type: array
+          title: Keywords
+        raw_seed:
+          type: string
+          title: Raw Seed
+      type: object
+      required:
+      - domain
+      - topic
+      - core_concept
+      - question_type
+      - difficulty
+      - difficulty_score
+      - learning_objective
+      - raw_seed
+      title: SeedMetadata
+      description: What the Seed Parser extracts from a raw seed question.
+    StructuralValidation:
+      properties:
+        concept_preserved:
+          type: boolean
+          title: Concept Preserved
+        difficulty_match:
+          type: boolean
+          title: Difficulty Match
+        is_duplicate:
+          type: boolean
+          title: Is Duplicate
+        meaningful_variation:
+          type: boolean
+          title: Meaningful Variation
+        passed:
+          type: boolean
+          title: Passed
+        semantic_similarity:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Semantic Similarity
+        lexical_similarity:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Lexical Similarity
+        concept_overlap:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Concept Overlap
+        difficulty_delta:
+          type: number
+          title: Difficulty Delta
+        nearest_match:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Nearest Match
+        nearest_match_source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Nearest Match Source
+        reasons:
+          items:
+            type: string
+          type: array
+          title: Reasons
+        checks:
+          additionalProperties: true
+          type: object
+          title: Checks
+      type: object
+      required:
+      - concept_preserved
+      - difficulty_match
+      - is_duplicate
+      - meaningful_variation
+      - passed
+      - semantic_similarity
+      - lexical_similarity
+      - concept_overlap
+      - difficulty_delta
+      title: StructuralValidation
+    TestCase:
+      properties:
+        input:
+          type: string
+          title: Input
+          default: ''
+        expected_output:
+          type: string
+          title: Expected Output
+          default: ''
+      type: object
+      title: TestCase
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    VerifyRequest:
+      properties:
+        response_text:
+          type: string
+          minLength: 1
+          title: Response Text
+        source_context:
+          items:
+            type: string
+          type: array
+          title: Source Context
+        question:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Question
+          description: Optional question the text is answering.
+      type: object
+      required:
+      - response_text
+      title: VerifyRequest
+    VerifyResponse:
+      properties:
+        reliability_score:
+          type: number
+          title: Reliability Score
+        hallucination_probability:
+          type: number
+          title: Hallucination Probability
+        verdict:
+          type: string
+          enum:
+          - trustworthy
+          - partially_reliable
+          - misleading
+          - fabricated
+          - unverifiable
+          title: Verdict
+        flagged_spans:
+          items:
+            $ref: '#/components/schemas/FlaggedSpan'
+          type: array
+          title: Flagged Spans
+        confidence_score:
+          type: number
+          title: Confidence Score
+        evidence:
+          items:
+            $ref: '#/components/schemas/EvidenceItem'
+          type: array
+          title: Evidence
+        claims:
+          items:
+            $ref: '#/components/schemas/Claim'
+          type: array
+          title: Claims
+        contradictions:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Contradictions
+        signals:
+          additionalProperties:
+            type: number
+          type: object
+          title: Signals
+        reasons:
+          items:
+            type: string
+          type: array
+          title: Reasons
+        recommendations:
+          items:
+            type: string
+          type: array
+          title: Recommendations
+        embedding_backend:
+          type: string
+          title: Embedding Backend
+          default: ''
+        analysis_time_ms:
+          type: number
+          title: Analysis Time Ms
+          default: 0.0
+        within_latency_budget:
+          type: boolean
+          title: Within Latency Budget
+          default: true
+      type: object
+      required:
+      - reliability_score
+      - hallucination_probability
+      - verdict
+      - flagged_spans
+      - confidence_score
+      title: VerifyResponse
+      description: PS2's required response shape (additive fields included).

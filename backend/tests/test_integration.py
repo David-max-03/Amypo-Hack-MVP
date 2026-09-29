@@ -12,7 +12,7 @@ from backend.app.decision.decision_engine import combined_feedback, decide
 from backend.app.main import app
 from backend.app.ps2.engine import verify_candidate
 from backend.app.ps8.validation.engine import validate_candidate
-from backend.tests.conftest import candidate_json, make_candidate
+from backend.tests.conftest import RECURSIVE_SOLUTION, candidate_json, make_candidate
 
 SEED_TEXT = "Write a function to reverse a singly linked list."
 
@@ -24,7 +24,7 @@ GOOD_VARIATION = (
 SECOND_VARIATION = (
     "A warehouse conveyor is modelled as a singly linked list of parcel nodes. "
     "Reverse the first k parcels in the chain while leaving the remainder untouched, "
-    "using only pointer rewiring."
+    "using recursion rather than a loop."
 )
 
 
@@ -172,12 +172,30 @@ class TestRegenerationLoop:
         assert results[0].attempts == 1
 
     def test_unparseable_output_is_reported_not_crashed(self, temp_data_dir, monkeypatch):
-        self._patch_ollama(monkeypatch, ["I'm sorry, I cannot do that."])
+        # First attempt and its parse retry both fail.
+        self._patch_ollama(
+            monkeypatch, ["I'm sorry, I cannot do that.", "Still not JSON."]
+        )
         _seed, results, _summary, _t, warnings = pipeline.run_pipeline(
             SEED_TEXT, "programming", 1, use_llm_parser=False, persist=False
         )
         assert results == []
-        assert any("could not be parsed" in w for w in warnings)
+        assert any("could not be parsed" in w and "2 attempt" in w for w in warnings)
+
+    def test_unparseable_output_is_retried_once(self, temp_data_dir, monkeypatch):
+        fake = self._patch_ollama(
+            monkeypatch,
+            [
+                '{"question": "Reverse a linked list of',  # truncated, unrecoverable
+                candidate_json(GOOD_VARIATION),
+            ],
+        )
+        _seed, results, _summary, _t, _warnings = pipeline.run_pipeline(
+            SEED_TEXT, "programming", 1, use_llm_parser=False, persist=False, verify=False
+        )
+        assert fake.calls == 2
+        assert len(results) == 1
+        assert any("retry" in w for w in results[0].candidate.parse_warnings)
 
     def test_ollama_outage_is_surfaced_not_swallowed(self, temp_data_dir, monkeypatch):
         from backend.app.core.ollama_client import OllamaUnavailable
@@ -231,7 +249,10 @@ class TestPipelineStorage:
     def test_duplicate_rate_is_reported(self, temp_data_dir, monkeypatch):
         self._patch(
             monkeypatch,
-            [candidate_json(GOOD_VARIATION), candidate_json(SECOND_VARIATION)],
+            [
+                candidate_json(GOOD_VARIATION),
+                candidate_json(SECOND_VARIATION, RECURSIVE_SOLUTION),
+            ],
         )
         _s, _r, summary, _t, _w = pipeline.run_pipeline(
             SEED_TEXT, "programming", 2, use_llm_parser=False, persist=False
@@ -326,3 +347,109 @@ class TestApiSurface:
         schema = client.get("/openapi.json").json()
         for path in ("/api/v1/generate", "/api/v1/verify", "/api/v1/generate-and-verify"):
             assert path in schema["paths"]
+
+
+class TestGenerateRouteRegeneration:
+    """/generate retries structurally rejected candidates from their rejection reasons."""
+
+    @pytest.fixture
+    def client(self, temp_data_dir, monkeypatch):
+        from backend.app.ps8 import seed_parser
+
+        # Keep the seed parse deterministic so every scripted response is a generation.
+        monkeypatch.setattr(
+            "backend.app.api.routes_ps8.seed_parser.parse_seed",
+            lambda text, domain: seed_parser.heuristic_parse(text, domain),
+        )
+        return TestClient(app)
+
+    def _script(self, monkeypatch, responses):
+        from backend.tests.conftest import FakeOllama
+
+        fake = FakeOllama(responses)
+        monkeypatch.setattr("backend.app.ps8.generation_engine.ollama", fake)
+        return fake
+
+    def _generate(self, client, **extra):
+        body = {"seed_question": SEED_TEXT, "domain": "programming", "count": 1, **extra}
+        return client.post("/api/v1/generate", json=body)
+
+    def test_paraphrase_is_regenerated_into_an_accepted_variation(self, client, monkeypatch):
+        fake = self._script(
+            monkeypatch, [candidate_json(SEED_TEXT), candidate_json(GOOD_VARIATION)]
+        )
+        body = self._generate(client).json()
+        assert body["accepted_count"] == 1
+        assert body["variations"][0]["question"] == GOOD_VARIATION
+        assert body["regeneration_attempts"] == 1
+        assert body["regenerated_accepted"] == 1
+        # The rejection reason was fed back into the retry prompt.
+        assert "REGENERATION" in fake.prompts[1]
+        assert "similarity" in fake.prompts[1]
+
+    def test_regeneration_is_capped_and_the_history_is_reported(self, client, monkeypatch):
+        attempts = settings.max_regeneration_attempts
+        self._script(monkeypatch, [candidate_json(SEED_TEXT)] * (attempts + 1))
+        body = self._generate(client).json()
+        assert body["accepted_count"] == 0
+        assert body["regeneration_attempts"] == attempts
+        assert body["rejected"][0]["regeneration_attempts"] == attempts
+        assert len(body["rejected"][0]["earlier_attempts"]) == attempts
+
+    def test_rejected_variations_regenerate_together_in_one_round(self, client, monkeypatch):
+        from backend.tests.conftest import FakeOllama
+
+        class ByMethod(FakeOllama):
+            """Answers by planned method, since concurrent calls arrive in any order."""
+
+            def generate(self, prompt, **kwargs):
+                self.prompts.append(prompt)
+                self.calls += 1
+                if "REGENERATION" not in prompt:
+                    return candidate_json(SEED_TEXT)
+                if "Recursive solution" in prompt:
+                    return candidate_json(SECOND_VARIATION, RECURSIVE_SOLUTION)
+                return candidate_json(GOOD_VARIATION)
+
+        fake = ByMethod([])
+        monkeypatch.setattr("backend.app.ps8.generation_engine.ollama", fake)
+        monkeypatch.setattr(settings, "generation_concurrency", 2)
+        body = self._generate(client, count=2).json()
+        assert fake.calls == 4
+        assert body["accepted_count"] == 2
+        assert body["regeneration_attempts"] == 2 and body["regenerated_accepted"] == 2
+        assert {v["question"] for v in body["variations"]} == {GOOD_VARIATION, SECOND_VARIATION}
+
+    def test_regeneration_can_be_disabled(self, client, monkeypatch):
+        fake = self._script(monkeypatch, [candidate_json(SEED_TEXT)])
+        body = self._generate(client, regenerate=False).json()
+        assert fake.calls == 1
+        assert body["accepted_count"] == 0 and body["regeneration_attempts"] == 0
+
+
+class TestGenerateBatchWaves:
+    """generate_batch runs in waves; later waves are told what earlier waves produced."""
+
+    QUESTIONS = [
+        f"A {thing} is stored as a singly linked list of nodes. Write a function that "
+        f"reverses the {thing} in place and returns the new head."
+        for thing in ("playlist", "train", "print queue", "relay race", "photo album")
+    ]
+
+    def test_waves_generate_everything_and_share_context(self, seed, monkeypatch):
+        from backend.app.ps8 import generation_engine, variation_planner
+        from backend.tests.conftest import FakeOllama
+
+        fake = FakeOllama([candidate_json(q) for q in self.QUESTIONS])
+        monkeypatch.setattr("backend.app.ps8.generation_engine.ollama", fake)
+        monkeypatch.setattr(settings, "generation_concurrency", 3)
+
+        plan = variation_planner.plan_variations(seed, 5)
+        outcome = generation_engine.generate_batch(seed, plan)
+
+        assert sorted(c.question for c in outcome.candidates) == sorted(self.QUESTIONS)
+        assert [p.index for p in outcome.plan_items] == [0, 1, 2, 3, 4]
+        # Wave 2 (plans 3-4) prompts must list all three wave-1 questions.
+        wave_one = {c.question for c in outcome.candidates[:3]}
+        second_wave_prompts = [p for p in fake.prompts if all(q in p for q in wave_one)]
+        assert len(second_wave_prompts) == 2

@@ -19,24 +19,43 @@ SYSTEM_PROMPT = (
     "must ship with a correct, complete answer key."
 )
 
+# Only fields the model has to invent. Domain, topic, question type, subtopic and
+# learning objective are filled from the seed by the candidate builder: asking the
+# model to echo them back cost ~40% of every generation's output tokens.
 _JSON_SHAPE = """{
   "question": "the full question text, self-contained and solvable",
-  "answer_key": "the complete correct answer, including the reasoning or working",
-  "domain": "__DOMAIN__",
-  "topic": "__TOPIC__",
-  "subtopic": "a more specific subtopic or null",
+  "answer_key": "__ANSWER__",
   "difficulty": "easy | medium | hard",
-  "question_type": "__QTYPE__",
-  "learning_objective": "what the learner demonstrates by answering correctly",
   "test_cases": [{"input": "...", "expected_output": "..."}]
 }"""
 
 
+def _is_coding(seed: SeedMetadata) -> bool:
+    return seed.question_type == "coding"
+
+
 def _json_shape(seed: SeedMetadata) -> str:
+    answer_hint = (
+        "complete runnable reference solution code, then a one-sentence explanation"
+        if _is_coding(seed)
+        else "the final answer stated explicitly, then the working that justifies it"
+    )
+    return _JSON_SHAPE.replace("__ANSWER__", answer_hint)
+
+
+def _answer_key_clause(seed: SeedMetadata) -> str:
+    """The answer key must be usable for marking, not a description of an answer."""
+    if _is_coding(seed):
+        return (
+            "The answer_key MUST contain a complete, runnable reference solution as code "
+            "(e.g. `def reverse(head): ...`) in the language the question asks for, or "
+            "Python if none is specified. Do NOT describe what the function should do - "
+            "write the function. Put tests in test_cases, not in the answer_key. "
+            "Encode newlines inside the JSON string as \\n."
+        )
     return (
-        _JSON_SHAPE.replace("__DOMAIN__", seed.domain)
-        .replace("__TOPIC__", seed.topic)
-        .replace("__QTYPE__", seed.question_type)
+        "The answer_key MUST state the final answer explicitly, followed by the working. "
+        "Do NOT describe what a good answer would contain - give the answer."
     )
 
 
@@ -68,8 +87,14 @@ def build_generation_prompt(
             f"one of these):\n{listed}\n"
         )
 
+    method_block = (
+        f"\nREQUIRED SOLUTION METHOD - {plan.method_label}:\n{plan.method_instruction}\n"
+        if plan.method
+        else ""
+    )
+
     test_case_clause = (
-        "Include 2-3 concrete test cases with exact inputs and expected outputs."
+        "Include exactly 2 short test cases with exact inputs and expected outputs."
         if seed.question_type == "coding"
         else "Leave test_cases as an empty list unless concrete examples genuinely help."
     )
@@ -92,7 +117,7 @@ VARIATION STRATEGY - {plan.strategy_label}:
 
 YOU MUST PRESERVE: {', '.join(plan.preserve)}
 YOU MUST CHANGE:   {', '.join(plan.change)}
-
+{method_block}
 RULES:
   1. {difficulty_clause}
   2. The new question must assess the SAME core concept: {seed.core_concept}.
@@ -100,8 +125,9 @@ RULES:
      content substantially - new scenario, new entities, new numbers where relevant.
   4. The question must be fully self-contained and solvable on its own.
   5. The answer_key must be correct for YOUR question, not for the seed.
-  6. {test_case_clause}
-  7. State only facts you are confident are true. Do not invent statistics,
+  6. {_answer_key_clause(seed)}
+  7. {test_case_clause}
+  8. State only facts you are confident are true. Do not invent statistics,
      citations, standards, library functions or historical details.
 {avoid_block}
 Return ONLY this JSON object:
@@ -166,6 +192,10 @@ def build_regeneration_prompt(
         )
     if "answer" in joined and "incomplete" in joined:
         fixes.append("Write a complete answer key that fully solves the question.")
+    if "describes a solution" in joined or "answer key is too short" in joined:
+        fixes.append(_answer_key_clause(seed))
+    if "solution method" in joined and plan.method:
+        fixes.append(plan.method_instruction)
 
     fix_block = "\n".join(f"  - {f}" for f in fixes) or "  - Address every problem listed above."
 

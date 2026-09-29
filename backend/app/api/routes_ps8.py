@@ -3,24 +3,40 @@
 from __future__ import annotations
 
 import logging
+from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass, field
 
 from fastapi import APIRouter, HTTPException
 
 from ..core import storage
 from ..core.ollama_client import OllamaUnavailable
+from ..config import settings
 from ..core.timing import Stopwatch
 from ..ps8 import domains as domain_registry
 from ..ps8 import generation_engine, seed_parser, strategies, variation_planner
 from ..ps8.validation.engine import compute_duplicate_rate, validate_candidate
 from ..schemas import (
+    Candidate,
     DomainInfo,
     GenerateRequest,
     GenerateResponse,
     GenerateVariation,
+    StructuralValidation,
+    VariationPlanItem,
 )
 
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["PS8"])
+
+
+@dataclass
+class _Pending:
+    """A rejected variation awaiting regeneration, with its attempt history."""
+
+    candidate: Candidate
+    item: VariationPlanItem
+    result: StructuralValidation
+    history: list[dict] = field(default_factory=list)
 
 
 @router.get("/domains", response_model=list[DomainInfo], summary="List supported domains")
@@ -102,45 +118,118 @@ def generate(request: GenerateRequest) -> GenerateResponse:
     variations: list[GenerateVariation] = []
     rejected: list[dict] = []
     kept_texts: list[str] = []
+    regeneration_attempts = 0
+    regenerated_accepted = 0
 
-    with watch.stage("ps8.structural_validation"):
-        for candidate in outcome.candidates:
-            result = validate_candidate(
+    def validate(candidate: Candidate) -> StructuralValidation:
+        with watch.stage("ps8.structural_validation"):
+            return validate_candidate(
                 candidate,
                 seed,
                 previously_generated=kept_texts,
                 previously_accepted=accepted,
                 difficulty_shift=request.difficulty_shift,
             )
-            if not result.passed:
-                rejected.append(
-                    {
-                        "question": candidate.question,
-                        "variation_strategy": candidate.variation_strategy,
-                        "reasons": result.reasons,
-                    }
-                )
-                continue
 
-            kept_texts.append(candidate.question)
-            variations.append(
-                GenerateVariation(
-                    question=candidate.question,
-                    answer_key=candidate.answer_key,
-                    difficulty=candidate.difficulty_score,
-                    id=candidate.id,
-                    difficulty_label=candidate.difficulty,
-                    domain=candidate.domain,
-                    topic=candidate.topic,
-                    subtopic=candidate.subtopic,
-                    question_type=candidate.question_type,
-                    learning_objective=candidate.learning_objective,
-                    test_cases=candidate.test_cases,
-                    variation_strategy=candidate.variation_strategy,
-                    strategy_label=candidate.strategy_label,
-                    structural_validation=result,
-                )
+    def keep(candidate: Candidate, result: StructuralValidation) -> None:
+        kept_texts.append(candidate.question)
+        variations.append(
+            GenerateVariation(
+                question=candidate.question,
+                answer_key=candidate.answer_key,
+                difficulty=candidate.difficulty_score,
+                id=candidate.id,
+                difficulty_label=candidate.difficulty,
+                domain=candidate.domain,
+                topic=candidate.topic,
+                subtopic=candidate.subtopic,
+                question_type=candidate.question_type,
+                learning_objective=candidate.learning_objective,
+                test_cases=candidate.test_cases,
+                variation_strategy=candidate.variation_strategy,
+                strategy_label=candidate.strategy_label,
+                solution_method=candidate.solution_method,
+                structural_validation=result,
             )
+        )
+
+    # Round 0: validate every first-attempt candidate in plan order.
+    pending: list[_Pending] = []
+    for candidate, item in zip(outcome.candidates, outcome.plan_items):
+        result = validate(candidate)
+        if result.passed:
+            keep(candidate, result)
+        else:
+            pending.append(_Pending(candidate, item, result))
+
+    # Rounds 1..N: feedback-driven regeneration, same contract as
+    # /generate-and-verify - the exact rejection reasons go into the next prompt,
+    # capped per variation. Every still-rejected variation is regenerated in the same
+    # round, in waves of generation_concurrency, so retries parallelise like
+    # first attempts do.
+    can_regenerate = request.regenerate
+    for attempt in range(1, settings.max_regeneration_attempts + 1):
+        if not (can_regenerate and pending):
+            break
+        avoid = accepted + kept_texts
+        for p in pending:
+            p.history.append({"question": p.candidate.question, "reasons": p.result.reasons})
+
+        def regenerate(p: _Pending, attempt: int = attempt) -> Candidate | None:
+            return generation_engine.regenerate_one(
+                seed,
+                p.item,
+                rejected_question=p.candidate.question,
+                structural_reasons=p.result.reasons,
+                reliability_reasons=[],
+                flagged_spans=[],
+                avoid_questions=avoid,
+                difficulty_shift=request.difficulty_shift,
+                attempt=attempt,
+            )
+
+        with watch.stage("ps8.regeneration"):
+            with ThreadPoolExecutor(max_workers=max(1, settings.generation_concurrency)) as pool:
+                futures = [pool.submit(regenerate, p) for p in pending]
+
+        still_pending: list[_Pending] = []
+        for p, future in zip(pending, futures):
+            try:
+                replacement = future.result()
+            except OllamaUnavailable as exc:
+                p.history.pop()  # this attempt never ran
+                if can_regenerate:
+                    warnings.append(f"Regeneration stopped at variation {p.item.index + 1}: {exc}")
+                can_regenerate = False
+                still_pending.append(p)
+                continue
+            regeneration_attempts += 1
+            if replacement is None:
+                warnings.append(
+                    f"Regeneration attempt {attempt} for variation {p.item.index + 1} "
+                    "produced unparseable output"
+                )
+                still_pending.append(p)
+                continue
+            p.candidate = replacement
+            p.result = validate(replacement)
+            if p.result.passed:
+                keep(p.candidate, p.result)
+                regenerated_accepted += 1
+            else:
+                still_pending.append(p)
+        pending = still_pending
+
+    for p in pending:
+        rejected.append(
+            {
+                "question": p.candidate.question,
+                "variation_strategy": p.candidate.variation_strategy,
+                "reasons": p.result.reasons,
+                "regeneration_attempts": len(p.history),
+                "earlier_attempts": p.history,
+            }
+        )
 
     duplicate_rate = compute_duplicate_rate([v.question for v in variations])
 
@@ -151,8 +240,18 @@ def generate(request: GenerateRequest) -> GenerateResponse:
         requested=request.count,
         accepted=len(variations),
         rejected=len(rejected),
+        failed=len(outcome.failures),
+        regeneration_attempts=regeneration_attempts,
+        regenerated_accepted=regenerated_accepted,
         duplicate_rate=duplicate_rate,
     )
+
+    missing = len(plan) - len(outcome.candidates)
+    if missing:
+        warnings.append(
+            f"{missing} of {len(plan)} planned variations produced no usable "
+            "candidate; see the warnings above for why."
+        )
 
     return GenerateResponse(
         variations=variations,
@@ -161,6 +260,8 @@ def generate(request: GenerateRequest) -> GenerateResponse:
         generated_count=len(outcome.candidates),
         accepted_count=len(variations),
         rejected_count=len(rejected),
+        regeneration_attempts=regeneration_attempts,
+        regenerated_accepted=regenerated_accepted,
         seed_metadata=seed,
         rejected=rejected,
         timings_ms=watch.as_dict(),

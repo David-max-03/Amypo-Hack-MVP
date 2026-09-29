@@ -95,6 +95,7 @@ def run_pipeline(
 
     # ---- Step 4-9: generate, validate, verify, decide ---------------
     for item in plan:
+        parse_errors: list[str] = []
         try:
             with watch.stage("ps8.generation"):
                 candidate = generation_engine.generate_one(
@@ -102,6 +103,7 @@ def run_pipeline(
                     item,
                     avoid_questions=accepted_texts + generated_texts,
                     difficulty_shift=difficulty_shift,
+                    errors=parse_errors,
                 )
         except OllamaUnavailable as exc:
             warnings.append(f"Generation stopped at variation {item.index + 1}: {exc}")
@@ -111,7 +113,8 @@ def run_pipeline(
         if candidate is None:
             warnings.append(
                 f"Variation {item.index + 1} ({item.strategy}): model output could not "
-                "be parsed into a candidate"
+                f"be parsed into a candidate after {len(parse_errors)} attempt(s)"
+                + (f" - {parse_errors[-1]}" if parse_errors else "")
             )
             continue
 

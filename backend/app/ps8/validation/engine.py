@@ -1,6 +1,6 @@
 """Structural Validation Engine (PS8).
 
-Runs the four validators and merges them into the single StructuralValidation result
+Runs the structural validators and merges them into the single StructuralValidation result
 the API contract and the decision engine consume.
 """
 
@@ -18,7 +18,7 @@ def validate_candidate(
     previously_accepted: list[str] | None = None,
     difficulty_shift: str | None = None,
 ) -> StructuralValidation:
-    """Run all four PS8 structural checks on one candidate."""
+    """Run every PS8 structural check on one candidate."""
     concept = validators.validate_concept(candidate, seed)
     difficulty = validators.validate_difficulty(
         candidate, seed, difficulty_shift=difficulty_shift
@@ -29,25 +29,29 @@ def validate_candidate(
         previously_generated=previously_generated,
         previously_accepted=previously_accepted,
     )
-    variation = validators.validate_variation(candidate, seed)
+    method = validators.validate_method(candidate)
+    variation = validators.validate_variation(
+        candidate, seed, method_changed=method.changed_from_default
+    )
+    answer_key = validators.validate_answer_key(candidate, seed)
 
     reasons: list[str] = [
         *concept.reasons,
         *difficulty.reasons,
         *duplicate.reasons,
         *variation.reasons,
+        *answer_key.reasons,
+        *method.reasons,
     ]
 
-    # PS8 makes the answer key mandatory for every variation.
-    if not candidate.answer_key.strip():
-        reasons.append("missing answer key: PS8 requires an answer key for every variation")
-
+    # PS8 makes a correct answer key mandatory for every variation.
     passed = (
         concept.preserved
         and difficulty.matched
         and not duplicate.is_duplicate
         and variation.meaningful
-        and bool(candidate.answer_key.strip())
+        and answer_key.substantive
+        and method.ok
     )
 
     return StructuralValidation(
@@ -86,7 +90,18 @@ def validate_candidate(
                 "semantic_similarity_to_seed": variation.similarity_to_seed,
                 "lexical_similarity_to_seed": variation.lexical_to_seed,
             },
-            "answer_key_present": bool(candidate.answer_key.strip()),
+            "answer_key_present": answer_key.present,
+            "method": {
+                "planned": method.method,
+                "used_in_answer": method.in_answer,
+                "required_by_question": method.in_question,
+                "changed_from_default": method.changed_from_default,
+            },
+            "answer_key": {
+                "present": answer_key.present,
+                "substantive": answer_key.substantive,
+                "has_code": answer_key.has_code,
+            },
         },
     )
 

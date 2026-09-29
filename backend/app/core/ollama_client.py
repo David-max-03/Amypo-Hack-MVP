@@ -7,6 +7,7 @@ anywhere, which both problem statements require as a hard constraint.
 from __future__ import annotations
 
 import logging
+import time
 from dataclasses import dataclass
 
 import httpx
@@ -107,13 +108,29 @@ class OllamaClient:
         timeout = timeout_s or settings.ollama_timeout_s
         try:
             with httpx.Client(timeout=timeout) as client:
-                resp = client.post(f"{self.host}/api/generate", json=payload)
+                # Ollama occasionally answers a healthy request with a one-off 5xx
+                # (observed mid-batch; the identical request succeeded on replay).
+                # Retry those rather than letting one blip end a whole batch.
+                for server_try in range(settings.ollama_server_error_retries + 1):
+                    resp = client.post(f"{self.host}/api/generate", json=payload)
+                    if resp.status_code < 500 or server_try == settings.ollama_server_error_retries:
+                        break
+                    logger.warning(
+                        "Ollama HTTP %s (%s); retrying %s/%s",
+                        resp.status_code,
+                        resp.text[:200],
+                        server_try + 1,
+                        settings.ollama_server_error_retries,
+                    )
+                    time.sleep(settings.ollama_server_error_backoff_s)
                 resp.raise_for_status()
                 return resp.json().get("response", "")
         except httpx.HTTPStatusError as exc:
+            detail = exc.response.text[:200].strip()
             raise OllamaUnavailable(
                 f"Ollama returned HTTP {exc.response.status_code} for model "
-                f"{self.model!r}. Is the model pulled? Try: ollama pull {self.model}"
+                f"{self.model!r}" + (f": {detail}" if detail else "")
+                + f". If the model is missing, run: ollama pull {self.model}"
             ) from exc
         except Exception as exc:
             raise OllamaUnavailable(

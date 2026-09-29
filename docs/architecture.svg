@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b91c1c"/></marker>
+    <style>
+      .t{font-size:30px;font-weight:700;fill:#0f172a}
+      .s{font-size:16px;fill:#475569}
+      .h{font-size:17px;font-weight:700;fill:#0f172a}
+      .b{font-size:13.5px;fill:#334155}
+      .g{font-size:14px;font-weight:700;letter-spacing:1px}
+      .ln{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#a)}
+      .rl{stroke:#b91c1c;stroke-width:2.2;fill:none;stroke-dasharray:7 5;marker-end:url(#r)}
+    </style>
+  </defs>
+  <rect width="1600" height="1000" fill="#ffffff"/>
+  <text x="40" y="52" class="t">Code Titans — PS8 + PS2 Question Trust Pipeline</text>
+  <text x="40" y="80" class="s">HackWithAMYPO 2026 · Stage 2 MVP · everything runs locally — no paid third-party APIs</text>
+
+  <rect x="40" y="120" width="220" height="110" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+  <text x="56" y="148" class="h">React + Vite UI</text>
+  <text x="56" y="172" class="b">Pipeline · PS2 verifier</text>
+  <text x="56" y="192" class="b">Question bank · Review queue</text>
+  <text x="56" y="212" class="b">Flagged-span highlights</text>
+
+  <rect x="40" y="270" width="220" height="130" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+  <text x="56" y="298" class="h">FastAPI  /api/v1</text>
+  <text x="56" y="322" class="b">POST /generate  (PS8)</text>
+  <text x="56" y="342" class="b">POST /verify  (PS2)</text>
+  <text x="56" y="362" class="b">POST /generate-and-verify</text>
+  <text x="56" y="382" class="b">GET /domains /health /export</text>
+  <path class="ln" d="M150,230 L150,268"/>
+
+  <rect x="300" y="110" width="760" height="300" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="318" y="136" class="g" fill="#1d4ed8">PS8 · GENERATION ENGINE</text>
+
+  <rect x="320" y="152" width="170" height="104" rx="8" fill="#fff" stroke="#2563eb"/>
+  <text x="332" y="176" class="h">Seed Parser</text>
+  <text x="332" y="198" class="b">domain, topic, concept,</text>
+  <text x="332" y="216" class="b">type, difficulty 0–1,</text>
+  <text x="332" y="234" class="b">learning objective</text>
+
+  <rect x="510" y="152" width="190" height="104" rx="8" fill="#fff" stroke="#2563eb"/>
+  <text x="522" y="176" class="h">Variation Planner</text>
+  <text x="522" y="198" class="b">5 strategies × 4 methods</text>
+  <text x="522" y="216" class="b">(iterative · recursive ·</text>
+  <text x="522" y="234" class="b">stack · rebuild), rotated</text>
+
+  <rect x="720" y="152" width="160" height="104" rx="8" fill="#fff" stroke="#2563eb"/>
+  <text x="732" y="176" class="h">Prompt Builder</text>
+  <text x="732" y="198" class="b">seed + strategy +</text>
+  <text x="732" y="216" class="b">method + avoid-list +</text>
+  <text x="732" y="234" class="b">rejection feedback</text>
+
+  <rect x="900" y="152" width="145" height="104" rx="8" fill="#fff" stroke="#2563eb"/>
+  <text x="912" y="176" class="h">Ollama</text>
+  <text x="912" y="198" class="b">Qwen2.5-Coder 7B</text>
+  <text x="912" y="216" class="b">local, JSON mode,</text>
+  <text x="912" y="234" class="b">parallel waves of N</text>
+
+  <rect x="720" y="290" width="325" height="100" rx="8" fill="#fff" stroke="#2563eb"/>
+  <text x="732" y="314" class="h">Candidate Builder</text>
+  <text x="732" y="336" class="b">tolerant JSON repair, one parse retry,</text>
+  <text x="732" y="354" class="b">fence stripping, seed metadata fill-in,</text>
+  <text x="732" y="372" class="b">every repair recorded as a warning</text>
+
+  <path class="ln" d="M260,190 L318,190"/>
+  <path class="ln" d="M490,204 L508,204"/>
+  <path class="ln" d="M700,204 L718,204"/>
+  <path class="ln" d="M880,204 L898,204"/>
+  <path class="ln" d="M972,256 L972,288"/>
+
+  <rect x="300" y="440" width="560" height="220" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="318" y="466" class="g" fill="#1d4ed8">PS8 · STRUCTURAL VALIDATION</text>
+  <g class="b">
+    <rect x="320" y="480" width="255" height="80" rx="8" fill="#fff" stroke="#2563eb"/>
+    <text x="332" y="502" class="h">Concept</text>
+    <text x="332" y="522">keyword overlap / MiniLM +</text>
+    <text x="332" y="540">data-structure anchor</text>
+    <rect x="590" y="480" width="255" height="80" rx="8" fill="#fff" stroke="#2563eb"/>
+    <text x="602" y="502" class="h">Difficulty · Variation</text>
+    <text x="602" y="522">difficulty ±0.20 of seed;</text>
+    <text x="602" y="540">not a paraphrase (≤0.80 / 0.86)</text>
+    <rect x="320" y="570" width="255" height="76" rx="8" fill="#fff" stroke="#2563eb"/>
+    <text x="332" y="592" class="h">Duplicate detector</text>
+    <text x="332" y="612">Jaccard + MiniLM vs seed,</text>
+    <text x="332" y="630">this run and the stored bank</text>
+    <rect x="590" y="570" width="255" height="76" rx="8" fill="#fff" stroke="#2563eb"/>
+    <text x="602" y="592" class="h">Answer key · Method</text>
+    <text x="602" y="612">coding key must be real code;</text>
+    <text x="602" y="630">planned method verified in code</text>
+  </g>
+  <path class="ln" d="M882,390 L882,420 L580,420 L580,438"/>
+
+  <rect x="900" y="440" width="660" height="220" rx="14" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="918" y="466" class="g" fill="#6d28d9">PS2 · RELIABILITY VERIFICATION</text>
+  <g class="b">
+    <rect x="920" y="480" width="200" height="80" rx="8" fill="#fff" stroke="#7c3aed"/>
+    <text x="932" y="502" class="h">Response Analyzer</text>
+    <text x="932" y="522">claims → factual, answer,</text>
+    <text x="932" y="540">citation, opinion, inference</text>
+    <rect x="1135" y="480" width="200" height="80" rx="8" fill="#fff" stroke="#7c3aed"/>
+    <text x="1147" y="502" class="h">Source Verification</text>
+    <text x="1147" y="522">MiniLM + keyword grounding</text>
+    <text x="1147" y="540">vs local reference corpus</text>
+    <rect x="1350" y="480" width="195" height="80" rx="8" fill="#fff" stroke="#7c3aed"/>
+    <text x="1362" y="502" class="h">Contradiction</text>
+    <text x="1362" y="522">self + corpus: Big-O,</text>
+    <text x="1362" y="540">negation, numbers</text>
+    <rect x="920" y="570" width="305" height="76" rx="8" fill="#fff" stroke="#7c3aed"/>
+    <text x="932" y="592" class="h">Hallucination Detector</text>
+    <text x="932" y="612">unsupported-claim rate, fabrication</text>
+    <text x="932" y="630">markers, optional self-consistency</text>
+    <rect x="1240" y="570" width="305" height="76" rx="8" fill="#fff" stroke="#7c3aed"/>
+    <text x="1252" y="592" class="h">Reliability Scoring</text>
+    <text x="1252" y="612">score, confidence, verdict (5 classes),</text>
+    <text x="1252" y="630">flagged spans with reasons</text>
+  </g>
+  <path class="ln" d="M860,550 L898,550"/>
+  <path class="ln" d="M260,342 L280,342 L280,700 L1230,700 L1230,662"/>
+  <text x="640" y="692" class="b" fill="#6d28d9">POST /verify — standalone PS2 path (any response text)</text>
+
+  <rect x="560" y="740" width="480" height="92" rx="12" fill="#fefce8" stroke="#ca8a04" stroke-width="1.5"/>
+  <text x="578" y="768" class="h">Decision Engine</text>
+  <text x="578" y="792" class="b">PASS ⇔ structural OK AND reliability ≥ 0.70</text>
+  <text x="578" y="812" class="b">unverifiable → REVIEW (a thin corpus is not proof of falsehood)</text>
+  <path class="ln" d="M580,660 L580,738"/>
+  <path class="ln" d="M1420,660 L1420,786 L1042,786"/>
+
+  <rect x="300" y="870" width="220" height="92" rx="10" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="316" y="896" class="h">PASS → question bank</text>
+  <text x="316" y="918" class="b">JSON / CSV export</text>
+  <rect x="690" y="870" width="220" height="92" rx="10" fill="#fffbeb" stroke="#d97706"/>
+  <text x="706" y="896" class="h">REVIEW → queue</text>
+  <text x="706" y="918" class="b">human decides</text>
+  <rect x="1080" y="870" width="260" height="92" rx="10" fill="#fef2f2" stroke="#b91c1c"/>
+  <text x="1096" y="896" class="h">REJECT → regenerate</text>
+  <text x="1096" y="918" class="b">≤ 2 retries, in parallel rounds;</text>
+  <text x="1096" y="938" class="b">still failing at cap → REVIEW</text>
+  <path class="ln" d="M700,832 L410,868"/>
+  <path class="ln" d="M800,832 L800,868"/>
+  <path class="ln" d="M900,832 L1200,868"/>
+  <path class="rl" d="M1340,916 L1580,916 L1580,95 L800,95 L800,150"/>
+  <text x="1565" y="86" class="b" fill="#b91c1c" font-weight="700" text-anchor="end">exact PS8 reasons + PS2 flagged spans fed back into the prompt</text>
+
+  <text x="40" y="992" class="b" fill="#64748b">Local JSON storage (atomic writes): question_bank · review_queue · validation_report · audit_logs · reference_corpus</text>
+</svg>

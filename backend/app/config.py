@@ -39,13 +39,30 @@ class Settings(BaseSettings):
     ollama_host: str = "http://localhost:11434"
     ollama_model: str = "qwen2.5-coder:7b"
     ollama_timeout_s: float = 180.0
+    # Transient Ollama 5xx responses are retried before the call is treated as failed.
+    ollama_server_error_retries: int = 2
+    ollama_server_error_backoff_s: float = 2.0
     # Generation sampling. Higher temperature => more surface diversity, which is
     # what PS8's distinctness rubric rewards.
     generation_temperature: float = 0.85
     generation_top_p: float = 0.95
     # A regeneration attempt is deliberately cooler: we want it to *fix* things.
     regeneration_temperature: float = 0.6
-    max_generation_tokens: int = 900
+    # A variation is ~250 output tokens now the model no longer echoes metadata;
+    # the cap only bounds runaway output.
+    max_generation_tokens: int = 600
+    # Concurrent generation requests per wave. Only helps when Ollama runs with
+    # OLLAMA_NUM_PARALLEL >= this value; otherwise Ollama queues them and total time
+    # is unchanged. Candidates in one wave cannot see each other, so duplicates
+    # between them are left to the duplicate validator and regeneration.
+    generation_concurrency: int = 1
+    # An unparseable generation is retried this many times before it is recorded as
+    # a failure. Retries run cooler and with more headroom, because the usual cause
+    # is JSON truncated at the token limit once the answer key contains code.
+    parse_retry_attempts: int = 1
+    parse_retry_max_tokens: int = 900
+    # Non-coding answer keys shorter than this are treated as stubs, not answers.
+    answer_key_min_words: int = 3
 
     # ------------------------------------------------------------------
     # PS2 embedding model (local, CPU, no paid APIs)
@@ -74,6 +91,10 @@ class Settings(BaseSettings):
     # A candidate that is *too* similar to the seed is a paraphrase, not a
     # variation. Above this it fails the "meaningful variation" check.
     variation_similarity_max: float = 0.80
+    # A variation that verifiably changes the solution method (recursion instead of
+    # a loop, say) is meaningful even when its wording stays close to the seed, so it
+    # may reach this similarity. It still has to pass the duplicate check.
+    method_variation_similarity_max: float = 0.86
     # ...and one that is too far away has lost the learning objective.
     variation_similarity_min: float = 0.10
     # Difficulty is scored 0..1; a variation may drift by at most this much from

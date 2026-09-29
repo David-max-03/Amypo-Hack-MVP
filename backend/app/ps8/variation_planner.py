@@ -9,7 +9,7 @@ changing a specific axis, and we can show judges which one.
 from __future__ import annotations
 
 from ..schemas import SeedMetadata, VariationPlanItem
-from . import strategies
+from . import methods, strategies
 
 # Strategies that do not make sense for some question types. A fill-in-the-blank
 # question, for instance, has little "structure" to invert meaningfully.
@@ -33,12 +33,17 @@ def plan_variations(
 
     Round-robin rotation guarantees that with N>=5 requested variations every
     strategy is exercised at least once before any repeats, which directly lowers
-    the near-duplicate rate PS8 is scored on.
+    the near-duplicate rate PS8 is scored on. Coding seeds also rotate a solution
+    method, so variations differ in how they are solved, not only how they read.
     """
     if count < 1:
         return []
 
     eligible = _eligible_strategies(seed)
+    # Methods rotate independently of strategies. With 5 strategies and 4 methods the
+    # cycle lengths are coprime, so every strategy x method pairing occurs before
+    # any pairing repeats.
+    method_pool = methods.methods_for(seed.question_type)
     plan: list[VariationPlanItem] = []
 
     for i in range(count):
@@ -63,6 +68,12 @@ def plan_variations(
             preserve = [p for p in preserve if p != "difficulty"]
             change.append(f"difficulty -> {difficulty_shift}")
 
+        method = method_pool[i % len(method_pool)] if method_pool else None
+        if method is not None and not method.is_default:
+            preserve = [p for p in preserve if p != "solution method"]
+            if "solution method" not in change:
+                change.append("solution method")
+
         plan.append(
             VariationPlanItem(
                 index=i,
@@ -71,6 +82,9 @@ def plan_variations(
                 instruction=instruction,
                 preserve=preserve,
                 change=change,
+                method=method.id if method else None,
+                method_label=method.label if method else "",
+                method_instruction=method.instruction if method else "",
             )
         )
 

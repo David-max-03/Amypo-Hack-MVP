@@ -22,6 +22,26 @@ from backend.app.schemas import Candidate, SeedMetadata, VariationPlanItem
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
+# A coding question's answer key must be real code, so fixtures default to one.
+REFERENCE_SOLUTION = (
+    "def reverse(head):\n"
+    "    prev = None\n"
+    "    while head:\n"
+    "        head.next, prev, head = prev, head, head.next\n"
+    "    return prev\n"
+    "Three pointers rewire each next pointer in one O(n) pass."
+)
+# Plan item 2 of a coding seed is assigned the recursive method.
+RECURSIVE_SOLUTION = (
+    "def reverse(head, prev=None):\n"
+    "    if head is None:\n"
+    "        return prev\n"
+    "    rest = head.next\n"
+    "    head.next = prev\n"
+    "    return reverse(rest, head)\n"
+    "Each call reverses one link and recurses on the rest of the list."
+)
+
 
 @pytest.fixture
 def temp_data_dir(monkeypatch):
@@ -54,7 +74,7 @@ def plan(seed) -> list[VariationPlanItem]:
 def make_candidate(
     question: str,
     *,
-    answer_key: str = "Use three pointers and rewire each next pointer in one pass.",
+    answer_key: str = REFERENCE_SOLUTION,
     difficulty: str = "medium",
     difficulty_score: float = 0.55,
     domain: str = "programming",
@@ -110,7 +130,8 @@ def fake_ollama():
     return FakeOllama
 
 
-def candidate_json(question: str, answer: str = "A correct and complete answer key.", **extra) -> str:
+def candidate_json(question: str, answer: str = None, **extra) -> str:
+    answer = REFERENCE_SOLUTION if answer is None else answer
     payload = {
         "question": question,
         "answer_key": answer,
