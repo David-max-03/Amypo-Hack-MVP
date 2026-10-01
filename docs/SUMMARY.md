@@ -45,10 +45,11 @@ if both gates pass.
 ## Measured results (Apple M5 laptop, local 7B model)
 - **14 of 15** variations accepted from one seed, 0% duplicates, all 4 solution methods present,
   in 370 s.
-- 60-variation run: <!-- 60RUN -->
+- **46 of 60** accepted in one 60-variation run (0% duplicates, all 4 methods), in 30 minutes. Most
+  rejections were near-duplicates of other variations, as a single seed runs out of fresh angles.
 - PS2 `/verify`: 6–214 ms per response (limit < 10 s). A hallucinated response received 6
   flagged spans and the verdict `misleading`.
-- 173 automated tests, several built from real model failures.
+- 183 automated tests, several built from real model failures.
 
 ## Limitations and next steps
 - 60 variations in under 5 minutes is not reached on laptop hardware. Next: a smaller or faster

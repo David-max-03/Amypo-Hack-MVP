@@ -1,0 +1,53 @@
+{
+    "status": "ok",
+    "version": "1.0.0",
+    "ollama": {
+        "reachable": true,
+        "host": "http://host.docker.internal:11434",
+        "model": "qwen2.5-coder:7b",
+        "model_available": true,
+        "models_present": [
+            "qwen2.5-coder:7b"
+        ],
+        "detail": "ok"
+    },
+    "embeddings": {
+        "backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+        "is_minilm": true,
+        "configured_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "load_error": null
+    },
+    "corpus": {
+        "entry_count": 36,
+        "domains": {
+            "programming": 15,
+            "mathematics": 6,
+            "science": 5,
+            "health": 3,
+            "business": 3,
+            "language": 2,
+            "general_knowledge": 2
+        }
+    },
+    "storage": {
+        "data_dir": "/app/data",
+        "accepted_questions": 0,
+        "review_queue": 0
+    },
+    "config": {
+        "pass_reliability_min": 0.7,
+        "review_reliability_min": 0.45,
+        "duplicate_semantic_max": 0.86,
+        "duplicate_lexical_max": 0.75,
+        "max_regeneration_attempts": 2,
+        "self_consistency_samples": 0,
+        "ps2_target_latency_s": 10.0,
+        "reliability_weights": {
+            "source_grounding": 0.3,
+            "non_hallucination": 0.3,
+            "factual_consistency": 0.2,
+            "non_contradiction": 0.15,
+            "answer_completeness": 0.05
+        }
+    }
+}

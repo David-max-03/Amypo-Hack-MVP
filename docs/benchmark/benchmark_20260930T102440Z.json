@@ -1,0 +1,648 @@
+{
+  "started_at": "2026-09-30T10:00:51.588769+00:00",
+  "settings": {
+    "seed_question": "Write a function to reverse a singly linked list.",
+    "count": 5,
+    "runs": 1,
+    "concurrency": 2,
+    "sampler_seed": 42,
+    "generation_temperature": 0.85,
+    "regeneration_temperature": 0.6,
+    "top_p": 0.95,
+    "max_generation_tokens": 600,
+    "max_regeneration_attempts": 2,
+    "ollama_host": "http://localhost:11434"
+  },
+  "models": [
+    {
+      "model": "qwen2.5-coder:7b",
+      "warmup_ms": 535.5,
+      "sequential": [
+        {
+          "wall_ms": 245060.8,
+          "timings_ms": {
+            "ps8.seed_parsing": 0.7,
+            "ps8.variation_planning": 0.13,
+            "ps8.generation": 134713.19,
+            "ps8.structural_validation": 176.64,
+            "ps2.verification": 138.76,
+            "pipeline.evaluation": 315.67,
+            "ps8.regeneration": 110030.3,
+            "pipeline.summary": 0.43,
+            "total_ms": 245060.75
+          },
+          "warnings": [],
+          "summary": {
+            "requested": 5,
+            "generated": 5,
+            "passed": 1,
+            "review": 4,
+            "rejected": 0,
+            "duplicate_rate": 0.0,
+            "regeneration_attempts": 4,
+            "mean_reliability_score": 0.6446,
+            "flagged_span_count": 7
+          },
+          "candidates": [
+            {
+              "decision": "REVIEW",
+              "attempts": 1,
+              "ps8_passed": true,
+              "ps2_score": 0.4419,
+              "ps2_verdict": "unverifiable",
+              "question": "You are working on a library management system that needs to reverse the order of book entries in a catalog to improve browsing efficiency. Each book entry is r"
+            },
+            {
+              "decision": "REVIEW",
+              "attempts": 1,
+              "ps8_passed": true,
+              "ps2_score": 0.6898,
+              "ps2_verdict": "unverifiable",
+              "question": "Implement a recursive function to reverse a singly linked list in-place without using any additional memory (i.e., O(1) space complexity). The function should r"
+            },
+            {
+              "decision": "REVIEW",
+              "attempts": 2,
+              "ps8_passed": true,
+              "ps2_score": 0.6898,
+              "ps2_verdict": "unverifiable",
+              "question": "Given a singly linked list of integers, design a function to reverse the list using an auxiliary stack. The function should return the new head of the reversed "
+            },
+            {
+              "decision": "PASS",
+              "attempts": 3,
+              "ps8_passed": true,
+              "ps2_score": 0.9109,
+              "ps2_verdict": "trustworthy",
+              "question": "Given a singly linked list of integers, construct a new linked list that contains the values in reverse order. Ensure that the original list remains unaltered."
+            },
+            {
+              "decision": "REVIEW",
+              "attempts": 2,
+              "ps8_passed": true,
+              "ps2_score": 0.4905,
+              "ps2_verdict": "unverifiable",
+              "question": "Given a singly linked list where each node represents a segment of a road, write a function to reverse the direction of traffic flow (i.e., reverse the linked l"
+            }
+          ]
+        }
+      ],
+      "sequential_calls": [
+        {
+          "ms": 24480.0,
+          "temperature": 0.85,
+          "malformed": false,
+          "error": null,
+          "eval_count": 264
+        },
+        {
+          "ms": 28040.5,
+          "temperature": 0.85,
+          "malformed": false,
+          "error": null,
+          "eval_count": 277
+        },
+        {
+          "ms": 28569.8,
+          "temperature": 0.85,
+          "malformed": false,
+          "error": null,
+          "eval_count": 278
+        },
+        {
+          "ms": 28261.2,
+          "temperature": 0.6,
+          "malformed": false,
+          "error": null,
+          "eval_count": 270
+        },
+        {
+          "ms": 28966.7,
+          "temperature": 0.85,
+          "malformed": false,
+          "error": null,
+          "eval_count": 279
+        },
+        {
+          "ms": 29459.0,
+          "temperature": 0.6,
+          "malformed": false,
+          "error": null,
+          "eval_count": 276
+        },
+        {
+          "ms": 23820.9,
+          "temperature": 0.6,
+          "malformed": false,
+          "error": null,
+          "eval_count": 228
+        },
+        {
+          "ms": 24655.4,
+          "temperature": 0.85,
+          "malformed": false,
+          "error": null,
+          "eval_count": 245
+        },
+        {
+          "ms": 28488.6,
+          "temperature": 0.6,
+          "malformed": false,
+          "error": null,
+          "eval_count": 280
+        }
+      ],
+      "concurrent": {
+        "pipelines": 2,
+        "wall_ms": 411853.4,
+        "decided_candidates": 10,
+        "candidates_per_min": 1.46,
+        "model_calls": 19,
+        "mean_call_ms": 40904.2,
+        "runs": [
+          {
+            "wall_ms": 411852.5,
+            "timings_ms": {
+              "ps8.seed_parsing": 0.12,
+              "ps8.variation_planning": 0.04,
+              "ps8.generation": 189617.22,
+              "ps8.structural_validation": 207.91,
+              "ps2.verification": 136.4,
+              "pipeline.evaluation": 344.68,
+              "ps8.regeneration": 221889.5,
+              "pipeline.summary": 0.41,
+              "total_ms": 411852.45
+            },
+            "warnings": [],
+            "summary": {
+              "requested": 5,
+              "generated": 5,
+              "passed": 2,
+              "review": 3,
+              "rejected": 0,
+              "duplicate_rate": 0.0,
+              "regeneration_attempts": 5,
+              "mean_reliability_score": 0.7217,
+              "flagged_span_count": 4
+            },
+            "candidates": [
+              {
+                "decision": "REVIEW",
+                "attempts": 1,
+                "ps8_passed": true,
+                "ps2_score": 0.4419,
+                "ps2_verdict": "unverifiable",
+                "question": "You are working on a library management system that needs to reverse the order of book entries in a catalog to improve browsing efficiency. Each book entry is r"
+              },
+              {
+                "decision": "PASS",
+                "attempts": 3,
+                "ps8_passed": true,
+                "ps2_score": 0.9031,
+                "ps2_verdict": "trustworthy",
+                "question": "Given a singly linked list, implement a function to reverse the list in groups of k nodes using recursion. Each group must be reversed in-place, and the functio"
+              },
+              {
+                "decision": "REVIEW",
+                "attempts": 3,
+                "ps8_passed": false,
+                "ps2_score": 0.9177,
+                "ps2_verdict": "trustworthy",
+                "question": "Implement a function to reverse a singly linked list using an auxiliary stack. The function should take the head of a linked list as input and return the new he"
+              },
+              {
+                "decision": "PASS",
+                "attempts": 2,
+                "ps8_passed": true,
+                "ps2_score": 0.7919,
+                "ps2_verdict": "trustworthy",
+                "question": "Given a singly linked list, implement a function to create a new list that contains the nodes in reverse order from the original list. The new list should be a "
+              },
+              {
+                "decision": "REVIEW",
+                "attempts": 1,
+                "ps8_passed": true,
+                "ps2_score": 0.5539,
+                "ps2_verdict": "unverifiable",
+                "question": "Implement a function to reverse the order of elements in a stack using a singly linked list. The stack supports push and pop operations. You should not use any "
+              }
+            ]
+          },
+          {
+            "wall_ms": 365716.4,
+            "timings_ms": {
+              "ps8.seed_parsing": 0.06,
+              "ps8.variation_planning": 0.02,
+              "ps8.generation": 203616.98,
+              "ps8.structural_validation": 4.45,
+              "ps2.verification": 31.02,
+              "pipeline.evaluation": 35.71,
+              "ps8.regeneration": 162062.79,
+              "pipeline.summary": 0.42,
+              "total_ms": 365716.36
+            },
+            "warnings": [],
+            "summary": {
+              "requested": 5,
+              "generated": 5,
+              "passed": 1,
+              "review": 4,
+              "rejected": 0,
+              "duplicate_rate": 0.0,
+              "regeneration_attempts": 4,
+              "mean_reliability_score": 0.6446,
+              "flagged_span_count": 7
+            },
+            "candidates": [
+              {
+                "decision": "REVIEW",
+                "attempts": 1,
+                "ps8_passed": true,
+                "ps2_score": 0.4419,
+                "ps2_verdict": "unverifiable",
+                "question": "You are working on a library management system that needs to reverse the order of book entries in a catalog to improve browsing efficiency. Each book entry is r"
+              },
+              {
+                "decision": "REVIEW",
+                "attempts": 1,
+                "ps8_passed": true,
+                "ps2_score": 0.6898,
+                "ps2_verdict": "unverifiable",
+                "question": "Implement a recursive function to reverse a singly linked list in-place without using any additional memory (i.e., O(1) space complexity). The function should r"
+              },
+              {
+                "decision": "REVIEW",
+                "attempts": 2,
+                "ps8_passed": true,
+                "ps2_score": 0.6898,
+                "ps2_verdict": "unverifiable",
+                "question": "Given a singly linked list of integers, design a function to reverse the list using an auxiliary stack. The function should return the new head of the reversed "
+              },
+              {
+                "decision": "PASS",
+                "attempts": 3,
+                "ps8_passed": true,
+                "ps2_score": 0.9109,
+                "ps2_verdict": "trustworthy",
+                "question": "Given a singly linked list of integers, construct a new linked list that contains the values in reverse order. Ensure that the original list remains unaltered."
+              },
+              {
+                "decision": "REVIEW",
+                "attempts": 2,
+                "ps8_passed": true,
+                "ps2_score": 0.4905,
+                "ps2_verdict": "unverifiable",
+                "question": "Given a singly linked list where each node represents a segment of a road, write a function to reverse the direction of traffic flow (i.e., reverse the linked l"
+              }
+            ]
+          }
+        ]
+      },
+      "metrics": {
+        "requested": 5,
+        "decided": 5,
+        "valid_rate": 1.0,
+        "decisions": {
+          "REVIEW": 4,
+          "PASS": 1
+        },
+        "ps8_pass_rate": 1.0,
+        "ps2_verdicts": {
+          "unverifiable": 4,
+          "trustworthy": 1
+        },
+        "ps2_score_mean": 0.645,
+        "ps2_score_min": 0.442,
+        "ps2_score_max": 0.911,
+        "regenerated_candidates": 3,
+        "regeneration_rate": 0.6,
+        "model_calls": 9,
+        "malformed_calls": 0,
+        "malformed_rate": 0.0,
+        "call_errors": 0,
+        "mean_generation_call_ms": 26942.5,
+        "mean_regeneration_call_ms": 27507.4,
+        "stage_ms": {
+          "ps8.seed_parsing": 0.7,
+          "ps8.generation": 134713.2,
+          "ps8.regeneration": 110030.3,
+          "ps8.structural_validation": 176.6,
+          "ps2.verification": 138.8
+        },
+        "total_ms": 245060.8,
+        "avg_ms_per_decided_candidate": 49012.2,
+        "warnings": [],
+        "sequential_candidates_per_min": 1.22
+      }
+    },
+    {
+      "model": "mistral:7b",
+      "warmup_ms": 4463.7,
+      "sequential": [
+        {
+          "wall_ms": 286179.7,
+          "timings_ms": {
+            "ps8.seed_parsing": 0.73,
+            "ps8.variation_planning": 0.21,
+            "ps8.generation": 201588.51,
+            "ps8.structural_validation": 218.18,
+            "ps2.verification": 156.78,
+            "pipeline.evaluation": 375.29,
+            "ps8.regeneration": 84213.79,
+            "pipeline.summary": 0.52,
+            "total_ms": 286179.57
+          },
+          "warnings": [],
+          "summary": {
+            "requested": 5,
+            "generated": 5,
+            "passed": 2,
+            "review": 3,
+            "rejected": 0,
+            "duplicate_rate": 0.0,
+            "regeneration_attempts": 2,
+            "mean_reliability_score": 0.7727,
+            "flagged_span_count": 5
+          },
+          "candidates": [
+            {
+              "decision": "REVIEW",
+              "attempts": 1,
+              "ps8_passed": true,
+              "ps2_score": 0.6607,
+              "ps2_verdict": "partially_reliable",
+              "question": "You are a data analyst working at a museum that has a database of paintings. Each painting is stored as a node in a linked list, where each node contains the pa"
+            },
+            {
+              "decision": "PASS",
+              "attempts": 1,
+              "ps8_passed": true,
+              "ps2_score": 0.8989,
+              "ps2_verdict": "trustworthy",
+              "question": "Given a singly linked list, write a recursive function to determine if the list is palindrome (reads the same forward and backward). Ignore spaces and case. Hin"
+            },
+            {
+              "decision": "REVIEW",
+              "attempts": 1,
+              "ps8_passed": true,
+              "ps2_score": 0.6775,
+              "ps2_verdict": "unverifiable",
+              "question": "Given a singly linked list of integers, write a function that reverses the list while maintaining the original order of null nodes (None in Python). The functio"
+            },
+            {
+              "decision": "REVIEW",
+              "attempts": 3,
+              "ps8_passed": false,
+              "ps2_score": 0.665,
+              "ps2_verdict": "unverifiable",
+              "question": "Given a singly linked list of integers, write a function that reverses every sub-list of 3 nodes (i.e., a triplet). The original linked list should not be modif"
+            },
+            {
+              "decision": "PASS",
+              "attempts": 1,
+              "ps8_passed": true,
+              "ps2_score": 0.9614,
+              "ps2_verdict": "trustworthy",
+              "question": "Given a doubly linked list, write a function to reverse the linked list. A doubly linked list is a linked list where each node has a pointer to both the next an"
+            }
+          ]
+        }
+      ],
+      "sequential_calls": [
+        {
+          "ms": 57558.7,
+          "temperature": 0.85,
+          "malformed": false,
+          "error": null,
+          "eval_count": 598
+        },
+        {
+          "ms": 40435.4,
+          "temperature": 0.85,
+          "malformed": false,
+          "error": null,
+          "eval_count": 401
+        },
+        {
+          "ms": 34376.9,
+          "temperature": 0.85,
+          "malformed": false,
+          "error": null,
+          "eval_count": 339
+        },
+        {
+          "ms": 35230.4,
+          "temperature": 0.85,
+          "malformed": false,
+          "error": null,
+          "eval_count": 347
+        },
+        {
+          "ms": 39073.8,
+          "temperature": 0.6,
+          "malformed": false,
+          "error": null,
+          "eval_count": 370
+        },
+        {
+          "ms": 45138.4,
+          "temperature": 0.6,
+          "malformed": false,
+          "error": null,
+          "eval_count": 427
+        },
+        {
+          "ms": 33981.5,
+          "temperature": 0.85,
+          "malformed": false,
+          "error": null,
+          "eval_count": 325
+        }
+      ],
+      "concurrent": {
+        "pipelines": 2,
+        "wall_ms": 480378.8,
+        "decided_candidates": 10,
+        "candidates_per_min": 1.25,
+        "model_calls": 18,
+        "mean_call_ms": 53084.8,
+        "runs": [
+          {
+            "wall_ms": 480378.3,
+            "timings_ms": {
+              "ps8.seed_parsing": 0.13,
+              "ps8.variation_planning": 0.04,
+              "ps8.generation": 298947.8,
+              "ps8.structural_validation": 84.39,
+              "ps2.verification": 86.12,
+              "pipeline.evaluation": 170.75,
+              "ps8.regeneration": 181258.81,
+              "pipeline.summary": 0.46,
+              "total_ms": 480378.33
+            },
+            "warnings": [],
+            "summary": {
+              "requested": 5,
+              "generated": 5,
+              "passed": 0,
+              "review": 5,
+              "rejected": 0,
+              "duplicate_rate": 0.0,
+              "regeneration_attempts": 4,
+              "mean_reliability_score": 0.5741,
+              "flagged_span_count": 5
+            },
+            "candidates": [
+              {
+                "decision": "REVIEW",
+                "attempts": 1,
+                "ps8_passed": true,
+                "ps2_score": 0.6607,
+                "ps2_verdict": "partially_reliable",
+                "question": "You are a data analyst working at a museum that has a database of paintings. Each painting is stored as a node in a linked list, where each node contains the pa"
+              },
+              {
+                "decision": "REVIEW",
+                "attempts": 1,
+                "ps8_passed": true,
+                "ps2_score": 0.6714,
+                "ps2_verdict": "partially_reliable",
+                "question": "Given a singly linked list, write a recursive function to determine if the list is palindrome (reads the same forward and backward). Ignore spaces and case. Eac"
+              },
+              {
+                "decision": "REVIEW",
+                "attempts": 1,
+                "ps8_passed": true,
+                "ps2_score": 0.4199,
+                "ps2_verdict": "unverifiable",
+                "question": "Given a singly linked list with only odd numbers, write a function to reverse the list while maintaining the order of odd numbers. Use an auxiliary array to hol"
+              },
+              {
+                "decision": "REVIEW",
+                "attempts": 3,
+                "ps8_passed": false,
+                "ps2_score": 0.4278,
+                "ps2_verdict": "unverifiable",
+                "question": "Given a singly linked list of integers, write a function to create a new list by concatenating the elements in reverse order, while preserving the original list"
+              },
+              {
+                "decision": "REVIEW",
+                "attempts": 3,
+                "ps8_passed": false,
+                "ps2_score": 0.6909,
+                "ps2_verdict": "unverifiable",
+                "question": "In a fantasy world, you're given a magical chain with enchanted nodes, each representing a unique creature. Each node has a 'next' pointer pointing to the next "
+              }
+            ]
+          },
+          {
+            "wall_ms": 475666.0,
+            "timings_ms": {
+              "ps8.seed_parsing": 0.07,
+              "ps8.variation_planning": 0.02,
+              "ps8.generation": 298850.28,
+              "ps8.structural_validation": 199.08,
+              "ps2.verification": 139.96,
+              "pipeline.evaluation": 339.35,
+              "ps8.regeneration": 176475.24,
+              "pipeline.summary": 0.56,
+              "total_ms": 475665.96
+            },
+            "warnings": [],
+            "summary": {
+              "requested": 5,
+              "generated": 5,
+              "passed": 0,
+              "review": 5,
+              "rejected": 0,
+              "duplicate_rate": 0.0,
+              "regeneration_attempts": 4,
+              "mean_reliability_score": 0.5195,
+              "flagged_span_count": 6
+            },
+            "candidates": [
+              {
+                "decision": "REVIEW",
+                "attempts": 1,
+                "ps8_passed": true,
+                "ps2_score": 0.6607,
+                "ps2_verdict": "partially_reliable",
+                "question": "You are a data analyst working at a museum that has a database of paintings. Each painting is stored as a node in a linked list, where each node contains the pa"
+              },
+              {
+                "decision": "REVIEW",
+                "attempts": 1,
+                "ps8_passed": true,
+                "ps2_score": 0.6714,
+                "ps2_verdict": "partially_reliable",
+                "question": "Given a singly linked list, write a recursive function to determine if the list is palindrome (reads the same forward and backward). Ignore spaces and case. Eac"
+              },
+              {
+                "decision": "REVIEW",
+                "attempts": 1,
+                "ps8_passed": true,
+                "ps2_score": 0.4199,
+                "ps2_verdict": "unverifiable",
+                "question": "Given a singly linked list with only odd numbers, write a function to reverse the list while maintaining the order of odd numbers. Use an auxiliary array to hol"
+              },
+              {
+                "decision": "REVIEW",
+                "attempts": 3,
+                "ps8_passed": false,
+                "ps2_score": 0.4278,
+                "ps2_verdict": "unverifiable",
+                "question": "Given a singly linked list of integers, write a function to create a new list by concatenating the elements in reverse order, while preserving the original list"
+              },
+              {
+                "decision": "REVIEW",
+                "attempts": 3,
+                "ps8_passed": false,
+                "ps2_score": 0.4176,
+                "ps2_verdict": "unverifiable",
+                "question": "In a fantasy world, you've been tasked with creating a chain of magical artifacts called 'Amulets'. Each Amulet has a unique name and a successor, which is the "
+              }
+            ]
+          }
+        ]
+      },
+      "metrics": {
+        "requested": 5,
+        "decided": 5,
+        "valid_rate": 1.0,
+        "decisions": {
+          "REVIEW": 3,
+          "PASS": 2
+        },
+        "ps8_pass_rate": 0.8,
+        "ps2_verdicts": {
+          "partially_reliable": 1,
+          "trustworthy": 2,
+          "unverifiable": 2
+        },
+        "ps2_score_mean": 0.773,
+        "ps2_score_min": 0.661,
+        "ps2_score_max": 0.961,
+        "regenerated_candidates": 1,
+        "regeneration_rate": 0.2,
+        "model_calls": 7,
+        "malformed_calls": 0,
+        "malformed_rate": 0.0,
+        "call_errors": 0,
+        "mean_generation_call_ms": 40316.6,
+        "mean_regeneration_call_ms": 42106.1,
+        "stage_ms": {
+          "ps8.seed_parsing": 0.7,
+          "ps8.generation": 201588.5,
+          "ps8.regeneration": 84213.8,
+          "ps8.structural_validation": 218.2,
+          "ps2.verification": 156.8
+        },
+        "total_ms": 286179.7,
+        "avg_ms_per_decided_candidate": 57235.9,
+        "warnings": [],
+        "sequential_candidates_per_min": 1.05
+      }
+    }
+  ],
+  "finished_at": "2026-09-30T10:24:40.106449+00:00"
+}

@@ -43,6 +43,21 @@ _ASSUMPTION_RE = re.compile(
     re.I,
 )
 
+# Scenario framing in a generated question ("You are developing a version control
+# system...") sets up a hypothetical; it asserts nothing about the world, so holding
+# it to corpus grounding only manufactures "unsupported claim" flags. Anchored at
+# the start of the sentence and limited to task-framing verbs, so "You are right
+# that X" is still read as a claim.
+_SCENARIO_FRAME_RE = re.compile(
+    r"^\s*(?:you(?: are|'re)\s+(?:a|an|the|working|developing|building|tasked|given|"
+    r"managing|designing|writing|creating|implementing|helping|organi[sz]ing|"
+    r"responsible|part of|asked|hired|in charge)\b"
+    r"|you (?:work|have been (?:asked|hired|tasked))\b"
+    r"|your (?:task|goal|job|assignment|challenge) is\b"
+    r"|imagine\b|picture this\b|as part of\b|in this (?:scenario|system|problem|task)\b)",
+    re.I,
+)
+
 _INFERENCE_RE = re.compile(
     r"\b(therefore|thus|hence|so it follows|consequently|as a result|which means|"
     r"this implies|we can conclude|it follows that)\b",
@@ -71,6 +86,79 @@ _FACTUAL_HINT_RE = re.compile(
 # fragments ("Yes.", "OK.") carry only one content word and are still excluded.
 _MIN_CLAIM_TOKENS = 2
 
+# ---------------------------------------------------------------------------
+# Code masking
+# ---------------------------------------------------------------------------
+# Generated answer keys are code. Read as prose, `if not head or not head.next:`
+# looks like a negated claim and trips the self-contradiction rule, and every
+# `x = y` line becomes an "unsupported factual claim". Code is not a claim about
+# the world, so it is blanked out before claim extraction - with spaces, so every
+# offset still points at the same characters of the original text.
+
+_CODE_KEYWORD_RE = re.compile(
+    r"^\s*(?:def|class|return|yield|import|from\s+\S+\s+import|elif|else\s*:|try\s*:|"
+    r"except\b|finally\s*:|with\s+.+:|lambda\b|assert\b|print\s*\(|raise\b|pass\b|"
+    r"break\b|continue\b|public|private|protected|static|function\b|const\b|let\b|var\b|"
+    r"fn\b|func\b|#include|using\s+namespace|console\.log|System\.out)"
+)
+# A Python block header: `if ...:`, `for x in y:`, `while cond:`.
+_BLOCK_HEADER_RE = re.compile(r"^\s*(?:if|for|while)\b.*:\s*(?:#.*)?$")
+# `name = value`, `a.b[i] += 1`, `x, y = y, x` - assignment, not `==` comparison.
+_ASSIGNMENT_RE = re.compile(r"^\s*[\w.\[\]]+(?:\s*,\s*[\w.\[\]]+)*\s*(?:[-+*/%]?=)(?!=)\s*\S")
+# Lines that are pure structure (braces) or end like a statement in C-family code.
+_BRACE_OR_STATEMENT_RE = re.compile(r"^\s*[{}()\[\];]+\s*$|;\s*$|\{\s*$")
+# A line that starts with `#` or `//` is a comment (or a Markdown heading) - never a
+# factual claim. Numbered test-case comments ("# 1. Reversing a list with no
+# duplicates" / "# 2. ... with duplicates") were read as contradicting claims.
+_CODE_COMMENT_RE = re.compile(r"^\s*(?:#|//)")
+_FENCE_RE = re.compile(r"^\s*```")
+
+
+def _is_code_line(line: str) -> bool:
+    return bool(
+        _CODE_KEYWORD_RE.match(line)
+        or _BLOCK_HEADER_RE.match(line)
+        or _ASSIGNMENT_RE.match(line)
+        or _BRACE_OR_STATEMENT_RE.search(line)
+        or _CODE_COMMENT_RE.match(line)
+    )
+
+
+def mask_code(text: str) -> str:
+    """Return `text` with code lines replaced by spaces (same length, same offsets).
+
+    Masks fenced blocks, lines that are recognisably code, and the indented body
+    that follows a code line (so a wrapped expression inside a function is not
+    read as prose). Prose - including prose that mentions `inline_code()` - is kept.
+    """
+    if not text:
+        return text
+    out: list[str] = []
+    in_fence = False
+    in_block = False  # inside the indented body of a code construct
+    for line in text.splitlines(keepends=True):
+        body = line.rstrip("\r\n")
+        ending = line[len(body):]
+        stripped = body.strip()
+        indented = bool(body) and body[0] in " \t"
+
+        if _FENCE_RE.match(body):
+            in_fence = not in_fence
+            is_code = True
+        elif in_fence:
+            is_code = True
+        elif not stripped:
+            is_code = False
+        elif _is_code_line(body):
+            is_code = True
+        else:
+            is_code = in_block and indented
+
+        if stripped:
+            in_block = is_code
+        out.append((" " * len(body) if is_code else body) + ending)
+    return "".join(out)
+
 
 def classify_claim(sentence: str) -> str:
     """Label a sentence by the kind of statement it makes.
@@ -82,7 +170,7 @@ def classify_claim(sentence: str) -> str:
         return "citation"
     if _OPINION_RE.search(sentence):
         return "opinion"
-    if _ASSUMPTION_RE.search(sentence):
+    if _ASSUMPTION_RE.search(sentence) or _SCENARIO_FRAME_RE.search(sentence):
         return "assumption"
     if _ANSWER_RE.search(sentence):
         return "answer"

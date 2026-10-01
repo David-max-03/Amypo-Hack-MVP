@@ -44,6 +44,7 @@ def generate_one(
     difficulty_shift: str | None = None,
     attempt: int = 0,
     errors: list[str] | None = None,
+    client=None,
 ) -> Candidate | None:
     """Generate a single candidate for one planned variation.
 
@@ -51,6 +52,7 @@ def generate_one(
     failed parse's reason is appended to `errors` (when given) so callers can report
     exactly why a variation was dropped instead of losing it silently.
     """
+    llm = client or ollama  # `client` is only overridden by Demo Mode's scripted replay
     prompt = prompt_builder.build_generation_prompt(
         seed,
         plan,
@@ -59,9 +61,9 @@ def generate_one(
     )
     for parse_try in range(settings.parse_retry_attempts + 1):
         if parse_try == 0:
-            raw = ollama.generate(prompt, system=prompt_builder.SYSTEM_PROMPT)
+            raw = llm.generate(prompt, system=prompt_builder.SYSTEM_PROMPT)
         else:
-            raw = ollama.generate(
+            raw = llm.generate(
                 prompt,
                 system=prompt_builder.SYSTEM_PROMPT,
                 temperature=settings.regeneration_temperature,
@@ -93,6 +95,7 @@ def regenerate_one(
     avoid_questions: list[str] | None = None,
     difficulty_shift: str | None = None,
     attempt: int = 1,
+    client=None,
 ) -> Candidate | None:
     """Generate a replacement candidate from combined PS8 + PS2 rejection feedback."""
     prompt = prompt_builder.build_regeneration_prompt(
@@ -105,7 +108,7 @@ def regenerate_one(
         avoid_questions=avoid_questions,
         difficulty_shift=difficulty_shift,
     )
-    raw = ollama.generate(
+    raw = (client or ollama).generate(
         prompt,
         system=prompt_builder.SYSTEM_PROMPT,
         temperature=settings.regeneration_temperature,

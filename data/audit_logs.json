@@ -129,6 +129,707 @@
       "regeneration_attempts": 11,
       "regenerated_accepted": 5,
       "duplicate_rate": 0.0
+    },
+    {
+      "ts": "2026-09-29T17:04:13+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.8461,
+      "hallucination_probability": 0.201,
+      "flagged_spans": 2,
+      "analysis_ms": 239.74
+    },
+    {
+      "ts": "2026-09-29T17:05:09+00:00",
+      "event": "ps8_generate",
+      "seed": "Write a function to reverse a singly linked list.",
+      "domain": "programming",
+      "requested": 3,
+      "accepted": 3,
+      "rejected": 0,
+      "failed": 0,
+      "regeneration_attempts": 0,
+      "regenerated_accepted": 0,
+      "duplicate_rate": 0.0
+    },
+    {
+      "ts": "2026-09-29T17:38:53+00:00",
+      "event": "ps8_generate",
+      "seed": "Write a function to reverse a singly linked list.",
+      "domain": "programming",
+      "requested": 10,
+      "accepted": 10,
+      "rejected": 0,
+      "failed": 0,
+      "regeneration_attempts": 3,
+      "regenerated_accepted": 3,
+      "duplicate_rate": 0.0
+    },
+    {
+      "ts": "2026-09-29T17:39:08+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.5087,
+      "hallucination_probability": 0.36,
+      "flagged_spans": 4,
+      "analysis_ms": 109.92
+    },
+    {
+      "ts": "2026-09-29T17:39:08+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.5813,
+      "hallucination_probability": 0.375,
+      "flagged_spans": 5,
+      "analysis_ms": 91.3
+    },
+    {
+      "ts": "2026-09-29T17:39:08+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.4452,
+      "hallucination_probability": 0.525,
+      "flagged_spans": 7,
+      "analysis_ms": 187.31
+    },
+    {
+      "ts": "2026-09-29T17:39:08+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.2642,
+      "hallucination_probability": 0.6937,
+      "flagged_spans": 6,
+      "analysis_ms": 125.31
+    },
+    {
+      "ts": "2026-09-29T17:39:09+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.5023,
+      "hallucination_probability": 0.375,
+      "flagged_spans": 6,
+      "analysis_ms": 743.21
+    },
+    {
+      "ts": "2026-09-29T17:39:09+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.6008,
+      "hallucination_probability": 0.3375,
+      "flagged_spans": 4,
+      "analysis_ms": 65.75
+    },
+    {
+      "ts": "2026-09-29T17:39:09+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.4319,
+      "hallucination_probability": 0.525,
+      "flagged_spans": 7,
+      "analysis_ms": 40.96
+    },
+    {
+      "ts": "2026-09-29T17:39:09+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.4682,
+      "hallucination_probability": 0.465,
+      "flagged_spans": 6,
+      "analysis_ms": 72.45
+    },
+    {
+      "ts": "2026-09-29T17:39:09+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.6255,
+      "hallucination_probability": 0.2812,
+      "flagged_spans": 3,
+      "analysis_ms": 88.58
+    },
+    {
+      "ts": "2026-09-29T17:39:09+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.6023,
+      "hallucination_probability": 0.3,
+      "flagged_spans": 5,
+      "analysis_ms": 61.29
+    },
+    {
+      "ts": "2026-09-29T17:41:28+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.6482,
+      "hallucination_probability": 0.375,
+      "flagged_spans": 4,
+      "analysis_ms": 28.25
+    },
+    {
+      "ts": "2026-09-29T17:41:28+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.8318,
+      "hallucination_probability": 0.201,
+      "flagged_spans": 2,
+      "analysis_ms": 10.02
+    },
+    {
+      "ts": "2026-09-29T17:41:28+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.8605,
+      "hallucination_probability": 0.15,
+      "flagged_spans": 1,
+      "analysis_ms": 16.74
+    },
+    {
+      "ts": "2026-09-29T17:41:28+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.8138,
+      "hallucination_probability": 0.201,
+      "flagged_spans": 2,
+      "analysis_ms": 10.05
+    },
+    {
+      "ts": "2026-09-29T17:41:28+00:00",
+      "event": "ps2_verify",
+      "verdict": "trustworthy",
+      "reliability_score": 0.9791,
+      "hallucination_probability": 0.0,
+      "flagged_spans": 0,
+      "analysis_ms": 19.19
+    },
+    {
+      "ts": "2026-09-29T17:41:28+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.3794,
+      "hallucination_probability": 0.45,
+      "flagged_spans": 1,
+      "analysis_ms": 8.48
+    },
+    {
+      "ts": "2026-09-29T17:51:58+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.6613,
+      "hallucination_probability": 0.225,
+      "flagged_spans": 1,
+      "analysis_ms": 653.32
+    },
+    {
+      "ts": "2026-09-29T17:51:58+00:00",
+      "event": "ps2_verify",
+      "verdict": "trustworthy",
+      "reliability_score": 0.8213,
+      "hallucination_probability": 0.075,
+      "flagged_spans": 1,
+      "analysis_ms": 47.85
+    },
+    {
+      "ts": "2026-09-29T17:51:58+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.7068,
+      "hallucination_probability": 0.18,
+      "flagged_spans": 3,
+      "analysis_ms": 106.19
+    },
+    {
+      "ts": "2026-09-29T17:51:58+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.5028,
+      "hallucination_probability": 0.375,
+      "flagged_spans": 3,
+      "analysis_ms": 55.27
+    },
+    {
+      "ts": "2026-09-29T17:51:59+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.4832,
+      "hallucination_probability": 0.3937,
+      "flagged_spans": 4,
+      "analysis_ms": 71.51
+    },
+    {
+      "ts": "2026-09-29T17:51:59+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.7215,
+      "hallucination_probability": 0.1688,
+      "flagged_spans": 2,
+      "analysis_ms": 58.38
+    },
+    {
+      "ts": "2026-09-29T17:51:59+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.6756,
+      "hallucination_probability": 0.225,
+      "flagged_spans": 2,
+      "analysis_ms": 55.83
+    },
+    {
+      "ts": "2026-09-29T17:51:59+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.5158,
+      "hallucination_probability": 0.375,
+      "flagged_spans": 3,
+      "analysis_ms": 79.32
+    },
+    {
+      "ts": "2026-09-29T17:51:59+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.6255,
+      "hallucination_probability": 0.2812,
+      "flagged_spans": 3,
+      "analysis_ms": 50.74
+    },
+    {
+      "ts": "2026-09-29T17:51:59+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.6168,
+      "hallucination_probability": 0.2812,
+      "flagged_spans": 3,
+      "analysis_ms": 68.74
+    },
+    {
+      "ts": "2026-09-29T17:51:59+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.6482,
+      "hallucination_probability": 0.375,
+      "flagged_spans": 4,
+      "analysis_ms": 44.53
+    },
+    {
+      "ts": "2026-09-29T17:51:59+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.8318,
+      "hallucination_probability": 0.201,
+      "flagged_spans": 2,
+      "analysis_ms": 13.41
+    },
+    {
+      "ts": "2026-09-29T17:51:59+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.8605,
+      "hallucination_probability": 0.15,
+      "flagged_spans": 1,
+      "analysis_ms": 25.64
+    },
+    {
+      "ts": "2026-09-29T17:51:59+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.8138,
+      "hallucination_probability": 0.201,
+      "flagged_spans": 2,
+      "analysis_ms": 17.21
+    },
+    {
+      "ts": "2026-09-29T17:51:59+00:00",
+      "event": "ps2_verify",
+      "verdict": "trustworthy",
+      "reliability_score": 0.9791,
+      "hallucination_probability": 0.0,
+      "flagged_spans": 0,
+      "analysis_ms": 26.06
+    },
+    {
+      "ts": "2026-09-29T17:51:59+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.3794,
+      "hallucination_probability": 0.45,
+      "flagged_spans": 1,
+      "analysis_ms": 11.28
+    },
+    {
+      "ts": "2026-09-29T18:00:19+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.6613,
+      "hallucination_probability": 0.225,
+      "flagged_spans": 1,
+      "analysis_ms": 490.81
+    },
+    {
+      "ts": "2026-09-29T18:00:19+00:00",
+      "event": "ps2_verify",
+      "verdict": "trustworthy",
+      "reliability_score": 0.8213,
+      "hallucination_probability": 0.075,
+      "flagged_spans": 1,
+      "analysis_ms": 32.55
+    },
+    {
+      "ts": "2026-09-29T18:00:19+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.7068,
+      "hallucination_probability": 0.18,
+      "flagged_spans": 3,
+      "analysis_ms": 59.44
+    },
+    {
+      "ts": "2026-09-29T18:00:20+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.5028,
+      "hallucination_probability": 0.375,
+      "flagged_spans": 3,
+      "analysis_ms": 32.77
+    },
+    {
+      "ts": "2026-09-29T18:00:20+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.4832,
+      "hallucination_probability": 0.3937,
+      "flagged_spans": 4,
+      "analysis_ms": 47.16
+    },
+    {
+      "ts": "2026-09-29T18:00:20+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.7215,
+      "hallucination_probability": 0.1688,
+      "flagged_spans": 2,
+      "analysis_ms": 40.57
+    },
+    {
+      "ts": "2026-09-29T18:00:20+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.6756,
+      "hallucination_probability": 0.225,
+      "flagged_spans": 2,
+      "analysis_ms": 74.66
+    },
+    {
+      "ts": "2026-09-29T18:00:20+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.5158,
+      "hallucination_probability": 0.375,
+      "flagged_spans": 3,
+      "analysis_ms": 76.5
+    },
+    {
+      "ts": "2026-09-29T18:00:20+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.6255,
+      "hallucination_probability": 0.2812,
+      "flagged_spans": 3,
+      "analysis_ms": 45.36
+    },
+    {
+      "ts": "2026-09-29T18:00:20+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.6168,
+      "hallucination_probability": 0.2812,
+      "flagged_spans": 3,
+      "analysis_ms": 47.57
+    },
+    {
+      "ts": "2026-09-29T18:05:59+00:00",
+      "event": "ps8_generate",
+      "seed": "Write a function to reverse a singly linked list.",
+      "domain": "programming",
+      "requested": 10,
+      "accepted": 10,
+      "rejected": 0,
+      "failed": 0,
+      "regeneration_attempts": 4,
+      "regenerated_accepted": 4,
+      "duplicate_rate": 0.0
+    },
+    {
+      "ts": "2026-09-29T18:06:12+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.4819,
+      "hallucination_probability": 0.3937,
+      "flagged_spans": 4,
+      "analysis_ms": 98.97
+    },
+    {
+      "ts": "2026-09-29T18:06:12+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.5307,
+      "hallucination_probability": 0.375,
+      "flagged_spans": 2,
+      "analysis_ms": 59.41
+    },
+    {
+      "ts": "2026-09-29T18:06:12+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.6893,
+      "hallucination_probability": 0.225,
+      "flagged_spans": 1,
+      "analysis_ms": 22.24
+    },
+    {
+      "ts": "2026-09-29T18:06:12+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.6175,
+      "hallucination_probability": 0.27,
+      "flagged_spans": 5,
+      "analysis_ms": 55.74
+    },
+    {
+      "ts": "2026-09-29T18:06:12+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.5546,
+      "hallucination_probability": 0.3375,
+      "flagged_spans": 4,
+      "analysis_ms": 40.4
+    },
+    {
+      "ts": "2026-09-29T18:06:12+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.4954,
+      "hallucination_probability": 0.3937,
+      "flagged_spans": 4,
+      "analysis_ms": 42.77
+    },
+    {
+      "ts": "2026-09-29T18:06:12+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.5633,
+      "hallucination_probability": 0.3375,
+      "flagged_spans": 4,
+      "analysis_ms": 50.67
+    },
+    {
+      "ts": "2026-09-29T18:06:12+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.6139,
+      "hallucination_probability": 0.2812,
+      "flagged_spans": 3,
+      "analysis_ms": 37.81
+    },
+    {
+      "ts": "2026-09-29T18:06:12+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.4271,
+      "hallucination_probability": 0.45,
+      "flagged_spans": 3,
+      "analysis_ms": 52.58
+    },
+    {
+      "ts": "2026-09-29T18:06:13+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.5245,
+      "hallucination_probability": 0.36,
+      "flagged_spans": 5,
+      "analysis_ms": 62.8
+    },
+    {
+      "ts": "2026-09-29T18:06:38+00:00",
+      "event": "ps2_verify",
+      "verdict": "partially_reliable",
+      "reliability_score": 0.6482,
+      "hallucination_probability": 0.375,
+      "flagged_spans": 4,
+      "analysis_ms": 47.16
+    },
+    {
+      "ts": "2026-09-29T18:06:38+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.8318,
+      "hallucination_probability": 0.201,
+      "flagged_spans": 2,
+      "analysis_ms": 10.92
+    },
+    {
+      "ts": "2026-09-29T18:06:38+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.8605,
+      "hallucination_probability": 0.15,
+      "flagged_spans": 1,
+      "analysis_ms": 18.01
+    },
+    {
+      "ts": "2026-09-29T18:06:38+00:00",
+      "event": "ps2_verify",
+      "verdict": "misleading",
+      "reliability_score": 0.8138,
+      "hallucination_probability": 0.201,
+      "flagged_spans": 2,
+      "analysis_ms": 11.37
+    },
+    {
+      "ts": "2026-09-29T18:06:38+00:00",
+      "event": "ps2_verify",
+      "verdict": "trustworthy",
+      "reliability_score": 0.9791,
+      "hallucination_probability": 0.0,
+      "flagged_spans": 0,
+      "analysis_ms": 19.11
+    },
+    {
+      "ts": "2026-09-29T18:06:38+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.3794,
+      "hallucination_probability": 0.45,
+      "flagged_spans": 1,
+      "analysis_ms": 9.0
+    },
+    {
+      "ts": "2026-09-29T18:37:59+00:00",
+      "event": "ps2_verify",
+      "verdict": "unverifiable",
+      "reliability_score": 0.6357,
+      "hallucination_probability": 0.225,
+      "flagged_spans": 1,
+      "analysis_ms": 3058.15
+    },
+    {
+      "ts": "2026-09-29T18:44:00+00:00",
+      "event": "pipeline_run",
+      "seed": "Write a function to reverse a singly linked list.",
+      "domain": "programming",
+      "requested": 10,
+      "passed": 2,
+      "review": 8,
+      "rejected": 0,
+      "regeneration_attempts": 8
+    },
+    {
+      "ts": "2026-09-29T18:46:07+00:00",
+      "event": "review_approve",
+      "id": "q_bd9a364a5e",
+      "question": "You are given an array of integers representing a linked list, where each element is a node with a value and a pointer to the next node. Write a function to reverse the linked list in place and return"
+    },
+    {
+      "ts": "2026-09-29T18:46:30+00:00",
+      "event": "review_reject",
+      "id": "q_8b70f81b25",
+      "question": "A company is organizing a series of workshops. The workshops are currently scheduled in reverse chronological order, but they need to be presented in chronological order. Write a function to reverse t"
+    },
+    {
+      "ts": "2026-09-29T18:49:54+00:00",
+      "event": "pipeline_run",
+      "seed": "Write a function to reverse a singly linked list.",
+      "domain": "programming",
+      "requested": 3,
+      "passed": 0,
+      "review": 3,
+      "rejected": 0,
+      "regeneration_attempts": 2
+    },
+    {
+      "ts": "2026-09-29T19:10:42+00:00",
+      "event": "pipeline_run",
+      "seed": "Write a function to reverse a singly linked list.",
+      "domain": "programming",
+      "requested": 1,
+      "passed": 0,
+      "review": 1,
+      "rejected": 0,
+      "regeneration_attempts": 0
+    },
+    {
+      "ts": "2026-09-29T19:21:10+00:00",
+      "event": "pipeline_run",
+      "seed": "Write a function to reverse a singly linked list.",
+      "domain": "programming",
+      "requested": 1,
+      "passed": 0,
+      "review": 1,
+      "rejected": 0,
+      "regeneration_attempts": 0
+    },
+    {
+      "ts": "2026-09-29T19:37:58+00:00",
+      "event": "pipeline_run",
+      "seed": "Write a function to reverse a singly linked list.",
+      "domain": "programming",
+      "requested": 1,
+      "passed": 0,
+      "review": 1,
+      "rejected": 0,
+      "regeneration_attempts": 0
+    },
+    {
+      "ts": "2026-09-30T06:17:43+00:00",
+      "event": "pipeline_run",
+      "seed": "Write a function to reverse a singly linked list.",
+      "domain": "programming",
+      "requested": 10,
+      "passed": 4,
+      "review": 6,
+      "rejected": 0,
+      "regeneration_attempts": 4
+    },
+    {
+      "ts": "2026-09-30T06:23:57+00:00",
+      "event": "pipeline_run",
+      "seed": "Write a function to reverse a singly linked list.",
+      "domain": "programming",
+      "requested": 10,
+      "passed": 3,
+      "review": 7,
+      "rejected": 0,
+      "regeneration_attempts": 5
+    },
+    {
+      "ts": "2026-09-30T06:25:40+00:00",
+      "event": "pipeline_run",
+      "seed": "Write a function to reverse a singly linked list.",
+      "domain": "programming",
+      "requested": 10,
+      "passed": 2,
+      "review": 8,
+      "rejected": 0,
+      "regeneration_attempts": 5
+    },
+    {
+      "ts": "2026-09-30T06:32:44+00:00",
+      "event": "pipeline_run",
+      "seed": "Write a function to reverse a singly linked list.",
+      "domain": "programming",
+      "requested": 10,
+      "passed": 4,
+      "review": 6,
+      "rejected": 0,
+      "regeneration_attempts": 8
+    },
+    {
+      "ts": "2026-09-30T09:39:36+00:00",
+      "event": "pipeline_run",
+      "seed": "Write a function to reverse a singly linked list.",
+      "domain": "programming",
+      "requested": 3,
+      "passed": 1,
+      "review": 2,
+      "rejected": 0,
+      "regeneration_attempts": 2
     }
   ]
 }

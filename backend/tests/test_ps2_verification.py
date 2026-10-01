@@ -271,3 +271,269 @@ class TestFlaggedSpansAndExplainability:
         r = verify_text(GROUNDED, domain="programming", answer_text=GROUNDED)
         assert r.timings_ms["total_ms"] > 0
         assert "ps2.source_verification" in r.timings_ms
+
+
+class TestNoFalsePositivesOnCorrectQuestions:
+    """Regressions from the Stage 2 acceptance test: 6/10 correct generated questions
+    were labelled "misleading" by /verify. Each case below is real Qwen output."""
+
+    # Accepted variation #3 - correct, but flagged "the response contradicts itself".
+    ITERATIVE_Q = (
+        "You are managing a playlist of songs in a music player. The songs are stored in "
+        "a singly linked list. Implement an iterative function to reverse the linked list "
+        "in-place without using any additional data structures. The function iteratively "
+        "reverses the linked list by adjusting the 'next' pointers of each node.\n\n"
+        "def reverse(head):\n"
+        "    if not head or not head.next:\n"
+        "        return head\n"
+        "    prev = None\n"
+        "    while head:\n"
+        "        head.next, prev, head = prev, head, head.next\n"
+        "    return prev\n"
+    )
+
+    def test_correct_generated_question_is_not_misleading(self):
+        from backend.app.ps2.engine import verify_text
+
+        result = verify_text(self.ITERATIVE_Q, domain="programming")
+        assert result.contradictions == []
+        assert result.verdict not in {"misleading", "fabricated"}
+
+    def test_code_lines_are_masked_with_offsets_preserved(self):
+        from backend.app.ps2.response_analyzer import mask_code
+
+        masked = mask_code(self.ITERATIVE_Q)
+        assert len(masked) == len(self.ITERATIVE_Q)
+        assert "if not head" not in masked and "def reverse" not in masked
+        assert "Implement an iterative function" in masked  # prose kept in place
+        start = self.ITERATIVE_Q.index("Implement")
+        assert masked[start : start + 9] == "Implement"
+
+    def test_prose_mentioning_inline_code_is_kept(self):
+        from backend.app.ps2.response_analyzer import mask_code
+
+        text = "Call `reverse(head)` once; it returns the new head."
+        assert mask_code(text) == text
+
+    def test_fenced_block_is_masked(self):
+        from backend.app.ps2.response_analyzer import mask_code
+
+        text = "Reverse the list.\n```python\nx = not y\n```\nIt runs in O(n)."
+        masked = mask_code(text)
+        assert "not y" not in masked
+        assert "Reverse the list." in masked and "It runs in O(n)." in masked
+
+    def test_scenario_framing_is_an_assumption_not_a_fact(self):
+        from backend.app.ps2.response_analyzer import classify_claim
+
+        assert classify_claim("You are developing a new version control system.") == "assumption"
+        assert classify_claim("Your task is to reverse the commit history.") == "assumption"
+
+    def test_you_are_right_is_still_a_checkable_claim(self):
+        from backend.app.ps2.response_analyzer import classify_claim
+
+        assert classify_claim("You are right that a stack is FIFO.") != "assumption"
+
+
+class TestContradictionsStillCaught:
+    """The polarity rule was narrowed; genuine contradictions must still be flagged."""
+
+    def test_same_statement_negated_is_a_contradiction(self):
+        from backend.app.ps2.engine import verify_text
+
+        result = verify_text(
+            "Binary search requires a sorted array. Binary search does not require a sorted array."
+        )
+        assert result.contradictions
+        assert result.verdict == "misleading"
+
+    def test_without_is_a_constraint_not_a_denial(self):
+        from backend.app.ps2.contradiction import _conflict_reason
+
+        assert _conflict_reason(
+            "Reverse the linked list in-place without using additional data structures.",
+            "Iterative linked list reversal is in-place.",
+        ) is None
+
+    def test_negation_in_another_clause_does_not_count(self):
+        from backend.app.ps2.contradiction import _conflict_reason
+
+        claim = "Your task is to implement an iterative function that reverses the linked list in-place."
+        entry = (
+            "Iterative linked list reversal is in-place; creating a new list of the reversed "
+            "nodes is not, because it allocates O(n) additional memory."
+        )
+        assert _conflict_reason(claim, entry) is None
+
+    def test_negated_clause_matching_the_claim_still_counts(self):
+        from backend.app.ps2.contradiction import _conflict_reason
+
+        assert _conflict_reason(
+            "Iterative linked list reversal is in-place.",
+            "Recursion uses the call stack; iterative linked list reversal is not in-place.",
+        ) is not None
+
+
+class TestNumberedCommentsAreNotClaims:
+    """Regression from the acceptance re-run: numbered test-case comments in a real
+    Qwen answer key were read as two contradicting claims -> false "misleading"."""
+
+    ANSWER = (
+        "You are given the head of a singly linked list that may contain duplicate values. "
+        "Your task is to write a recursive function that reverses the linked list and "
+        "returns the new head.\n\n"
+        "def reverse(head, prev=None):\n"
+        "    if not head:\n"
+        "        return prev\n"
+        "    next_node = head.next\n"
+        "    head.next = prev\n"
+        "    return reverse(next_node, head)\n\n"
+        "# Test cases\n"
+        "# 1. Reversing a list with no duplicates\n"
+        "# Input: 1 -> 2 -> 3 -> 4 -> 5\n"
+        "# 2. Reversing a list with duplicates\n"
+        "# Input: 1 -> 1 -> 2 -> 2 -> 3\n"
+    )
+
+    def test_numbered_comments_are_masked(self):
+        from backend.app.ps2.response_analyzer import mask_code
+
+        masked = mask_code(self.ANSWER)
+        assert "Reversing a list with no duplicates" not in masked
+        assert "Reversing a list with duplicates" not in masked
+        assert len(masked) == len(self.ANSWER)
+
+    def test_numbered_comments_do_not_create_a_contradiction(self):
+        result = verify_text(self.ANSWER, domain="programming")
+        assert result.contradictions == []
+        assert result.verdict not in {"misleading", "fabricated"}
+
+    def test_slash_comments_are_masked_too(self):
+        from backend.app.ps2.response_analyzer import mask_code
+
+        assert mask_code("// 1. empty list is not reversed").strip() == ""
+
+
+class TestComplexityClaims:
+    """Regression for the false negative found while building Demo Mode: a complexity
+    term shared with the corpus (O(1) space) hid a conflicting one (O(log n) vs O(n) time)."""
+
+    ITER_ENTRY = (
+        "Reversing a singly linked list iteratively requires three pointers (previous, "
+        "current, next) and runs in O(n) time with O(1) extra space."
+    )
+
+    def test_o_n_vs_o_log_n(self):
+        reason = contradiction._complexity_conflict(
+            "Reversing a singly linked list iteratively runs in O(log n) time with O(1) extra space.",
+            self.ITER_ENTRY,
+        )
+        assert reason is not None and "time complexity" in reason
+
+    def test_o_n_vs_o_1(self):
+        reason = contradiction._complexity_conflict(
+            "A recursive reversal of a singly linked list also uses O(1) space.",
+            "A recursive reversal of a singly linked list uses O(n) space because each of the "
+            "n recursive calls occupies a stack frame.",
+        )
+        assert reason is not None and "space complexity" in reason
+
+    def test_o_n_squared_vs_o_n(self):
+        reason = contradiction._complexity_conflict(
+            "Bubble sort on an array of n elements runs in O(n) time in the worst case.",
+            "Bubble sort on an array of n elements runs in O(n²) time in the worst case.",
+        )
+        assert reason is not None and "O(n^2)" in reason
+
+    def test_matching_claims_do_not_conflict(self):
+        assert contradiction._complexity_conflict(
+            "Reversing a singly linked list iteratively runs in O(n) time with O(1) extra space.",
+            self.ITER_ENTRY,
+        ) is None
+
+    def test_unrelated_statements_do_not_conflict(self):
+        assert contradiction._complexity_conflict(
+            "Merge sort runs in O(n log n) time.",
+            "Hash table lookup takes O(1) time on average.",
+        ) is None
+
+    def test_time_and_space_are_not_compared_with_each_other(self):
+        assert contradiction._complexity_conflict(
+            "Reversing a singly linked list iteratively runs in O(n) time.",
+            "Reversing a singly linked list iteratively needs O(1) extra space.",
+        ) is None
+
+    def test_different_algorithms_are_not_compared(self):
+        assert contradiction._complexity_conflict(
+            "Reversing a singly linked list iteratively uses three pointers and runs in O(n) "
+            "time with O(1) extra space.",
+            "A recursive reversal of a singly linked list uses O(n) space because each of the "
+            "n recursive calls occupies a stack frame.",
+        ) is None
+
+    def test_unlabelled_terms_still_conflict(self):
+        assert contradiction._complexity_conflict(
+            "Binary search on a sorted array is O(log n).",
+            "Binary search on a sorted array is O(n).",
+        ) is not None
+
+    def test_end_to_end_wrong_complexity_is_no_longer_supported(self):
+        result = verify_text(
+            "Reversing a singly linked list iteratively runs in O(log n) time with O(1) extra space.",
+            domain="programming",
+        )
+        assert result.contradictions
+        assert result.verdict in {"misleading", "fabricated"}
+
+
+class TestVerdictScoreConsistency:
+    """The verdict is read from the reliability score; the two can no longer disagree."""
+
+    def test_band_mapping_is_deterministic_at_every_threshold(self):
+        from backend.app.ps2.reliability_scoring import verdict_for_score
+
+        t, p, m = (settings.verdict_trustworthy_min, settings.verdict_partially_reliable_min,
+                   settings.verdict_misleading_min)
+        assert verdict_for_score(1.0) == "trustworthy"
+        assert verdict_for_score(t) == "trustworthy"
+        assert verdict_for_score(t - 0.0001) == "partially_reliable"
+        assert verdict_for_score(p) == "partially_reliable"
+        assert verdict_for_score(p - 0.0001) == "misleading"
+        assert verdict_for_score(m) == "misleading"
+        assert verdict_for_score(m - 0.0001) == "fabricated"
+        assert verdict_for_score(0.0) == "fabricated"
+
+    def test_contradiction_caps_the_score_inside_the_misleading_band(self):
+        from backend.app.ps2.reliability_scoring import contradiction_reliability_cap
+
+        result = verify_text(
+            "Binary search runs in O(log n) time on a sorted array. "
+            "Binary search runs in O(n) time on a sorted array."
+        )
+        assert result.contradictions
+        assert result.reliability_score <= contradiction_reliability_cap()
+        assert result.reliability_score < settings.verdict_partially_reliable_min
+        assert result.verdict == "misleading"
+        assert any("capped" in r for r in result.reasons)
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "Reversing a singly linked list iteratively runs in O(n) time with O(1) extra space.",
+            "According to the 2019 Stanford Algorithms Report, recursion is 47.3% faster.",
+            "Recursive reversal of a singly linked list always uses O(1) space.",
+            "Binary search requires a sorted array. Binary search does not require a sorted array.",
+            "Registered cooperatives in Estonia must submit their annual reports by June.",
+        ],
+    )
+    def test_verdict_always_matches_the_score_band(self, text):
+        from backend.app.ps2.reliability_scoring import verdict_for_score
+
+        result = verify_text(text)
+        if result.verdict != "unverifiable":  # evidence-based, documented exception
+            assert result.verdict == verdict_for_score(result.reliability_score)
+
+    def test_same_input_same_score_and_verdict(self):
+        text = "A recursive reversal of a singly linked list also uses O(1) space."
+        a, b = verify_text(text), verify_text(text)
+        assert (a.reliability_score, a.verdict) == (b.reliability_score, b.verdict)

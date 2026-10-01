@@ -1,3 +1,684 @@
 {
-  "questions": []
+  "questions": [
+    {
+      "id": "q_6cf985437b",
+      "question": "Given a stack of plates represented as a singly linked list, where each node represents a plate and the stack is not initially empty, write a function to reverse the order of the plates in the stack.",
+      "answer_key": "def reverse_stack(head):\n    prev = None\n    current = head\n    while current:\n        next_temp = current.next\n        current.next = prev\n        prev = current\n        current = next_temp\n    return prev\n\n# Test cases:\n# Input: 1 -> 2 -> 3 -> None\n# Expected output: 3 -> 2 -> 1 -> None\n# Input: 4 -> 5 -> 6 -> 7 -> None\n# Expected output: 7 -> 6 -> 5 -> 4 -> None",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "1 -> 2 -> 3 -> None",
+          "expected_output": "3 -> 2 -> 1 -> None"
+        },
+        {
+          "input": "4 -> 5 -> 6 -> 7 -> None",
+          "expected_output": "7 -> 6 -> 5 -> 4 -> None"
+        }
+      ],
+      "variation_strategy": "structure",
+      "strategy_label": "Structure Variation",
+      "solution_method": "iterative",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "passed both gates",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-09-29T18:43:26+00:00",
+      "reliability_score": 0.9029,
+      "verdict": "trustworthy",
+      "hallucination_probability": 0.0
+    },
+    {
+      "id": "q_1a69c9f38c",
+      "question": "A treehouse community uses a linked list to manage the order of arrival for new members. Each node in the list represents a member and contains a member's name. The community decides to reverse the order of members based on their arrival time, so that the newest member is first and the oldest is last. You are tasked with writing a recursive function to reverse the linked list. The function should take the head of the linked list as input and return the new head of the reversed list. Assume that each node in the linked list contains a `name` attribute representing the member's name and a `next` attribute pointing to the next node in the list. Write a recursive function to reverse the linked list.",
+      "answer_key": "def reverse(head):\n    if head is None or head.next is None:\n        return head\n    new_head = reverse(head.next)\n    head.next.next = head\n    head.next = None\n    return new_head\n# Test cases:\n# Input: A -> B -> C -> D\n# Expected output: D -> C -> B -> A\n# Input: E -> F -> G -> None\n# Expected output: G -> F -> E -> None",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "A -> B -> C -> D",
+          "expected_output": "D -> C -> B -> A"
+        },
+        {
+          "input": "E -> F -> G -> None",
+          "expected_output": "G -> F -> E -> None"
+        }
+      ],
+      "variation_strategy": "representation",
+      "strategy_label": "Representation Variation",
+      "solution_method": "recursive",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "passed both gates",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-09-29T18:44:00+00:00",
+      "reliability_score": 0.7241,
+      "verdict": "partially_reliable",
+      "hallucination_probability": 0.1688
+    },
+    {
+      "id": "q_bd9a364a5e",
+      "question": "You are given an array of integers representing a linked list, where each element is a node with a value and a pointer to the next node. Write a function to reverse the linked list in place and return the new head of the list. The function should handle an empty list and lists with a single node.",
+      "answer_key": "def reverse(head):\n    prev = None\n    current = head\n    while current:\n        next_temp = current.next\n        current.next = prev\n        prev = current\n        current = next_temp\n    return prev\n\n# Test cases\nassert reverse([1, 2, 3, 4]) == [4, 3, 2, 1]\nassert reverse([5]) == [5]\nassert reverse([]) == []",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "[1, 2, 3, 4]",
+          "expected_output": "[4, 3, 2, 1]"
+        },
+        {
+          "input": "[5]",
+          "expected_output": "[5]"
+        },
+        {
+          "input": "[]",
+          "expected_output": "[]"
+        }
+      ],
+      "variation_strategy": "representation",
+      "strategy_label": "Representation Variation",
+      "solution_method": "iterative",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "approved by human reviewer",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-09-29T18:39:38+00:00",
+      "reliability_score": 0.6757,
+      "verdict": "partially_reliable",
+      "hallucination_probability": 0.225,
+      "review_reasons": [
+        "REVIEW: reliability 0.68 sits between the review floor 0.45 and the pass threshold 0.70",
+        "1 flagged span(s) need a human check"
+      ],
+      "flagged_spans": [
+        {
+          "text": "The function should handle an empty list and lists with a single node.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.36, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 227,
+          "end": 297,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "A doubly linked list stores both next and previous pointers, allowing O(1) deletion given a node reference and bidirectional traversal, at the cost of one extra pointer of memory per node.",
+          "best_similarity": 0.3639
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "You are given an array of integers representing a linked list, where each element is a node with a value and a pointer to the next node.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5767,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Write a function to reverse the linked list in place and return the new head of the list.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5544,
+          "keyword_grounding": 0.6667,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "The function should handle an empty list and lists with a single node.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3639,
+          "keyword_grounding": 0.2857,
+          "source_id": "prog-015",
+          "source_title": "Doubly linked list trade-offs",
+          "source_text": "A doubly linked list stores both next and previous pointers, allowing O(1) deletion given a node reference and bidirectional traversal, at the cost of one extra pointer of memory per node."
+        }
+      ],
+      "structural_reasons": [],
+      "review_decision": "approve",
+      "review_note": "Checked by reviewer: correct iterative reversal, reliability just under 0.70.",
+      "reviewed_at": "2026-09-29T18:46:07+00:00"
+    },
+    {
+      "id": "q_b49c9aeec7",
+      "question": "Given a singly linked list representing a sequence of temperatures in ascending order, write a function to reverse the list and return the new head. The function should use an auxiliary stack to store the nodes during the reversal process. Each node in the linked list contains a `temperature` attribute representing the temperature and a `next` attribute pointing to the next node in the list. The function should handle an empty list and lists with a single node.\n\nExample:\nInput: 10 -> 20 -> 30 -> 40\nOutput: 40 -> 30 -> 20 -> 10",
+      "answer_key": "def reverse(head):\n    stack = []\n    current = head\n    while current:\n        stack.append(current)\n        current = current.next\n    if not stack:\n        return None\n    new_head = stack.pop()\n    current = new_head\n    while stack:\n        current.next = stack.pop()\n        current = current.next\n    current.next = None\n    return new_head\n\nTest cases:\ntest_cases = [\n    ({\"input\": \"10 -> 20 -> 30 -> 40\", \"expected_output\": \"40 -> 30 -> 20 -> 10\"}),\n    ({\"input\": \"5 -> 15 -> 25\", \"expected_output\": \"25 -> 15 -> 5\"})\n]",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "10 -> 20 -> 30 -> 40",
+          "expected_output": "40 -> 30 -> 20 -> 10"
+        },
+        {
+          "input": "5 -> 15 -> 25",
+          "expected_output": "25 -> 15 -> 5"
+        }
+      ],
+      "variation_strategy": "parameter",
+      "strategy_label": "Parameter Variation",
+      "solution_method": "auxiliary",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "passed both gates",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-09-30T06:04:52+00:00",
+      "reliability_score": 0.7258,
+      "verdict": "partially_reliable",
+      "hallucination_probability": 0.1688
+    },
+    {
+      "id": "q_88c7d9114e",
+      "question": "You are tasked with reversing a singly linked list using a recursive approach. The function should take the head of the linked list as input and return the new head of the reversed list. The solution must be recursive and should not use any extra space for additional data structures. Assume that each node in the linked list contains a `value` attribute representing the node's value and a `next` attribute pointing to the next node in the list. Write a recursive function to reverse the linked list.",
+      "answer_key": "def reverse(head):\n    if head is None or head.next is None:\n        return head\n    new_head = reverse(head.next)\n    head.next.next = head\n    head.next = None\n    return new_head\n\n# Test cases\nprint(reverse(Node(1, Node(2, Node(3, Node(4, None))))).value) # Expected output: 4\nprint(reverse(Node(5, Node(6, None))).value) # Expected output: 6",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "Node(1, Node(2, Node(3, Node(4, None))))",
+          "expected_output": "4"
+        },
+        {
+          "input": "Node(5, Node(6, None))",
+          "expected_output": "6"
+        }
+      ],
+      "variation_strategy": "constraint",
+      "strategy_label": "Constraint Variation",
+      "solution_method": "recursive",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "passed both gates",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-09-30T06:05:33+00:00",
+      "reliability_score": 0.7888,
+      "verdict": "trustworthy",
+      "hallucination_probability": 0.1125
+    },
+    {
+      "id": "q_9c06efc2bd",
+      "question": "Given a linked list representing a sequence of tasks to be executed, write a function to reverse the order of the tasks such that the last task is executed first. Each task is represented by a node with a unique task ID and a pointer to the next task. Assume that the linked list is not empty. Use an auxiliary stack to reverse the list. The function should take the head of the linked list as input and return the new head of the reversed list. Each task node has attributes `task_id` (an integer) and `next` (a pointer to the next node).\n\nExample:\nInput: Head of a linked list with nodes [1 -> 2 -> 3 -> 4]\nOutput: Head of a linked list with nodes [4 -> 3 -> 2 -> 1]",
+      "answer_key": "def reverse(head):\n    stack = []\n    current = head\n    while current:\n        stack.append(current)\n        current = current.next\n    new_head = stack.pop()\n    current = new_head\n    while stack:\n        current.next = stack.pop()\n        current = current.next\n    current.next = None\n    return new_head\n\n# Test cases\ntest_cases = [\n    {\"input\": \"1 -> 2 -> 3 -> 4\", \"expected_output\": \"4 -> 3 -> 2 -> 1\"},\n    {\"input\": \"5 -> 6 -> 7\", \"expected_output\": \"7 -> 6 -> 5\"}\n]",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "1 -> 2 -> 3 -> 4",
+          "expected_output": "4 -> 3 -> 2 -> 1"
+        },
+        {
+          "input": "5 -> 6 -> 7",
+          "expected_output": "7 -> 6 -> 5"
+        }
+      ],
+      "variation_strategy": "parameter",
+      "strategy_label": "Parameter Variation",
+      "solution_method": "auxiliary",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "passed both gates",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-09-30T06:07:15+00:00",
+      "reliability_score": 0.7194,
+      "verdict": "partially_reliable",
+      "hallucination_probability": 0.18
+    },
+    {
+      "id": "q_c51282b26d",
+      "question": "Given a singly linked list representing a sequence of steps in a treasure hunt, where each node contains a clue and a pointer to the next node, write a function to reverse the sequence of clues. Each node contains a `clue` attribute representing the current clue and a `next` attribute pointing to the next node. The function should return the new head of the reversed linked list. Handle an empty list and a list with a single node.",
+      "answer_key": "def reverse_treasure_hunt(head):\n    prev = None\n    current = head\n    while current:\n        next_node = current.next\n        current.next = prev\n        prev = current\n        current = next_node\n    return prev\n\n# Test cases\ndef test_reverse_treasure_hunt():\n    assert reverse_treasure_hunt(None) is None\n    assert reverse_treasure_hunt(Node('Clue 1')) == Node('Clue 1', None)\n\n# Node class for testing\nclass Node:\n    def __init__(self, clue, next=None):\n        self.clue = clue\n        self.next = next\n\ntest_reverse_treasure_hunt()\nThis solution iterates through the linked list and reverses the `next` pointers.",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "None",
+          "expected_output": "None"
+        },
+        {
+          "input": "Node('Clue 1', Node('Clue 2', Node('Clue 3')))",
+          "expected_output": "Node('Clue 3', Node('Clue 2', Node('Clue 1', None)))"
+        }
+      ],
+      "variation_strategy": "representation",
+      "strategy_label": "Representation Variation",
+      "solution_method": "iterative",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "passed both gates",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-09-30T06:10:42+00:00",
+      "reliability_score": 0.7612,
+      "verdict": "trustworthy",
+      "hallucination_probability": 0.15
+    },
+    {
+      "id": "q_6024c1b601",
+      "question": "A library catalog uses a linked list to manage the order of books. Each node in the list represents a book and contains a `title` attribute representing the book's title and a `next` attribute pointing to the next node in the list. The library decides to reverse the order of books in the catalog based on their title, so that the book with the highest title (lexicographically) is first and the book with the lowest title is last. You are tasked with writing a function to reverse the linked list. The function should take the head of the linked list as input and return the new head of the reversed list. Assume that each node in the linked list contains a `title` attribute representing the book's title and a `next` attribute pointing to the next node in the list.",
+      "answer_key": "def reverse(head):\n    new_head = None\n    node = head\n    while node:\n        new_head = ListNode(node.title, new_head)\n        node = node.next\n    return new_head\n\n# Example usage:\n# head = ListNode('Python Programming', ListNode('Data Structures & Algorithms', ListNode('Introduction to Computer Science')))\n# reversed_head = reverse(head)\n# The reversed list should be: 'Introduction to Computer Science' -> 'Data Structures & Algorithms' -> 'Python Programming'",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "Introduction to Computer Science -> Data Structures & Algorithms -> Python Programming",
+          "expected_output": "Python Programming -> Data Structures & Algorithms -> Introduction to Computer Science"
+        },
+        {
+          "input": "The Great Gatsby -> To Kill a Mockingbird -> 1984",
+          "expected_output": "1984 -> To Kill a Mockingbird -> The Great Gatsby"
+        }
+      ],
+      "variation_strategy": "parameter",
+      "strategy_label": "Parameter Variation",
+      "solution_method": "rebuild",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "passed both gates",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-09-30T06:14:55+00:00",
+      "reliability_score": 0.7206,
+      "verdict": "partially_reliable",
+      "hallucination_probability": 0.1688
+    },
+    {
+      "id": "q_2269ae8c56",
+      "question": "Design and implement a function to reverse a singly linked list that contains a custom data type representing a product. Each product node should have attributes for `name`, `price`, and a pointer to the next node. The function should take the head of the linked list as input and return the new head of the reversed list.",
+      "answer_key": "def reverse_product_list(head):\n    prev = None\n    current = head\n    while current:\n        next_node = current.next\n        current.next = prev\n        prev = current\n        current = next_node\n    return prev\n\n# Test cases\nassert reverse_product_list(None) is None\nassert reverse_product_list(ProductNode('Laptop', 1200)) == ProductNode('Laptop', 1200)\nassert reverse_product_list(ProductNode('Mouse', 25, ProductNode('Keyboard', 75))) == ProductNode('Keyboard', 75, ProductNode('Mouse', 25))",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "None",
+          "expected_output": "None"
+        },
+        {
+          "input": "ProductNode('Mouse', 25, ProductNode('Keyboard', 75))",
+          "expected_output": "ProductNode('Keyboard', 75, ProductNode('Mouse', 25))"
+        }
+      ],
+      "variation_strategy": "structure",
+      "strategy_label": "Structure Variation",
+      "solution_method": "iterative",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "passed both gates",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-09-30T06:16:14+00:00",
+      "reliability_score": 0.7482,
+      "verdict": "partially_reliable",
+      "hallucination_probability": 0.15
+    },
+    {
+      "id": "q_031a5653be",
+      "question": "You are working on a program that manages a queue of customers waiting for a restaurant. Each customer is represented by a node in a singly linked list, where each node contains the customer's name and a pointer to the next customer. Write a function to reverse the order of customers in the queue so that the customer who arrived first is at the end of the queue and the customer who arrived last is at the front. The function should take the head of the linked list as input and return the new head of the reversed list. Assume that each node in the linked list contains a `name` attribute representing the customer's name and a `next` attribute pointing to the next node in the list. Write an iterative function to reverse the linked list.",
+      "answer_key": "def reverse_customers(head):\n    prev = None\n    current = head\n    while current is not None:\n        next_node = current.next\n        current.next = prev\n        prev = current\n        current = next_node\n    return prev\nThis function iterates through the linked list, reversing the direction of the `next` pointers until the entire list is reversed.",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "head = Customer('Alice', Customer('Bob', Customer('Charlie', None)))\nreverse_customers(head)",
+          "expected_output": "<Customer(name='Charlie', next=<Customer(name='Bob', next=<Customer(name='Alice', next=None))>)>"
+        },
+        {
+          "input": "head = Customer('Dave', None)\nreverse_customers(head)",
+          "expected_output": "<Customer(name='Dave', next=None)>"
+        }
+      ],
+      "variation_strategy": "structure",
+      "strategy_label": "Structure Variation",
+      "solution_method": "iterative",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "passed both gates",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-09-30T06:23:34+00:00",
+      "reliability_score": 0.803,
+      "verdict": "trustworthy",
+      "hallucination_probability": 0.1125
+    },
+    {
+      "id": "q_b41416d8f2",
+      "question": "A company manages a queue of orders using a singly linked list, where each node represents an order with a unique order ID. The company decides to reverse the order of the queue so that the last order is processed first. Write a recursive function to reverse the linked list, where each node contains an `order_id` attribute representing the order's ID and a `next` attribute pointing to the next node in the list. The function should take the head of the linked list as input and return the new head of the reversed list. Assume the linked list is not empty.",
+      "answer_key": "def reverse(head):\n    if head is None or head.next is None:\n        return head\n    new_head = reverse(head.next)\n    head.next.next = head\n    head.next = None\n    return new_head\n\n# Test cases:\nassert reverse(ListNode(1, ListNode(2, ListNode(3, ListNode(4, None))))) == ListNode(4, ListNode(3, ListNode(2, ListNode(1, None)))), 'Test case 1 failed'\nassert reverse(ListNode(5, None)) == ListNode(5, None), 'Test case 2 failed'",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "ListNode(1, ListNode(2, ListNode(3, ListNode(4, None))))",
+          "expected_output": "ListNode(4, ListNode(3, ListNode(2, ListNode(1, None))))"
+        },
+        {
+          "input": "ListNode(5, None)",
+          "expected_output": "ListNode(5, None)"
+        }
+      ],
+      "variation_strategy": "representation",
+      "strategy_label": "Representation Variation",
+      "solution_method": "recursive",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "passed both gates",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-09-30T06:23:57+00:00",
+      "reliability_score": 0.9105,
+      "verdict": "trustworthy",
+      "hallucination_probability": 0.0
+    },
+    {
+      "id": "q_df1b1a3af5",
+      "question": "Consider a series of steps represented as a linked list, where each step is a node with a description and a pointer to the next step. Your task is to write a recursive function that reverses the sequence of steps. The function should take the head of the linked list as input and return the new head of the reversed list. Assume that each node in the linked list contains a `description` attribute representing the step's description and a `next` attribute pointing to the next step in the sequence. The head of the reversed list should have the description of the last step. Write a recursive function to reverse the linked list of steps.",
+      "answer_key": "def reverse_steps(head):\n    if head is None or head.next is None:\n        return head\n    new_head = reverse_steps(head.next)\n    head.next.next = head\n    head.next = None\n    return new_head\n\n# Example usage and test cases\nprint(reverse_steps(...))",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "head = Step('Step 1', Step('Step 2', Step('Step 3', None)))",
+          "expected_output": "Step('Step 3', Step('Step 2', Step('Step 1', None)))"
+        },
+        {
+          "input": "head = Step('Step A', Step('Step B', Step('Step C', Step('Step D', None))))",
+          "expected_output": "Step('Step D', Step('Step C', Step('Step B', Step('Step A', None))))"
+        }
+      ],
+      "variation_strategy": "representation",
+      "strategy_label": "Representation Variation",
+      "solution_method": "recursive",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "passed both gates",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-09-30T06:25:40+00:00",
+      "reliability_score": 0.7547,
+      "verdict": "trustworthy",
+      "hallucination_probability": 0.15
+    },
+    {
+      "id": "q_879b0eff97",
+      "question": "You are given a singly linked list representing a sequence of steps in a cooking recipe. Each node in the list contains a `step` attribute representing a cooking step and a `next` attribute pointing to the next node. Your task is to write a recursive function to reverse the sequence of cooking steps, such that the last step is executed first. The function should take the head of the linked list as input and return the new head of the reversed list. Assume that each node in the linked list contains a `step` attribute representing the cooking step and a `next` attribute pointing to the next node in the list.",
+      "answer_key": "def reverse(head):\n    if not head or not head.next:\n        return head\n    new_head = reverse(head.next)\n    head.next.next = head\n    head.next = None\n    return new_head\n\n# Test cases\nassert reverse(ListNode('step1', ListNode('step2', ListNode('step3')))).step == 'step3'\nassert reverse(ListNode('step1')).step == 'step1'",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "ListNode('step1', ListNode('step2', ListNode('step3')))",
+          "expected_output": "'step3'"
+        },
+        {
+          "input": "ListNode('step1')",
+          "expected_output": "'step1'"
+        }
+      ],
+      "variation_strategy": "constraint",
+      "strategy_label": "Constraint Variation",
+      "solution_method": "recursive",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "passed both gates",
+      "structural_passed": true,
+      "attempts": 3,
+      "regeneration_history": [
+        {
+          "attempt": 1,
+          "rejected_question": "Given a singly linked list, write a recursive function to reverse the list. The function should return the new head of the reversed list. Assume the list contains nodes with a `value` attribute and a `next` attribute. The function must not use any external data structures like arrays or stacks. Handle an empty list and a list with a single node.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "semantic similarity too high: 0.94 against the previously accepted question (threshold 0.86)"
+          ],
+          "reliability_reasons": [],
+          "flagged_spans": [],
+          "structural_passed": false,
+          "reliability_score": null,
+          "verdict": null
+        },
+        {
+          "attempt": 2,
+          "rejected_question": "You are tasked with reversing a singly linked list using a recursive approach. The function should take the head of the linked list as input and return the new head of the reversed list. The solution must be recursive and should not use any extra space for additional data structures. Assume that each node in the linked list contains a `value` attribute representing the node's value and a `next` attribute pointing to the next node in the list. Write a recursive function to reverse the linked list.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "semantic similarity too high: 1.00 against the previously accepted question (threshold 0.86)",
+            "lexical similarity too high: 1.00 against the previously accepted question (threshold 0.75)"
+          ],
+          "reliability_reasons": [],
+          "flagged_spans": [],
+          "structural_passed": false,
+          "reliability_score": null,
+          "verdict": null
+        }
+      ],
+      "created_at": "2026-09-30T06:26:17+00:00",
+      "reliability_score": 0.7923,
+      "verdict": "trustworthy",
+      "hallucination_probability": 0.1125
+    },
+    {
+      "id": "q_d17d11a504",
+      "question": "Given a linked list representing a sequence of student grades, where each node contains a `grade` attribute representing a student's grade and a `next` attribute pointing to the next node, write a function to reverse the sequence of grades such that the highest grade appears first. Each node has attributes `grade` (an integer) and `next` (a pointer to the next node). Assume the linked list is not empty. The function should return the new head of the reversed linked list.",
+      "answer_key": "def reverse_grades(head):\n    new_head = None\n    node = head\n    while node:\n        new_head = ListNode(node.grade, new_head)\n        node = node.next\n    return new_head\n\n# Test cases\n# Input: Head of a linked list with grades [85 -> 90 -> 78 -> 92]\n# Output: Head of a linked list with grades [92 -> 78 -> 90 -> 85]\n# Input: Head of a linked list with grades [95]\n# Output: Head of a linked list with grades [95]",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "Head of a linked list with grades [85 -> 90 -> 78 -> 92]",
+          "expected_output": "Head of a linked list with grades [92 -> 78 -> 90 -> 85]"
+        },
+        {
+          "input": "Head of a linked list with grades [95]",
+          "expected_output": "Head of a linked list with grades [95]"
+        }
+      ],
+      "variation_strategy": "structure",
+      "strategy_label": "Structure Variation",
+      "solution_method": "rebuild",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "passed both gates",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-09-30T06:27:29+00:00",
+      "reliability_score": 0.7609,
+      "verdict": "trustworthy",
+      "hallucination_probability": 0.15
+    },
+    {
+      "id": "q_3ca61be633",
+      "question": "You are working on a project to develop a new version control system for a software development team. The system uses a singly linked list to manage the history of commits, where each node represents a commit with a `hash` attribute and a pointer to the next node. Your task is to implement a function to reverse the sequence of commits, so that the most recent commit is first and the oldest commit is last. Write a recursive function to reverse the linked list. The function should take the head of the linked list as input and return the new head of the reversed list. Assume that each node in the linked list contains a `hash` attribute representing the commit's hash and a `next` attribute pointing to the next node in the list.",
+      "answer_key": "def reverse(head):\n    if head is None or head.next is None:\n        return head\n    new_head = reverse(head.next)\n    head.next.next = head\n    head.next = None\n    return new_head\n\n# Test cases\nprint(reverse(None))  # Expected output: None\nprint(reverse(Node('a', Node('b', Node('c', None)))))  # Expected output: Node('c', Node('b', Node('a', None)))",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "None",
+          "expected_output": "None"
+        },
+        {
+          "input": "Node('a', Node('b', Node('c', None)))",
+          "expected_output": "Node('c', Node('b', Node('a', None)))"
+        }
+      ],
+      "variation_strategy": "scenario",
+      "strategy_label": "Scenario Variation",
+      "solution_method": "recursive",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "passed both gates",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-09-30T06:29:24+00:00",
+      "reliability_score": 0.7922,
+      "verdict": "trustworthy",
+      "hallucination_probability": 0.1125
+    },
+    {
+      "id": "q_83bc4f9493",
+      "question": "You are given a singly linked list representing a sequence of transactions in a financial account. Each node contains an `amount` attribute representing the transaction amount and a `next` attribute pointing to the next node. Your task is to write a recursive function to reverse the sequence of transactions such that the last transaction appears first. The function should take the head of the linked list as input and return the new head of the reversed list. Assume that each node in the linked list contains an `amount` attribute representing the transaction amount and a `next` attribute pointing to the next node in the list.",
+      "answer_key": "def reverse(head):\n    if head is None or head.next is None:\n        return head\n    rest = reverse(head.next)\n    head.next.next = head\n    head.next = None\n    return rest\n\n# Test cases\nprint(reverse(None))  # Expected output: None\nprint(reverse(ListNode(1, ListNode(2, ListNode(3)))))  # Expected output: ListNode(3, ListNode(2, ListNode(1)))",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "None",
+          "expected_output": "None"
+        },
+        {
+          "input": "ListNode(1, ListNode(2, ListNode(3)))",
+          "expected_output": "ListNode(3, ListNode(2, ListNode(1)))"
+        }
+      ],
+      "variation_strategy": "representation",
+      "strategy_label": "Representation Variation",
+      "solution_method": "recursive",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "passed both gates",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-09-30T06:32:44+00:00",
+      "reliability_score": 0.7875,
+      "verdict": "trustworthy",
+      "hallucination_probability": 0.1125
+    },
+    {
+      "id": "q_ca429b5868",
+      "question": "Given a singly linked list of integers, reverse the list using an auxiliary stack and return the new head of the reversed list. Assume the linked list is not empty.",
+      "answer_key": "def reverse(head): stack = [] current = head while current: stack.append(current.val) current = current.next reversed_head = None while stack: new_node = ListNode(stack.pop()) new_node.next = reversed_head reversed_head = new_node return reversed_head\nThe function uses an auxiliary stack to store the values of the linked list nodes and then constructs the reversed list by popping values from the stack and creating new nodes.",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "1 -> 2 -> 3 -> 4 -> 5",
+          "expected_output": "5 -> 4 -> 3 -> 2 -> 1"
+        },
+        {
+          "input": "10",
+          "expected_output": "10"
+        }
+      ],
+      "variation_strategy": "parameter",
+      "subject_area": "data_structures",
+      "strategy_label": "Parameter Variation",
+      "solution_method": "auxiliary",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "decision": "PASS",
+      "validation_status": "passed both gates",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-09-30T09:39:36+00:00",
+      "reliability_score": 0.9197,
+      "verdict": "trustworthy",
+      "hallucination_probability": 0.0
+    }
+  ]
 }

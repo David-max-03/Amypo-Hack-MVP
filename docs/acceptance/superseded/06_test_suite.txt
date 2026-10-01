@@ -1,0 +1,8 @@
+== local (.venv, Python 3.12.14)
+.............................                                            [100%]
+173 passed in 10.70s
+
+== inside backend container
+Python 3.12.14
+.............................                                            [100%]
+173 passed in 9.13s

@@ -1,0 +1,559 @@
+[
+  {
+    "id": "demo-01-fabricated-citation",
+    "expect": "unsupported claim flagged; fabrication markers for the citation and the precise statistic",
+    "wall_ms": 75.9,
+    "response": {
+      "reliability_score": 0.6482,
+      "hallucination_probability": 0.375,
+      "verdict": "partially_reliable",
+      "flagged_spans": [
+        {
+          "text": "According to the 2019 Stanford Algorithms Report",
+          "reason": "references an external study, report or standard that cannot be verified against the local reference corpus - generated questions should not cite sources",
+          "start": 62,
+          "end": 110,
+          "severity": "high",
+          "claim_type": "fabrication_marker",
+          "best_evidence": null,
+          "best_similarity": null
+        },
+        {
+          "text": "According to the 2019 Stanford Algorithms Report, this approach is 47.3% faster than the recursive version on modern CPUs.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.36, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 62,
+          "end": 184,
+          "severity": "medium",
+          "claim_type": "citation",
+          "best_evidence": "A recursive reversal of a singly linked list uses O(n) space because each of the n recursive calls occupies a stack frame. It is not a constant-space solution.",
+          "best_similarity": 0.3649
+        },
+        {
+          "text": "47.3%",
+          "reason": "unusually precise statistic with no supporting source, a common signature of a fabricated figure",
+          "start": 129,
+          "end": 134,
+          "severity": "medium",
+          "claim_type": "fabrication_marker",
+          "best_evidence": null,
+          "best_similarity": null
+        },
+        {
+          "text": "never",
+          "reason": "overconfident absolute in a factual statement; such claims are rarely true without qualification",
+          "start": 199,
+          "end": 204,
+          "severity": "low",
+          "claim_type": "fabrication_marker",
+          "best_evidence": null,
+          "best_similarity": null
+        }
+      ],
+      "confidence_score": 0.55,
+      "evidence": [
+        {
+          "claim": "Iterative reversal of a singly linked list runs in O(n) time.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.8535,
+          "keyword_grounding": 0.8571,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "According to the 2019 Stanford Algorithms Report, this approach is 47.3% faster than the recursive version on modern CPUs.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3649,
+          "keyword_grounding": 0.0833,
+          "source_id": "prog-002",
+          "source_title": "Recursive linked list reversal space cost",
+          "source_text": "A recursive reversal of a singly linked list uses O(n) space because each of the n recursive calls occupies a stack frame. It is not a constant-space solution."
+        },
+        {
+          "claim": "The technique never fails on any input.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.0871,
+          "keyword_grounding": 0.2,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        }
+      ],
+      "claims": [
+        {
+          "text": "Iterative reversal of a singly linked list runs in O(n) time.",
+          "claim_type": "factual",
+          "start": 0,
+          "end": 61
+        },
+        {
+          "text": "According to the 2019 Stanford Algorithms Report, this approach is 47.3% faster than the recursive version on modern CPUs.",
+          "claim_type": "citation",
+          "start": 62,
+          "end": 184
+        },
+        {
+          "text": "The technique never fails on any input.",
+          "claim_type": "inference",
+          "start": 185,
+          "end": 224
+        }
+      ],
+      "contradictions": [],
+      "signals": {
+        "source_grounding": 0.5,
+        "non_hallucination": 0.625,
+        "factual_consistency": 0.5536,
+        "non_contradiction": 1.0,
+        "answer_completeness": 1.0,
+        "unsupported": 0.5,
+        "contradiction": 0.0,
+        "fabrication_markers": 1.0,
+        "self_inconsistency": 0.0,
+        "self_consistency_agreement": 1.0
+      },
+      "reasons": [
+        "1 of 2 checkable claims were grounded in the local reference corpus (grounding score 0.50)",
+        "estimated hallucination probability 0.38",
+        "1 of 2 checkable claims could not be grounded in the local reference corpus",
+        "3 fabrication marker(s) found in the text",
+        "1 citation-like reference(s) present; citations in generated content cannot be verified against the local corpus"
+      ],
+      "recommendations": [
+        "Remove unverifiable specifics - invented citations, precise statistics and absolute claims are the main drivers of the hallucination estimate."
+      ],
+      "embedding_backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+      "analysis_time_ms": 47.16,
+      "within_latency_budget": true
+    }
+  },
+  {
+    "id": "demo-02-corpus-contradiction",
+    "expect": "external contradiction against 'Recursive linked list reversal space cost'; verdict misleading",
+    "wall_ms": 15.8,
+    "response": {
+      "reliability_score": 0.8318,
+      "hallucination_probability": 0.201,
+      "verdict": "misleading",
+      "flagged_spans": [
+        {
+          "text": "Recursive reversal of a singly linked list always uses O(1) space because the compiler eliminates every stack frame automatically.",
+          "reason": "contradicts the reference corpus entry 'Recursive linked list reversal space cost' (CLRS, Introduction to Algorithms, 3rd edition, Chapter 10): complexity O(1) versus O(n)",
+          "start": 0,
+          "end": 130,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "A recursive reversal of a singly linked list uses O(n) space because each of the n recursive calls occupies a stack frame. It is not a constant-space solution.",
+          "best_similarity": 0.8852
+        },
+        {
+          "text": "always",
+          "reason": "overconfident absolute in a factual statement; such claims are rarely true without qualification",
+          "start": 43,
+          "end": 49,
+          "severity": "low",
+          "claim_type": "fabrication_marker",
+          "best_evidence": null,
+          "best_similarity": null
+        }
+      ],
+      "confidence_score": 0.6,
+      "evidence": [
+        {
+          "claim": "Recursive reversal of a singly linked list always uses O(1) space because the compiler eliminates every stack frame automatically.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.8852,
+          "keyword_grounding": 0.6667,
+          "source_id": "prog-002",
+          "source_title": "Recursive linked list reversal space cost",
+          "source_text": "A recursive reversal of a singly linked list uses O(n) space because each of the n recursive calls occupies a stack frame. It is not a constant-space solution."
+        }
+      ],
+      "claims": [
+        {
+          "text": "Recursive reversal of a singly linked list always uses O(1) space because the compiler eliminates every stack frame automatically.",
+          "claim_type": "factual",
+          "start": 0,
+          "end": 130
+        }
+      ],
+      "contradictions": [
+        {
+          "type": "external",
+          "claim_a": "Recursive reversal of a singly linked list always uses O(1) space because the compiler eliminates every stack frame automatically.",
+          "claim_b": "A recursive reversal of a singly linked list uses O(n) space because each of the n recursive calls occupies a stack frame. It is not a constant-space solution.",
+          "similarity": 0.8852,
+          "reason": "contradicts the reference corpus entry 'Recursive linked list reversal space cost' (CLRS, Introduction to Algorithms, 3rd edition, Chapter 10): complexity O(1) versus O(n)",
+          "span_a": [
+            0,
+            130
+          ],
+          "source_id": "prog-002",
+          "source_title": "Recursive linked list reversal space cost"
+        }
+      ],
+      "signals": {
+        "source_grounding": 1.0,
+        "non_hallucination": 0.799,
+        "factual_consistency": 0.7978,
+        "non_contradiction": 0.6,
+        "answer_completeness": 0.85,
+        "unsupported": 0.0,
+        "contradiction": 0.5,
+        "fabrication_markers": 0.34,
+        "self_inconsistency": 0.0,
+        "self_consistency_agreement": 1.0
+      },
+      "reasons": [
+        "1 of 1 checkable claims were grounded in the local reference corpus (grounding score 1.00)",
+        "estimated hallucination probability 0.20",
+        "1 conflict(s) with the reference corpus",
+        "1 contradiction(s) detected",
+        "1 fabrication marker(s) found in the text"
+      ],
+      "recommendations": [
+        "Resolve the contradictions listed in flagged_spans before using this content - the statements cannot all be correct."
+      ],
+      "embedding_backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+      "analysis_time_ms": 10.92,
+      "within_latency_budget": true
+    }
+  },
+  {
+    "id": "demo-03-self-contradiction",
+    "expect": "internal contradiction between the two complexity statements",
+    "wall_ms": 22.9,
+    "response": {
+      "reliability_score": 0.8605,
+      "hallucination_probability": 0.15,
+      "verdict": "misleading",
+      "flagged_spans": [
+        {
+          "text": "Binary search runs in O(log n) time on a sorted array.",
+          "reason": "the response contradicts itself: complexity O(logn) versus O(n) (the two statements are 0.95 similar, so they are about the same thing)",
+          "start": 0,
+          "end": 54,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "Binary search runs in O(n) time on a sorted array because every element is examined.",
+          "best_similarity": 0.9489
+        }
+      ],
+      "confidence_score": 0.7,
+      "evidence": [
+        {
+          "claim": "Binary search runs in O(log n) time on a sorted array.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.8304,
+          "keyword_grounding": 1.0,
+          "source_id": "prog-005",
+          "source_title": "Binary search requires a sorted array",
+          "source_text": "Binary search runs in O(log n) time but only works on a sorted sequence with random access. On an unsorted array it gives incorrect results, and on a linked list it loses its advantage because seeking the midpoint costs O(n)."
+        },
+        {
+          "claim": "Binary search runs in O(n) time on a sorted array because every element is examined.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.7951,
+          "keyword_grounding": 0.7,
+          "source_id": "prog-005",
+          "source_title": "Binary search requires a sorted array",
+          "source_text": "Binary search runs in O(log n) time but only works on a sorted sequence with random access. On an unsorted array it gives incorrect results, and on a linked list it loses its advantage because seeking the midpoint costs O(n)."
+        }
+      ],
+      "claims": [
+        {
+          "text": "Binary search runs in O(log n) time on a sorted array.",
+          "claim_type": "factual",
+          "start": 0,
+          "end": 54
+        },
+        {
+          "text": "Binary search runs in O(n) time on a sorted array because every element is examined.",
+          "claim_type": "factual",
+          "start": 55,
+          "end": 139
+        }
+      ],
+      "contradictions": [
+        {
+          "type": "internal",
+          "claim_a": "Binary search runs in O(log n) time on a sorted array.",
+          "claim_b": "Binary search runs in O(n) time on a sorted array because every element is examined.",
+          "similarity": 0.9489,
+          "reason": "the response contradicts itself: complexity O(logn) versus O(n) (the two statements are 0.95 similar, so they are about the same thing)",
+          "span_a": [
+            0,
+            54
+          ],
+          "span_b": [
+            55,
+            139
+          ]
+        }
+      ],
+      "signals": {
+        "source_grounding": 1.0,
+        "non_hallucination": 0.85,
+        "factual_consistency": 0.8276,
+        "non_contradiction": 0.6,
+        "answer_completeness": 1.0,
+        "unsupported": 0.0,
+        "contradiction": 0.5,
+        "fabrication_markers": 0.0,
+        "self_inconsistency": 0.0,
+        "self_consistency_agreement": 1.0
+      },
+      "reasons": [
+        "2 of 2 checkable claims were grounded in the local reference corpus (grounding score 1.00)",
+        "estimated hallucination probability 0.15",
+        "1 internal self-contradiction(s)",
+        "1 contradiction(s) detected"
+      ],
+      "recommendations": [
+        "Resolve the contradictions listed in flagged_spans before using this content - the statements cannot all be correct."
+      ],
+      "embedding_backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+      "analysis_time_ms": 18.01,
+      "within_latency_budget": true
+    }
+  },
+  {
+    "id": "demo-04-wrong-but-plausible",
+    "expect": "partially supported / unsupported - similar topic but the specifics are not grounded",
+    "wall_ms": 16.0,
+    "response": {
+      "reliability_score": 0.8138,
+      "hallucination_probability": 0.201,
+      "verdict": "misleading",
+      "flagged_spans": [
+        {
+          "text": "Dijkstra's algorithm correctly computes shortest paths even when edges have negative weights, which is why it is preferred over Bellman-Ford in all cases.",
+          "reason": "contradicts the reference corpus entry 'Dijkstra's algorithm and negative weights' (CLRS, Introduction to Algorithms, 3rd edition, Chapter 24): 'negative' versus 'non-negative'",
+          "start": 0,
+          "end": 154,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "Dijkstra's algorithm computes single-source shortest paths in O((V + E) log V) time with a binary heap, but it requires non-negative edge weights. Graphs with negative edges need the Bellman-Ford algorithm instead.",
+          "best_similarity": 0.7467
+        },
+        {
+          "text": "in all cases",
+          "reason": "overconfident absolute in a factual statement; such claims are rarely true without qualification",
+          "start": 141,
+          "end": 153,
+          "severity": "low",
+          "claim_type": "fabrication_marker",
+          "best_evidence": null,
+          "best_similarity": null
+        }
+      ],
+      "confidence_score": 0.6,
+      "evidence": [
+        {
+          "claim": "Dijkstra's algorithm correctly computes shortest paths even when edges have negative weights, which is why it is preferred over Bellman-Ford in all cases.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.7467,
+          "keyword_grounding": 0.5556,
+          "source_id": "prog-011",
+          "source_title": "Dijkstra's algorithm and negative weights",
+          "source_text": "Dijkstra's algorithm computes single-source shortest paths in O((V + E) log V) time with a binary heap, but it requires non-negative edge weights. Graphs with negative edges need the Bellman-Ford algorithm instead."
+        }
+      ],
+      "claims": [
+        {
+          "text": "Dijkstra's algorithm correctly computes shortest paths even when edges have negative weights, which is why it is preferred over Bellman-Ford in all cases.",
+          "claim_type": "factual",
+          "start": 0,
+          "end": 154
+        }
+      ],
+      "contradictions": [
+        {
+          "type": "external",
+          "claim_a": "Dijkstra's algorithm correctly computes shortest paths even when edges have negative weights, which is why it is preferred over Bellman-Ford in all cases.",
+          "claim_b": "Dijkstra's algorithm computes single-source shortest paths in O((V + E) log V) time with a binary heap, but it requires non-negative edge weights. Graphs with negative edges need the Bellman-Ford algorithm instead.",
+          "similarity": 0.7467,
+          "reason": "contradicts the reference corpus entry 'Dijkstra's algorithm and negative weights' (CLRS, Introduction to Algorithms, 3rd edition, Chapter 24): 'negative' versus 'non-negative'",
+          "span_a": [
+            0,
+            154
+          ],
+          "source_id": "prog-011",
+          "source_title": "Dijkstra's algorithm and negative weights"
+        }
+      ],
+      "signals": {
+        "source_grounding": 1.0,
+        "non_hallucination": 0.799,
+        "factual_consistency": 0.6703,
+        "non_contradiction": 0.6,
+        "answer_completeness": 1.0,
+        "unsupported": 0.0,
+        "contradiction": 0.5,
+        "fabrication_markers": 0.34,
+        "self_inconsistency": 0.0,
+        "self_consistency_agreement": 1.0
+      },
+      "reasons": [
+        "1 of 1 checkable claims were grounded in the local reference corpus (grounding score 1.00)",
+        "estimated hallucination probability 0.20",
+        "1 conflict(s) with the reference corpus",
+        "1 contradiction(s) detected",
+        "1 fabrication marker(s) found in the text"
+      ],
+      "recommendations": [
+        "Resolve the contradictions listed in flagged_spans before using this content - the statements cannot all be correct."
+      ],
+      "embedding_backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+      "analysis_time_ms": 11.37,
+      "within_latency_budget": true
+    }
+  },
+  {
+    "id": "demo-05-grounded-control",
+    "expect": "trustworthy - this is the false-positive control; it should NOT be flagged",
+    "wall_ms": 23.8,
+    "response": {
+      "reliability_score": 0.9791,
+      "hallucination_probability": 0.0,
+      "verdict": "trustworthy",
+      "flagged_spans": [],
+      "confidence_score": 0.7,
+      "evidence": [
+        {
+          "claim": "Reversing a singly linked list iteratively requires three pointers (previous, current and next) and runs in O(n) time with O(1) extra space.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.9408,
+          "keyword_grounding": 1.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Each node's next pointer is redirected to its predecessor while traversing the list once.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.7116,
+          "keyword_grounding": 1.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        }
+      ],
+      "claims": [
+        {
+          "text": "Reversing a singly linked list iteratively requires three pointers (previous, current and next) and runs in O(n) time with O(1) extra space.",
+          "claim_type": "factual",
+          "start": 0,
+          "end": 140
+        },
+        {
+          "text": "Each node's next pointer is redirected to its predecessor while traversing the list once.",
+          "claim_type": "factual",
+          "start": 141,
+          "end": 230
+        }
+      ],
+      "contradictions": [],
+      "signals": {
+        "source_grounding": 1.0,
+        "non_hallucination": 1.0,
+        "factual_consistency": 0.8957,
+        "non_contradiction": 1.0,
+        "answer_completeness": 1.0,
+        "unsupported": 0.0,
+        "contradiction": 0.0,
+        "fabrication_markers": 0.0,
+        "self_inconsistency": 0.0,
+        "self_consistency_agreement": 1.0
+      },
+      "reasons": [
+        "2 of 2 checkable claims were grounded in the local reference corpus (grounding score 1.00)",
+        "estimated hallucination probability 0.00"
+      ],
+      "recommendations": [
+        "Accept: the response met every reliability threshold."
+      ],
+      "embedding_backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+      "analysis_time_ms": 19.11,
+      "within_latency_budget": true
+    }
+  },
+  {
+    "id": "demo-06-unverifiable",
+    "expect": "unverifiable - routed to REVIEW, NOT called false",
+    "wall_ms": 13.5,
+    "response": {
+      "reliability_score": 0.3794,
+      "hallucination_probability": 0.45,
+      "verdict": "unverifiable",
+      "flagged_spans": [
+        {
+          "text": "Registered cooperatives in Estonia must submit their annual tax declaration before the thirtieth of June each year.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.18, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 0,
+          "end": 115,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "The United Nations was founded in 1945 and has six principal organs, including the General Assembly and the Security Council. The Security Council has five permanent members with veto power: China, France, Russia, the Un",
+          "best_similarity": 0.1823
+        }
+      ],
+      "confidence_score": 0.3,
+      "evidence": [
+        {
+          "claim": "Registered cooperatives in Estonia must submit their annual tax declaration before the thirtieth of June each year.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1823,
+          "keyword_grounding": 0.0,
+          "source_id": "gk-002",
+          "source_title": "Structure of the United Nations",
+          "source_text": "The United Nations was founded in 1945 and has six principal organs, including the General Assembly and the Security Council. The Security Council has five permanent members with veto power: China, France, Russia, the United Kingdom and the United States."
+        }
+      ],
+      "claims": [
+        {
+          "text": "Registered cooperatives in Estonia must submit their annual tax declaration before the thirtieth of June each year.",
+          "claim_type": "factual",
+          "start": 0,
+          "end": 115
+        }
+      ],
+      "contradictions": [],
+      "signals": {
+        "source_grounding": 0.0,
+        "non_hallucination": 0.55,
+        "factual_consistency": 0.1094,
+        "non_contradiction": 1.0,
+        "answer_completeness": 0.85,
+        "unsupported": 1.0,
+        "contradiction": 0.0,
+        "fabrication_markers": 0.0,
+        "self_inconsistency": 0.0,
+        "self_consistency_agreement": 1.0
+      },
+      "reasons": [
+        "0 of 1 checkable claims were grounded in the local reference corpus (grounding score 0.00)",
+        "estimated hallucination probability 0.45",
+        "1 of 1 checkable claims could not be grounded in the local reference corpus"
+      ],
+      "recommendations": [
+        "Add or cite supporting evidence, or extend the local reference corpus to cover this topic, then re-verify.",
+        "Remove unverifiable specifics - invented citations, precise statistics and absolute claims are the main drivers of the hallucination estimate.",
+        "Route to human review: the corpus has no evidence either way, so this is unconfirmed rather than wrong."
+      ],
+      "embedding_backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+      "analysis_time_ms": 9.0,
+      "within_latency_budget": true
+    }
+  }
+]

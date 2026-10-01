@@ -1,0 +1,62 @@
+[
+  {
+    "n": 1,
+    "solution_method": "iterative",
+    "question": "You are developing a new version control system for a software development team. As part of this system, you need to implement a function to reverse the order of file history commits in a repository. The commits are stored as a singly linked list, where each node represents a commit and contains a timestamp. The goal is to reverse the linked list to display the latest commit first. Implement an iterative function to achieve this.",
+    "answer_key": "def reverse_commit_list(head):\n    prev = None\n    current = head\n    while current is not None:\n        next_node = current.next\n        current.next = prev\n        prev = current\n        current = next_node\n    return prev"
+  },
+  {
+    "n": 2,
+    "solution_method": "recursive",
+    "question": "Implement a recursive function to reverse a singly linked list in-place without using any additional data structures. The function should modify the list directly and return the new head of the reversed list. The time complexity should not exceed O(n), where n is the number of nodes in the list. The space complexity should not exceed O(1) beyond the call stack.",
+    "answer_key": "def reverse(head):\n    if not head or not head.next:\n        return head\n    p = reverse(head.next)\n    head.next.next = head\n    head.next = None\n    return p\n\n# Test cases\ntest_cases = [\n    {'input': '1 -> 2 -> 3 -> 4 -> None', 'expected_output': '4 -> 3 -> 2 -> 1 -> None'},\n    {'input': '5 -> None', 'expected_output': '5 -> None'}\n]"
+  },
+  {
+    "n": 3,
+    "solution_method": "iterative",
+    "question": "You are managing a playlist of songs in a music player. The songs are stored in a singly linked list, where each node represents a song and contains the song's title. The goal is to shuffle the playlist by reversing the order of songs. Implement an iterative function to reverse the linked list in-place without using any additional data structures. The function should modify the playlist directly and return the new head of the reversed list. The time complexity should not exceed O(n), where n is the number of nodes in the list. The space complexity should not exceed O(1) beyond the call stack.",
+    "answer_key": "def reverse_playlist(head):\n    prev = None\n    current = head\n    while current:\n        next_temp = current.next\n        current.next = prev\n        prev = current\n        current = next_temp\n    return prev\n\n# Test cases\ndef check_reverse_playlist():\n    # Assuming 'Song' class is defined elsewhere\n    song1 = Song('Song A')\n    song2 = Song('Song B')\n    song3 = Song('Song C')\n    song1.next = song2\n    song2.next = song3\n    head = song1\n\n    reversed_head = reverse_playlist(head)\n\n    assert reversed_head.title == 'Song C'\n    assert reversed_head.next.title == 'Song B'\n    assert reversed_head.next.next.title == 'Song A'\n    assert reversed_head.next.next.next is None\n\ncheck_reverse_playlist()\nThe function iteratively reverses the linked list by adjusting the 'next' pointers of each node. It starts from the head and iteratively moves each node to the front of the reversed list."
+  },
+  {
+    "n": 4,
+    "solution_method": "recursive",
+    "question": "You are an experienced software engineer tasked with optimizing the data retrieval process for a large e-commerce platform. The platform uses a singly linked list to store product reviews, where each node represents a review and contains a rating. To improve user experience, you need to reverse the order of reviews based on their ratings. Implement a recursive function to achieve this, ensuring that the original list is not modified.",
+    "answer_key": "def reverse_reviews(head):\n    if not head or not head.next:\n        return head\n    new_head = reverse_reviews(head.next)\n    head.next.next = head\n    head.next = None\n    return new_head\n\ndef test_reverse_reviews():\n    # Example 1\n    node1 = Node(5)\n    node2 = Node(3)\n    node3 = Node(8)\n    node1.next = node2\n    node2.next = node3\n    reversed_head = reverse_reviews(node1)\n    assert reversed_head.val == 8 and reversed_head.next.val == 5 and reversed_head.next.next.val == 3\n\n    # Example 2\n    single_node = Node(7)\n    reversed_head = reverse_reviews(single_node)\n    assert reversed_head.val == 7"
+  },
+  {
+    "n": 5,
+    "solution_method": "auxiliary",
+    "question": "You are managing a stack of books in a library. Each book is represented by a node in a singly linked list, where each node contains the title of the book. Your task is to implement a function that reverses the order of the books in the stack so that the last book pushed onto the stack is at the front. The function should use an auxiliary stack to help with the reversal. The original stack should not be modified. Implement the function and provide two test cases to verify its correctness.",
+    "answer_key": "def reverse_books(head):\n    if not head:\n        return None\n    stack = []\n    current = head\n    while current:\n        stack.append(current)\n        current = current.next\n    new_head = stack.pop()\n    current = new_head\n    while stack:\n        current.next = stack.pop()\n        current = current.next\n    current.next = None\n    return new_head\n\n# Test cases\ntest1 = {'input': 'Harry Potter -> The Hobbit -> The Lord of the Rings', 'expected_output': 'The Lord of the Rings -> The Hobbit -> Harry Potter'}\ntest2 = {'input': '', 'expected_output': ''}"
+  },
+  {
+    "n": 6,
+    "solution_method": "iterative",
+    "question": "You are developing a feature for a social media platform that allows users to reverse the order of comments on a post. The comments are stored in a singly linked list, where each node represents a comment and contains the comment text. Your task is to implement an iterative function that reverses the linked list in-place. The function should modify the comment order directly and return the new head of the reversed list. The time complexity should not exceed O(n), where n is the number of nodes in the list. The space complexity should not exceed O(1) beyond the call stack.",
+    "answer_key": "def reverse_comments(head):\n    prev = None\n    current = head\n    while current:\n        next_node = current.next\n        current.next = prev\n        prev = current\n        current = next_node\n    return prev\n\n# Test cases\ntest_cases = [\n    {'input': ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5))))), 'expected_output': ListNode(5, ListNode(4, ListNode(3, ListNode(2, ListNode(1)))))},\n    {'input': None, 'expected_output': None}\n]"
+  },
+  {
+    "n": 7,
+    "solution_method": "recursive",
+    "question": "You are a librarian managing a collection of books, each represented as a node in a singly linked list. The goal is to organize the books in reverse order based on their publication year. Implement a recursive function to reverse the linked list, ensuring that the original list is not modified. The function should return the new head of the reversed list.",
+    "answer_key": "def reverse(head):\n    if not head or not head.next:\n        return head\n    new_head = reverse(head.next)\n    head.next.next = head\n    head.next = None\n    return new_head"
+  },
+  {
+    "n": 8,
+    "solution_method": "auxiliary",
+    "question": "You are a software developer tasked with implementing a feature that reverses the order of items in a stack. The stack is represented as a singly linked list, where each node contains an item. Your goal is to reverse the order of items in the stack without modifying the original stack. Implement a function that uses an auxiliary stack to achieve this. The function should return the new head of the reversed stack.",
+    "answer_key": "def reverse_stack(head):\n    stack = []\n    current = head\n    while current:\n        stack.append(current)\n        current = current.next\n    reversed_head = stack[-1]\n    current = reversed_head\n    for i in range(len(stack) - 2, -1, -1):\n        current.next = stack[i]\n        current = current.next\n    current.next = None\n    return reversed_head"
+  },
+  {
+    "n": 9,
+    "solution_method": "rebuild",
+    "question": "Given a singly linked list, reverse the linked list and return the new head of the reversed list. The original linked list should not be modified. Each node in the linked list has an integer value. The function should handle an empty list and a list with a single node correctly.",
+    "answer_key": "def reverse(head):\n    new_head = None\n    node = head\n    while node:\n        new_head = ListNode(node.val, new_head)\n        node = node.next\n    return new_head\n\n# Example usage:\n# list1 = ListNode(1, ListNode(2, ListNode(3)))\n# reversed_list = reverse(list1)\n\n# Explanation: The function creates a new linked list by iterating through the original list and inserting each node at the beginning of the new list, effectively reversing the order of nodes."
+  },
+  {
+    "n": 10,
+    "solution_method": "rebuild",
+    "question": "You are given a singly linked list of strings. Your task is to implement a function that reverses the order of the strings in the list. The function should take the head of the linked list as input and return the head of the reversed list. The original linked list should not be modified. Each node in the linked list contains a single string value. The function should handle cases where the list is empty, contains one node, or contains multiple nodes.",
+    "answer_key": "def reverse(head):\n    new_head = None\n    node = head\n    while node:\n        new_head = ListNode(node.val, new_head)\n        node = node.next\n    return new_head\n\n# Test cases\nassert reverse(ListNode('a', ListNode('b', ListNode('c')))).val == 'c'\nassert reverse(ListNode('hello', ListNode('world'))).val == 'world'"
+  }
+]

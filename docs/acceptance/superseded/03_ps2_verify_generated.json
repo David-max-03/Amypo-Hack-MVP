@@ -1,0 +1,3857 @@
+[
+  {
+    "variation": 1,
+    "solution_method": "iterative",
+    "wall_ms": 137.3,
+    "response": {
+      "reliability_score": 0.5087,
+      "hallucination_probability": 0.36,
+      "verdict": "unverifiable",
+      "flagged_spans": [
+        {
+          "text": "You are developing a new version control system for a software development team.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.10, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 0,
+          "end": 80,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "The break-even point in units equals fixed costs divided by the contribution margin per unit, where contribution margin is the selling price per unit minus the variable cost per unit. Below this volume the business makes",
+          "best_similarity": 0.0994
+        },
+        {
+          "text": "As part of this system, you need to implement a function to reverse the order of file history commits in a repository.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.30, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 81,
+          "end": 199,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left ",
+          "best_similarity": 0.3034
+        },
+        {
+          "text": "The commits are stored as a singly linked list, where each node represents a commit and contains a timestamp.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.27, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 200,
+          "end": 309,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.266
+        },
+        {
+          "text": "while current is not None:",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.13, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 505,
+          "end": 531,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.1267
+        }
+      ],
+      "confidence_score": 0.76,
+      "evidence": [
+        {
+          "claim": "You are developing a new version control system for a software development team.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.0994,
+          "keyword_grounding": 0.0,
+          "source_id": "biz-001",
+          "source_title": "Break-even point formula",
+          "source_text": "The break-even point in units equals fixed costs divided by the contribution margin per unit, where contribution margin is the selling price per unit minus the variable cost per unit. Below this volume the business makes a loss."
+        },
+        {
+          "claim": "As part of this system, you need to implement a function to reverse the order of file history commits in a repository.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3034,
+          "keyword_grounding": 0.1111,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "The commits are stored as a singly linked list, where each node represents a commit and contains a timestamp.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.266,
+          "keyword_grounding": 0.4167,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The goal is to reverse the linked list to display the latest commit first.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.6035,
+          "keyword_grounding": 0.25,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Implement an iterative function to achieve this.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2119,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "def reverse_commit_list(head):",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4894,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "prev = None",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1911,
+          "keyword_grounding": 0.0,
+          "source_id": "lang-001",
+          "source_title": "Subject and predicate",
+          "source_text": "Every complete English sentence has a subject, which names what the sentence is about, and a predicate, which contains the verb and states something about the subject. In 'The old library closed last winter', the subject is 'The old library' and the predicate is 'closed last winter'."
+        },
+        {
+          "claim": "current = head",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2036,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-004",
+          "source_title": "Linked list traversal is sequential",
+          "source_text": "A singly linked list does not support random access. Reaching the i-th element requires traversing i nodes from the head, so indexed access costs O(n), unlike an array which costs O(1)."
+        },
+        {
+          "claim": "while current is not None:",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1267,
+          "keyword_grounding": 0.6667,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "next_node = current.next",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4289,
+          "keyword_grounding": 0.6667,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "current.next = prev",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2432,
+          "keyword_grounding": 0.6667,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "prev = current",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1287,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "current = next_node",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.3828,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        }
+      ],
+      "claims": [
+        {
+          "text": "You are developing a new version control system for a software development team.",
+          "claim_type": "factual",
+          "start": 0,
+          "end": 80
+        },
+        {
+          "text": "As part of this system, you need to implement a function to reverse the order of file history commits in a repository.",
+          "claim_type": "factual",
+          "start": 81,
+          "end": 199
+        },
+        {
+          "text": "The commits are stored as a singly linked list, where each node represents a commit and contains a timestamp.",
+          "claim_type": "factual",
+          "start": 200,
+          "end": 309
+        },
+        {
+          "text": "The goal is to reverse the linked list to display the latest commit first.",
+          "claim_type": "factual",
+          "start": 310,
+          "end": 384
+        },
+        {
+          "text": "Implement an iterative function to achieve this.",
+          "claim_type": "inference",
+          "start": 385,
+          "end": 433
+        },
+        {
+          "text": "def reverse_commit_list(head):",
+          "claim_type": "inference",
+          "start": 435,
+          "end": 465
+        },
+        {
+          "text": "prev = None",
+          "claim_type": "inference",
+          "start": 470,
+          "end": 481
+        },
+        {
+          "text": "current = head",
+          "claim_type": "inference",
+          "start": 486,
+          "end": 500
+        },
+        {
+          "text": "while current is not None:",
+          "claim_type": "factual",
+          "start": 505,
+          "end": 531
+        },
+        {
+          "text": "next_node = current.next",
+          "claim_type": "inference",
+          "start": 540,
+          "end": 564
+        },
+        {
+          "text": "current.next = prev",
+          "claim_type": "inference",
+          "start": 573,
+          "end": 592
+        },
+        {
+          "text": "prev = current",
+          "claim_type": "inference",
+          "start": 601,
+          "end": 615
+        },
+        {
+          "text": "current = next_node",
+          "claim_type": "inference",
+          "start": 624,
+          "end": 643
+        }
+      ],
+      "contradictions": [],
+      "signals": {
+        "source_grounding": 0.2,
+        "non_hallucination": 0.64,
+        "factual_consistency": 0.2834,
+        "non_contradiction": 1.0,
+        "answer_completeness": 1.0,
+        "unsupported": 0.8,
+        "contradiction": 0.0,
+        "fabrication_markers": 0.0,
+        "self_inconsistency": 0.0,
+        "self_consistency_agreement": 1.0
+      },
+      "reasons": [
+        "1 of 5 checkable claims were grounded in the local reference corpus (grounding score 0.20)",
+        "estimated hallucination probability 0.36",
+        "4 of 5 checkable claims could not be grounded in the local reference corpus"
+      ],
+      "recommendations": [
+        "Add or cite supporting evidence, or extend the local reference corpus to cover this topic, then re-verify.",
+        "Remove unverifiable specifics - invented citations, precise statistics and absolute claims are the main drivers of the hallucination estimate.",
+        "Route to human review: the corpus has no evidence either way, so this is unconfirmed rather than wrong."
+      ],
+      "embedding_backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+      "analysis_time_ms": 109.92,
+      "within_latency_budget": true
+    }
+  },
+  {
+    "variation": 2,
+    "solution_method": "recursive",
+    "wall_ms": 95.6,
+    "response": {
+      "reliability_score": 0.5813,
+      "hallucination_probability": 0.375,
+      "verdict": "misleading",
+      "flagged_spans": [
+        {
+          "text": "Implement a recursive function to reverse a singly linked list in-place without using any additional data structures.",
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.68 similar, so they are about the same thing)",
+          "start": 0,
+          "end": 117,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "The function should modify the list directly and return the new head of the reversed list.",
+          "best_similarity": 0.6799
+        },
+        {
+          "text": "if not head or not head.next:",
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.79 similar, so they are about the same thing)",
+          "start": 388,
+          "end": 417,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "head.next.next = head",
+          "best_similarity": 0.7923
+        },
+        {
+          "text": "if not head or not head.next:",
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.78 similar, so they are about the same thing)",
+          "start": 388,
+          "end": 417,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "head.next = None",
+          "best_similarity": 0.7797
+        },
+        {
+          "text": "Implement a recursive function to reverse a singly linked list in-place without using any additional data structures.",
+          "reason": "contradicts the reference corpus entry 'Singly linked list reversal' (CLRS, Introduction to Algorithms, 3rd edition, Chapter 10): one statement asserts what the other denies",
+          "start": 0,
+          "end": 117,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once.",
+          "best_similarity": 0.7969
+        },
+        {
+          "text": "The function should modify the list directly and return the new head of the reversed list.",
+          "reason": "only partially supported: only weakly related to 'In-place algorithms and auxiliary space' (0.50 similarity, below the 0.55 support threshold)",
+          "start": 118,
+          "end": 208,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory.",
+          "best_similarity": 0.4957
+        }
+      ],
+      "confidence_score": 0.7,
+      "evidence": [
+        {
+          "claim": "Implement a recursive function to reverse a singly linked list in-place without using any additional data structures.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.7969,
+          "keyword_grounding": 0.2727,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The function should modify the list directly and return the new head of the reversed list.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4957,
+          "keyword_grounding": 0.4286,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "The time complexity should not exceed O(n), where n is the number of nodes in the list.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5556,
+          "keyword_grounding": 0.375,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "The space complexity should not exceed O(1) beyond the call stack.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5668,
+          "keyword_grounding": 0.2857,
+          "source_id": "prog-002",
+          "source_title": "Recursive linked list reversal space cost",
+          "source_text": "A recursive reversal of a singly linked list uses O(n) space because each of the n recursive calls occupies a stack frame. It is not a constant-space solution."
+        },
+        {
+          "claim": "def reverse(head):",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4707,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "if not head or not head.next:",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2469,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "p = reverse(head.next)",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.519,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "head.next.next = head",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3686,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "head.next = None",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3396,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "# Test cases",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1682,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-007",
+          "source_title": "Hash table average and worst case",
+          "source_text": "Hash table lookup, insertion and deletion average O(1) time. The worst case degrades to O(n) when many keys collide into the same bucket, for example under a poor hash function or an adversarial key set."
+        },
+        {
+          "claim": "{'input': '1 -> 2 -> 3 -> 4 -> None', 'expected_output': '4 -> 3 -> 2 -> 1 -> None'},",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.0469,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "{'input': '5 -> None', 'expected_output': '5 -> None'}",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2004,
+          "keyword_grounding": 0.0,
+          "source_id": "math-005",
+          "source_title": "Probability axioms",
+          "source_text": "A probability is a real number between 0 and 1 inclusive. The probabilities of all mutually exclusive outcomes in a sample space sum to 1. For independent events A and B, P(A and B) = P(A) * P(B)."
+        }
+      ],
+      "claims": [
+        {
+          "text": "Implement a recursive function to reverse a singly linked list in-place without using any additional data structures.",
+          "claim_type": "inference",
+          "start": 0,
+          "end": 117
+        },
+        {
+          "text": "The function should modify the list directly and return the new head of the reversed list.",
+          "claim_type": "factual",
+          "start": 118,
+          "end": 208
+        },
+        {
+          "text": "The time complexity should not exceed O(n), where n is the number of nodes in the list.",
+          "claim_type": "factual",
+          "start": 209,
+          "end": 296
+        },
+        {
+          "text": "The space complexity should not exceed O(1) beyond the call stack.",
+          "claim_type": "factual",
+          "start": 297,
+          "end": 363
+        },
+        {
+          "text": "def reverse(head):",
+          "claim_type": "inference",
+          "start": 365,
+          "end": 383
+        },
+        {
+          "text": "if not head or not head.next:",
+          "claim_type": "inference",
+          "start": 388,
+          "end": 417
+        },
+        {
+          "text": "p = reverse(head.next)",
+          "claim_type": "inference",
+          "start": 442,
+          "end": 464
+        },
+        {
+          "text": "head.next.next = head",
+          "claim_type": "inference",
+          "start": 469,
+          "end": 490
+        },
+        {
+          "text": "head.next = None",
+          "claim_type": "inference",
+          "start": 495,
+          "end": 511
+        },
+        {
+          "text": "# Test cases",
+          "claim_type": "inference",
+          "start": 526,
+          "end": 538
+        },
+        {
+          "text": "{'input': '1 -> 2 -> 3 -> 4 -> None', 'expected_output': '4 -> 3 -> 2 -> 1 -> None'},",
+          "claim_type": "inference",
+          "start": 558,
+          "end": 643
+        },
+        {
+          "text": "{'input': '5 -> None', 'expected_output': '5 -> None'}",
+          "claim_type": "inference",
+          "start": 648,
+          "end": 702
+        }
+      ],
+      "contradictions": [
+        {
+          "type": "internal",
+          "claim_a": "Implement a recursive function to reverse a singly linked list in-place without using any additional data structures.",
+          "claim_b": "The function should modify the list directly and return the new head of the reversed list.",
+          "similarity": 0.6799,
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.68 similar, so they are about the same thing)",
+          "span_a": [
+            0,
+            117
+          ],
+          "span_b": [
+            118,
+            208
+          ]
+        },
+        {
+          "type": "internal",
+          "claim_a": "if not head or not head.next:",
+          "claim_b": "head.next.next = head",
+          "similarity": 0.7923,
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.79 similar, so they are about the same thing)",
+          "span_a": [
+            388,
+            417
+          ],
+          "span_b": [
+            469,
+            490
+          ]
+        },
+        {
+          "type": "internal",
+          "claim_a": "if not head or not head.next:",
+          "claim_b": "head.next = None",
+          "similarity": 0.7797,
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.78 similar, so they are about the same thing)",
+          "span_a": [
+            388,
+            417
+          ],
+          "span_b": [
+            495,
+            511
+          ]
+        },
+        {
+          "type": "external",
+          "claim_a": "Implement a recursive function to reverse a singly linked list in-place without using any additional data structures.",
+          "claim_b": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once.",
+          "similarity": 0.7969,
+          "reason": "contradicts the reference corpus entry 'Singly linked list reversal' (CLRS, Introduction to Algorithms, 3rd edition, Chapter 10): one statement asserts what the other denies",
+          "span_a": [
+            0,
+            117
+          ],
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal"
+        }
+      ],
+      "signals": {
+        "source_grounding": 0.8333,
+        "non_hallucination": 0.625,
+        "factual_consistency": 0.4689,
+        "non_contradiction": 0.0,
+        "answer_completeness": 1.0,
+        "unsupported": 0.1667,
+        "contradiction": 1.0,
+        "fabrication_markers": 0.0,
+        "self_inconsistency": 0.0,
+        "self_consistency_agreement": 1.0
+      },
+      "reasons": [
+        "2 of 3 checkable claims were grounded in the local reference corpus (grounding score 0.83)",
+        "estimated hallucination probability 0.38",
+        "3 internal self-contradiction(s); 1 conflict(s) with the reference corpus",
+        "1 claim(s) matched the corpus topically but their specific details were not confirmed",
+        "4 contradiction(s) detected"
+      ],
+      "recommendations": [
+        "Resolve the contradictions listed in flagged_spans before using this content - the statements cannot all be correct.",
+        "Remove unverifiable specifics - invented citations, precise statistics and absolute claims are the main drivers of the hallucination estimate."
+      ],
+      "embedding_backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+      "analysis_time_ms": 91.3,
+      "within_latency_budget": true
+    }
+  },
+  {
+    "variation": 3,
+    "solution_method": "iterative",
+    "wall_ms": 191.6,
+    "response": {
+      "reliability_score": 0.4452,
+      "hallucination_probability": 0.525,
+      "verdict": "misleading",
+      "flagged_spans": [
+        {
+          "text": "Implement an iterative function to reverse the linked list in-place without using any additional data structures.",
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.85 similar, so they are about the same thing)",
+          "start": 236,
+          "end": 349,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "The function iteratively reverses the linked list by adjusting the 'next' pointers of each node.",
+          "best_similarity": 0.8536
+        },
+        {
+          "text": "Implement an iterative function to reverse the linked list in-place without using any additional data structures.",
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.63 similar, so they are about the same thing)",
+          "start": 236,
+          "end": 349,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "It starts from the head and iteratively moves each node to the front of the reversed list.",
+          "best_similarity": 0.6332
+        },
+        {
+          "text": "You are managing a playlist of songs in a music player.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.22, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 0,
+          "end": 55,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "A Python list is implemented as a dynamic array, not a linked list. Appending is amortised O(1), indexing is O(1), and inserting or deleting at the front is O(n) because later elements must shift.",
+          "best_similarity": 0.2186
+        },
+        {
+          "text": "The songs are stored in a singly linked list, where each node represents a song and contains the song's title.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.32, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 56,
+          "end": 166,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.3154
+        },
+        {
+          "text": "The goal is to shuffle the playlist by reversing the order of songs.",
+          "reason": "only partially supported: only weakly related to 'Reversing a linked list in groups of k' (0.40 similarity, below the 0.55 support threshold)",
+          "start": 167,
+          "end": 235,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left ",
+          "best_similarity": 0.3952
+        },
+        {
+          "text": "The function should modify the playlist directly and return the new head of the reversed list.",
+          "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.51 similarity, below the 0.55 support threshold)",
+          "start": 350,
+          "end": 444,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.5113
+        },
+        {
+          "text": "assert reversed_head.next.next.next is None",
+          "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.49 similarity, below the 0.55 support threshold)",
+          "start": 1241,
+          "end": 1284,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.4897
+        }
+      ],
+      "confidence_score": 0.7857,
+      "evidence": [
+        {
+          "claim": "You are managing a playlist of songs in a music player.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2186,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-013",
+          "source_title": "Python list is a dynamic array",
+          "source_text": "A Python list is implemented as a dynamic array, not a linked list. Appending is amortised O(1), indexing is O(1), and inserting or deleting at the front is O(n) because later elements must shift."
+        },
+        {
+          "claim": "The songs are stored in a singly linked list, where each node represents a song and contains the song's title.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3154,
+          "keyword_grounding": 0.4167,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The goal is to shuffle the playlist by reversing the order of songs.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.3952,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "Implement an iterative function to reverse the linked list in-place without using any additional data structures.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.6567,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "The function should modify the playlist directly and return the new head of the reversed list.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5113,
+          "keyword_grounding": 0.125,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The time complexity should not exceed O(n), where n is the number of nodes in the list.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5556,
+          "keyword_grounding": 0.375,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "The space complexity should not exceed O(1) beyond the call stack.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5668,
+          "keyword_grounding": 0.2857,
+          "source_id": "prog-002",
+          "source_title": "Recursive linked list reversal space cost",
+          "source_text": "A recursive reversal of a singly linked list uses O(n) space because each of the n recursive calls occupies a stack frame. It is not a constant-space solution."
+        },
+        {
+          "claim": "def reverse_playlist(head):",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.441,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "prev = None",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1911,
+          "keyword_grounding": 0.0,
+          "source_id": "lang-001",
+          "source_title": "Subject and predicate",
+          "source_text": "Every complete English sentence has a subject, which names what the sentence is about, and a predicate, which contains the verb and states something about the subject. In 'The old library closed last winter', the subject is 'The old library' and the predicate is 'closed last winter'."
+        },
+        {
+          "claim": "current = head",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2036,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-004",
+          "source_title": "Linked list traversal is sequential",
+          "source_text": "A singly linked list does not support random access. Reaching the i-th element requires traversing i nodes from the head, so indexed access costs O(n), unlike an array which costs O(1)."
+        },
+        {
+          "claim": "while current:",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.0685,
+          "keyword_grounding": 1.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "next_temp = current.next",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2774,
+          "keyword_grounding": 0.6667,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "current.next = prev",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2432,
+          "keyword_grounding": 0.6667,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "prev = current",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1287,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "current = next_temp",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2105,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "# Test cases",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1682,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-007",
+          "source_title": "Hash table average and worst case",
+          "source_text": "Hash table lookup, insertion and deletion average O(1) time. The worst case degrades to O(n) when many keys collide into the same bucket, for example under a poor hash function or an adversarial key set."
+        },
+        {
+          "claim": "def check_reverse_playlist():",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3742,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "# Assuming 'Song' class is defined elsewhere",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1801,
+          "keyword_grounding": 0.0,
+          "source_id": "lang-001",
+          "source_title": "Subject and predicate",
+          "source_text": "Every complete English sentence has a subject, which names what the sentence is about, and a predicate, which contains the verb and states something about the subject. In 'The old library closed last winter', the subject is 'The old library' and the predicate is 'closed last winter'."
+        },
+        {
+          "claim": "song1 = Song('Song A')",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1883,
+          "keyword_grounding": 0.0,
+          "source_id": "math-006",
+          "source_title": "Matrix multiplication dimensions",
+          "source_text": "Matrix multiplication is defined for an m-by-n matrix times an n-by-p matrix, producing an m-by-p result. It is associative and distributive but not commutative: A*B generally does not equal B*A."
+        },
+        {
+          "claim": "song2 = Song('Song B')",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2061,
+          "keyword_grounding": 0.0,
+          "source_id": "math-006",
+          "source_title": "Matrix multiplication dimensions",
+          "source_text": "Matrix multiplication is defined for an m-by-n matrix times an n-by-p matrix, producing an m-by-p result. It is associative and distributive but not commutative: A*B generally does not equal B*A."
+        },
+        {
+          "claim": "song3 = Song('Song C')",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1789,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "song1.next = song2",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.28,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "song2.next = song3",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2792,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "head = song1",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2012,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-004",
+          "source_title": "Linked list traversal is sequential",
+          "source_text": "A singly linked list does not support random access. Reaching the i-th element requires traversing i nodes from the head, so indexed access costs O(n), unlike an array which costs O(1)."
+        },
+        {
+          "claim": "reversed_head = reverse_playlist(head)",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5031,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "assert reversed_head.title == 'Song C'",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2263,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "assert reversed_head.next.title == 'Song B'",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3117,
+          "keyword_grounding": 0.2,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "assert reversed_head.next.next.title == 'Song A'",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3559,
+          "keyword_grounding": 0.2,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "assert reversed_head.next.next.next is None",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4897,
+          "keyword_grounding": 0.25,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The function iteratively reverses the linked list by adjusting the 'next' pointers of each node.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.8681,
+          "keyword_grounding": 0.7778,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "It starts from the head and iteratively moves each node to the front of the reversed list.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.718,
+          "keyword_grounding": 0.4444,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        }
+      ],
+      "claims": [
+        {
+          "text": "You are managing a playlist of songs in a music player.",
+          "claim_type": "factual",
+          "start": 0,
+          "end": 55
+        },
+        {
+          "text": "The songs are stored in a singly linked list, where each node represents a song and contains the song's title.",
+          "claim_type": "factual",
+          "start": 56,
+          "end": 166
+        },
+        {
+          "text": "The goal is to shuffle the playlist by reversing the order of songs.",
+          "claim_type": "factual",
+          "start": 167,
+          "end": 235
+        },
+        {
+          "text": "Implement an iterative function to reverse the linked list in-place without using any additional data structures.",
+          "claim_type": "inference",
+          "start": 236,
+          "end": 349
+        },
+        {
+          "text": "The function should modify the playlist directly and return the new head of the reversed list.",
+          "claim_type": "factual",
+          "start": 350,
+          "end": 444
+        },
+        {
+          "text": "The time complexity should not exceed O(n), where n is the number of nodes in the list.",
+          "claim_type": "factual",
+          "start": 445,
+          "end": 532
+        },
+        {
+          "text": "The space complexity should not exceed O(1) beyond the call stack.",
+          "claim_type": "factual",
+          "start": 533,
+          "end": 599
+        },
+        {
+          "text": "def reverse_playlist(head):",
+          "claim_type": "inference",
+          "start": 601,
+          "end": 628
+        },
+        {
+          "text": "prev = None",
+          "claim_type": "inference",
+          "start": 633,
+          "end": 644
+        },
+        {
+          "text": "current = head",
+          "claim_type": "inference",
+          "start": 649,
+          "end": 663
+        },
+        {
+          "text": "while current:",
+          "claim_type": "inference",
+          "start": 668,
+          "end": 682
+        },
+        {
+          "text": "next_temp = current.next",
+          "claim_type": "inference",
+          "start": 691,
+          "end": 715
+        },
+        {
+          "text": "current.next = prev",
+          "claim_type": "inference",
+          "start": 724,
+          "end": 743
+        },
+        {
+          "text": "prev = current",
+          "claim_type": "inference",
+          "start": 752,
+          "end": 766
+        },
+        {
+          "text": "current = next_temp",
+          "claim_type": "inference",
+          "start": 775,
+          "end": 794
+        },
+        {
+          "text": "# Test cases",
+          "claim_type": "inference",
+          "start": 812,
+          "end": 824
+        },
+        {
+          "text": "def check_reverse_playlist():",
+          "claim_type": "inference",
+          "start": 825,
+          "end": 854
+        },
+        {
+          "text": "# Assuming 'Song' class is defined elsewhere",
+          "claim_type": "assumption",
+          "start": 859,
+          "end": 903
+        },
+        {
+          "text": "song1 = Song('Song A')",
+          "claim_type": "inference",
+          "start": 908,
+          "end": 930
+        },
+        {
+          "text": "song2 = Song('Song B')",
+          "claim_type": "inference",
+          "start": 935,
+          "end": 957
+        },
+        {
+          "text": "song3 = Song('Song C')",
+          "claim_type": "inference",
+          "start": 962,
+          "end": 984
+        },
+        {
+          "text": "song1.next = song2",
+          "claim_type": "inference",
+          "start": 989,
+          "end": 1007
+        },
+        {
+          "text": "song2.next = song3",
+          "claim_type": "inference",
+          "start": 1012,
+          "end": 1030
+        },
+        {
+          "text": "head = song1",
+          "claim_type": "inference",
+          "start": 1035,
+          "end": 1047
+        },
+        {
+          "text": "reversed_head = reverse_playlist(head)",
+          "claim_type": "inference",
+          "start": 1053,
+          "end": 1091
+        },
+        {
+          "text": "assert reversed_head.title == 'Song C'",
+          "claim_type": "inference",
+          "start": 1097,
+          "end": 1135
+        },
+        {
+          "text": "assert reversed_head.next.title == 'Song B'",
+          "claim_type": "inference",
+          "start": 1140,
+          "end": 1183
+        },
+        {
+          "text": "assert reversed_head.next.next.title == 'Song A'",
+          "claim_type": "inference",
+          "start": 1188,
+          "end": 1236
+        },
+        {
+          "text": "assert reversed_head.next.next.next is None",
+          "claim_type": "factual",
+          "start": 1241,
+          "end": 1284
+        },
+        {
+          "text": "The function iteratively reverses the linked list by adjusting the 'next' pointers of each node.",
+          "claim_type": "inference",
+          "start": 1311,
+          "end": 1407
+        },
+        {
+          "text": "It starts from the head and iteratively moves each node to the front of the reversed list.",
+          "claim_type": "inference",
+          "start": 1408,
+          "end": 1498
+        }
+      ],
+      "contradictions": [
+        {
+          "type": "internal",
+          "claim_a": "Implement an iterative function to reverse the linked list in-place without using any additional data structures.",
+          "claim_b": "The function iteratively reverses the linked list by adjusting the 'next' pointers of each node.",
+          "similarity": 0.8536,
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.85 similar, so they are about the same thing)",
+          "span_a": [
+            236,
+            349
+          ],
+          "span_b": [
+            1311,
+            1407
+          ]
+        },
+        {
+          "type": "internal",
+          "claim_a": "Implement an iterative function to reverse the linked list in-place without using any additional data structures.",
+          "claim_b": "It starts from the head and iteratively moves each node to the front of the reversed list.",
+          "similarity": 0.6332,
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.63 similar, so they are about the same thing)",
+          "span_a": [
+            236,
+            349
+          ],
+          "span_b": [
+            1408,
+            1498
+          ]
+        }
+      ],
+      "signals": {
+        "source_grounding": 0.5,
+        "non_hallucination": 0.475,
+        "factual_consistency": 0.3637,
+        "non_contradiction": 0.2,
+        "answer_completeness": 1.0,
+        "unsupported": 0.5,
+        "contradiction": 1.0,
+        "fabrication_markers": 0.0,
+        "self_inconsistency": 0.0,
+        "self_consistency_agreement": 1.0
+      },
+      "reasons": [
+        "2 of 7 checkable claims were grounded in the local reference corpus (grounding score 0.50)",
+        "estimated hallucination probability 0.53",
+        "2 internal self-contradiction(s)",
+        "2 of 7 checkable claims could not be grounded in the local reference corpus",
+        "3 claim(s) matched the corpus topically but their specific details were not confirmed",
+        "2 contradiction(s) detected"
+      ],
+      "recommendations": [
+        "Resolve the contradictions listed in flagged_spans before using this content - the statements cannot all be correct.",
+        "Remove unverifiable specifics - invented citations, precise statistics and absolute claims are the main drivers of the hallucination estimate."
+      ],
+      "embedding_backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+      "analysis_time_ms": 187.31,
+      "within_latency_budget": true
+    }
+  },
+  {
+    "variation": 4,
+    "solution_method": "recursive",
+    "wall_ms": 129.8,
+    "response": {
+      "reliability_score": 0.2642,
+      "hallucination_probability": 0.6937,
+      "verdict": "misleading",
+      "flagged_spans": [
+        {
+          "text": "if not head or not head.next:",
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.79 similar, so they are about the same thing)",
+          "start": 470,
+          "end": 499,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "head.next.next = head",
+          "best_similarity": 0.7923
+        },
+        {
+          "text": "if not head or not head.next:",
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.78 similar, so they are about the same thing)",
+          "start": 470,
+          "end": 499,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "head.next = None",
+          "best_similarity": 0.7797
+        },
+        {
+          "text": "You are an experienced software engineer tasked with optimizing the data retrieval process for a large e-commerce platform.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.20, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 0,
+          "end": 123,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Breadth-first search explores a graph level by level using a queue and finds shortest paths in unweighted graphs. Depth-first search explores as deep as possible using a stack or recursion. Both run in O(V + E) time on a",
+          "best_similarity": 0.1959
+        },
+        {
+          "text": "The platform uses a singly linked list to store product reviews, where each node represents a review and contains a rating.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.33, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 124,
+          "end": 247,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.3298
+        },
+        {
+          "text": "To improve user experience, you need to reverse the order of reviews based on their ratings.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.33, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 248,
+          "end": 340,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left ",
+          "best_similarity": 0.3291
+        },
+        {
+          "text": "Implement a recursive function to achieve this, ensuring that the original list is not modified.",
+          "reason": "only partially supported: only weakly related to 'Reversing a linked list in groups of k' (0.45 similarity, below the 0.55 support threshold)",
+          "start": 341,
+          "end": 437,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left ",
+          "best_similarity": 0.4545
+        }
+      ],
+      "confidence_score": 0.6,
+      "evidence": [
+        {
+          "claim": "You are an experienced software engineer tasked with optimizing the data retrieval process for a large e-commerce platform.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1959,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-010",
+          "source_title": "Breadth-first and depth-first search",
+          "source_text": "Breadth-first search explores a graph level by level using a queue and finds shortest paths in unweighted graphs. Depth-first search explores as deep as possible using a stack or recursion. Both run in O(V + E) time on an adjacency list."
+        },
+        {
+          "claim": "The platform uses a singly linked list to store product reviews, where each node represents a review and contains a rating.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3298,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "To improve user experience, you need to reverse the order of reviews based on their ratings.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3291,
+          "keyword_grounding": 0.1111,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "Implement a recursive function to achieve this, ensuring that the original list is not modified.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4545,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "def reverse_reviews(head):",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3193,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "if not head or not head.next:",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2469,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "new_head = reverse_reviews(head.next)",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4099,
+          "keyword_grounding": 0.25,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "head.next.next = head",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3686,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "head.next = None",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3396,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "def test_reverse_reviews():",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2489,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "node1 = Node(5)",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.386,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "node2 = Node(3)",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.38,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "node3 = Node(8)",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3735,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "node1.next = node2",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4239,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "node2.next = node3",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.3916,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "reversed_head = reverse_reviews(node1)",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4851,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "assert reversed_head.val == 8 and reversed_head.next.val == 5 and reversed_head.next.next.val == 3",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5114,
+          "keyword_grounding": 0.25,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "single_node = Node(7)",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3487,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "reversed_head = reverse_reviews(single_node)",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4889,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "assert reversed_head.val == 7",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3285,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        }
+      ],
+      "claims": [
+        {
+          "text": "You are an experienced software engineer tasked with optimizing the data retrieval process for a large e-commerce platform.",
+          "claim_type": "factual",
+          "start": 0,
+          "end": 123
+        },
+        {
+          "text": "The platform uses a singly linked list to store product reviews, where each node represents a review and contains a rating.",
+          "claim_type": "factual",
+          "start": 124,
+          "end": 247
+        },
+        {
+          "text": "To improve user experience, you need to reverse the order of reviews based on their ratings.",
+          "claim_type": "factual",
+          "start": 248,
+          "end": 340
+        },
+        {
+          "text": "Implement a recursive function to achieve this, ensuring that the original list is not modified.",
+          "claim_type": "factual",
+          "start": 341,
+          "end": 437
+        },
+        {
+          "text": "def reverse_reviews(head):",
+          "claim_type": "inference",
+          "start": 439,
+          "end": 465
+        },
+        {
+          "text": "if not head or not head.next:",
+          "claim_type": "inference",
+          "start": 470,
+          "end": 499
+        },
+        {
+          "text": "new_head = reverse_reviews(head.next)",
+          "claim_type": "inference",
+          "start": 524,
+          "end": 561
+        },
+        {
+          "text": "head.next.next = head",
+          "claim_type": "inference",
+          "start": 566,
+          "end": 587
+        },
+        {
+          "text": "head.next = None",
+          "claim_type": "inference",
+          "start": 592,
+          "end": 608
+        },
+        {
+          "text": "def test_reverse_reviews():",
+          "claim_type": "inference",
+          "start": 630,
+          "end": 657
+        },
+        {
+          "text": "node1 = Node(5)",
+          "claim_type": "inference",
+          "start": 678,
+          "end": 693
+        },
+        {
+          "text": "node2 = Node(3)",
+          "claim_type": "inference",
+          "start": 698,
+          "end": 713
+        },
+        {
+          "text": "node3 = Node(8)",
+          "claim_type": "inference",
+          "start": 718,
+          "end": 733
+        },
+        {
+          "text": "node1.next = node2",
+          "claim_type": "inference",
+          "start": 738,
+          "end": 756
+        },
+        {
+          "text": "node2.next = node3",
+          "claim_type": "inference",
+          "start": 761,
+          "end": 779
+        },
+        {
+          "text": "reversed_head = reverse_reviews(node1)",
+          "claim_type": "inference",
+          "start": 784,
+          "end": 822
+        },
+        {
+          "text": "assert reversed_head.val == 8 and reversed_head.next.val == 5 and reversed_head.next.next.val == 3",
+          "claim_type": "inference",
+          "start": 827,
+          "end": 925
+        },
+        {
+          "text": "single_node = Node(7)",
+          "claim_type": "inference",
+          "start": 947,
+          "end": 968
+        },
+        {
+          "text": "reversed_head = reverse_reviews(single_node)",
+          "claim_type": "inference",
+          "start": 973,
+          "end": 1017
+        },
+        {
+          "text": "assert reversed_head.val == 7",
+          "claim_type": "inference",
+          "start": 1022,
+          "end": 1051
+        }
+      ],
+      "contradictions": [
+        {
+          "type": "internal",
+          "claim_a": "if not head or not head.next:",
+          "claim_b": "head.next.next = head",
+          "similarity": 0.7923,
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.79 similar, so they are about the same thing)",
+          "span_a": [
+            470,
+            499
+          ],
+          "span_b": [
+            566,
+            587
+          ]
+        },
+        {
+          "type": "internal",
+          "claim_a": "if not head or not head.next:",
+          "claim_b": "head.next = None",
+          "similarity": 0.7797,
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.78 similar, so they are about the same thing)",
+          "span_a": [
+            470,
+            499
+          ],
+          "span_b": [
+            592,
+            608
+          ]
+        }
+      ],
+      "signals": {
+        "source_grounding": 0.125,
+        "non_hallucination": 0.3063,
+        "factual_consistency": 0.2742,
+        "non_contradiction": 0.2,
+        "answer_completeness": 1.0,
+        "unsupported": 0.875,
+        "contradiction": 1.0,
+        "fabrication_markers": 0.0,
+        "self_inconsistency": 0.0,
+        "self_consistency_agreement": 1.0
+      },
+      "reasons": [
+        "0 of 4 checkable claims were grounded in the local reference corpus (grounding score 0.12)",
+        "estimated hallucination probability 0.69",
+        "2 internal self-contradiction(s)",
+        "3 of 4 checkable claims could not be grounded in the local reference corpus",
+        "1 claim(s) matched the corpus topically but their specific details were not confirmed",
+        "2 contradiction(s) detected"
+      ],
+      "recommendations": [
+        "Resolve the contradictions listed in flagged_spans before using this content - the statements cannot all be correct.",
+        "Add or cite supporting evidence, or extend the local reference corpus to cover this topic, then re-verify.",
+        "Remove unverifiable specifics - invented citations, precise statistics and absolute claims are the main drivers of the hallucination estimate."
+      ],
+      "embedding_backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+      "analysis_time_ms": 125.31,
+      "within_latency_budget": true
+    }
+  },
+  {
+    "variation": 5,
+    "solution_method": "auxiliary",
+    "wall_ms": 750.8,
+    "response": {
+      "reliability_score": 0.5023,
+      "hallucination_probability": 0.375,
+      "verdict": "unverifiable",
+      "flagged_spans": [
+        {
+          "text": "You are managing a stack of books in a library.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.28, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 0,
+          "end": 47,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time.",
+          "best_similarity": 0.2822
+        },
+        {
+          "text": "Each book is represented by a node in a singly linked list, where each node contains the title of the book.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.38, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 48,
+          "end": 155,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.3797
+        },
+        {
+          "text": "The original stack should not be modified.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.29, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 374,
+          "end": 416,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time.",
+          "best_similarity": 0.2943
+        },
+        {
+          "text": "Implement the function and provide two test cases to verify its correctness.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.16, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 417,
+          "end": 493,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space.",
+          "best_similarity": 0.1619
+        },
+        {
+          "text": "Your task is to implement a function that reverses the order of the books in the stack so that the last book pushed onto the stack is at the front.",
+          "reason": "only partially supported: only weakly related to 'Stack and queue ordering' (0.47 similarity, below the 0.55 support threshold)",
+          "start": 156,
+          "end": 303,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time.",
+          "best_similarity": 0.4652
+        },
+        {
+          "text": "The function should use an auxiliary stack to help with the reversal.",
+          "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.55 similarity, below the 0.55 support threshold)",
+          "start": 304,
+          "end": 373,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.5467
+        }
+      ],
+      "confidence_score": 0.7,
+      "evidence": [
+        {
+          "claim": "You are managing a stack of books in a library.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2822,
+          "keyword_grounding": 0.25,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "Each book is represented by a node in a singly linked list, where each node contains the title of the book.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3797,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Your task is to implement a function that reverses the order of the books in the stack so that the last book pushed onto the stack is at the front.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4652,
+          "keyword_grounding": 0.3,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "The function should use an auxiliary stack to help with the reversal.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5467,
+          "keyword_grounding": 0.2,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The original stack should not be modified.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2943,
+          "keyword_grounding": 0.25,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "Implement the function and provide two test cases to verify its correctness.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1619,
+          "keyword_grounding": 0.1667,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "def reverse_books(head):",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.3936,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "current = head",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2036,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-004",
+          "source_title": "Linked list traversal is sequential",
+          "source_text": "A singly linked list does not support random access. Reaching the i-th element requires traversing i nodes from the head, so indexed access costs O(n), unlike an array which costs O(1)."
+        },
+        {
+          "claim": "while current:",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.0685,
+          "keyword_grounding": 1.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "stack.append(current)",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3395,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "current = current.next",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2566,
+          "keyword_grounding": 1.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "new_head = stack.pop()",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2436,
+          "keyword_grounding": 0.6667,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "current = new_head",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1519,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "while stack:",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4096,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "current.next = stack.pop()",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2879,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "current = current.next",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2566,
+          "keyword_grounding": 1.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "current.next = None",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2985,
+          "keyword_grounding": 0.6667,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "# Test cases",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1682,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-007",
+          "source_title": "Hash table average and worst case",
+          "source_text": "Hash table lookup, insertion and deletion average O(1) time. The worst case degrades to O(n) when many keys collide into the same bucket, for example under a poor hash function or an adversarial key set."
+        },
+        {
+          "claim": "test1 = {'input': 'Harry Potter -> The Hobbit -> The Lord of the Rings', 'expected_output': 'The Lord of the Rings -> The Hobbit -> Harry Potter'}",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.185,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-013",
+          "source_title": "Python list is a dynamic array",
+          "source_text": "A Python list is implemented as a dynamic array, not a linked list. Appending is amortised O(1), indexing is O(1), and inserting or deleting at the front is O(n) because later elements must shift."
+        },
+        {
+          "claim": "test2 = {'input': '', 'expected_output': ''}",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.0,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        }
+      ],
+      "claims": [
+        {
+          "text": "You are managing a stack of books in a library.",
+          "claim_type": "factual",
+          "start": 0,
+          "end": 47
+        },
+        {
+          "text": "Each book is represented by a node in a singly linked list, where each node contains the title of the book.",
+          "claim_type": "factual",
+          "start": 48,
+          "end": 155
+        },
+        {
+          "text": "Your task is to implement a function that reverses the order of the books in the stack so that the last book pushed onto the stack is at the front.",
+          "claim_type": "factual",
+          "start": 156,
+          "end": 303
+        },
+        {
+          "text": "The function should use an auxiliary stack to help with the reversal.",
+          "claim_type": "factual",
+          "start": 304,
+          "end": 373
+        },
+        {
+          "text": "The original stack should not be modified.",
+          "claim_type": "factual",
+          "start": 374,
+          "end": 416
+        },
+        {
+          "text": "Implement the function and provide two test cases to verify its correctness.",
+          "claim_type": "factual",
+          "start": 417,
+          "end": 493
+        },
+        {
+          "text": "def reverse_books(head):",
+          "claim_type": "inference",
+          "start": 495,
+          "end": 519
+        },
+        {
+          "text": "current = head",
+          "claim_type": "inference",
+          "start": 576,
+          "end": 590
+        },
+        {
+          "text": "while current:",
+          "claim_type": "inference",
+          "start": 595,
+          "end": 609
+        },
+        {
+          "text": "stack.append(current)",
+          "claim_type": "inference",
+          "start": 618,
+          "end": 639
+        },
+        {
+          "text": "current = current.next",
+          "claim_type": "inference",
+          "start": 648,
+          "end": 670
+        },
+        {
+          "text": "new_head = stack.pop()",
+          "claim_type": "inference",
+          "start": 675,
+          "end": 697
+        },
+        {
+          "text": "current = new_head",
+          "claim_type": "inference",
+          "start": 702,
+          "end": 720
+        },
+        {
+          "text": "while stack:",
+          "claim_type": "inference",
+          "start": 725,
+          "end": 737
+        },
+        {
+          "text": "current.next = stack.pop()",
+          "claim_type": "inference",
+          "start": 746,
+          "end": 772
+        },
+        {
+          "text": "current = current.next",
+          "claim_type": "inference",
+          "start": 781,
+          "end": 803
+        },
+        {
+          "text": "current.next = None",
+          "claim_type": "inference",
+          "start": 808,
+          "end": 827
+        },
+        {
+          "text": "# Test cases",
+          "claim_type": "inference",
+          "start": 849,
+          "end": 861
+        },
+        {
+          "text": "test1 = {'input': 'Harry Potter -> The Hobbit -> The Lord of the Rings', 'expected_output': 'The Lord of the Rings -> The Hobbit -> Harry Potter'}",
+          "claim_type": "inference",
+          "start": 862,
+          "end": 1008
+        },
+        {
+          "text": "test2 = {'input': '', 'expected_output': ''}",
+          "claim_type": "inference",
+          "start": 1009,
+          "end": 1053
+        }
+      ],
+      "contradictions": [],
+      "signals": {
+        "source_grounding": 0.1667,
+        "non_hallucination": 0.625,
+        "factual_consistency": 0.3241,
+        "non_contradiction": 1.0,
+        "answer_completeness": 1.0,
+        "unsupported": 0.8333,
+        "contradiction": 0.0,
+        "fabrication_markers": 0.0,
+        "self_inconsistency": 0.0,
+        "self_consistency_agreement": 1.0
+      },
+      "reasons": [
+        "0 of 6 checkable claims were grounded in the local reference corpus (grounding score 0.17)",
+        "estimated hallucination probability 0.38",
+        "4 of 6 checkable claims could not be grounded in the local reference corpus",
+        "2 claim(s) matched the corpus topically but their specific details were not confirmed"
+      ],
+      "recommendations": [
+        "Add or cite supporting evidence, or extend the local reference corpus to cover this topic, then re-verify.",
+        "Remove unverifiable specifics - invented citations, precise statistics and absolute claims are the main drivers of the hallucination estimate.",
+        "Route to human review: the corpus has no evidence either way, so this is unconfirmed rather than wrong."
+      ],
+      "embedding_backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+      "analysis_time_ms": 743.21,
+      "within_latency_budget": true
+    }
+  },
+  {
+    "variation": 6,
+    "solution_method": "iterative",
+    "wall_ms": 69.6,
+    "response": {
+      "reliability_score": 0.6008,
+      "hallucination_probability": 0.3375,
+      "verdict": "misleading",
+      "flagged_spans": [
+        {
+          "text": "Your task is to implement an iterative function that reverses the linked list in-place.",
+          "reason": "contradicts the reference corpus entry 'In-place algorithms and auxiliary space' (CLRS, Introduction to Algorithms, 3rd edition): one statement asserts what the other denies",
+          "start": 236,
+          "end": 323,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory.",
+          "best_similarity": 0.6495
+        },
+        {
+          "text": "You are developing a feature for a social media platform that allows users to reverse the order of comments on a post.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.38, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 0,
+          "end": 118,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left ",
+          "best_similarity": 0.3765
+        },
+        {
+          "text": "The comments are stored in a singly linked list, where each node represents a comment and contains the comment text.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.28, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 119,
+          "end": 235,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.2759
+        },
+        {
+          "text": "The function should modify the comment order directly and return the new head of the reversed list.",
+          "reason": "only partially supported: only weakly related to 'Reversing a linked list in groups of k' (0.48 similarity, below the 0.55 support threshold)",
+          "start": 324,
+          "end": 423,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left ",
+          "best_similarity": 0.4812
+        }
+      ],
+      "confidence_score": 0.85,
+      "evidence": [
+        {
+          "claim": "You are developing a feature for a social media platform that allows users to reverse the order of comments on a post.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3765,
+          "keyword_grounding": 0.0909,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "The comments are stored in a singly linked list, where each node represents a comment and contains the comment text.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2759,
+          "keyword_grounding": 0.4167,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Your task is to implement an iterative function that reverses the linked list in-place.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.6495,
+          "keyword_grounding": 0.6667,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "The function should modify the comment order directly and return the new head of the reversed list.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4812,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "The time complexity should not exceed O(n), where n is the number of nodes in the list.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5556,
+          "keyword_grounding": 0.375,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "The space complexity should not exceed O(1) beyond the call stack.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5668,
+          "keyword_grounding": 0.2857,
+          "source_id": "prog-002",
+          "source_title": "Recursive linked list reversal space cost",
+          "source_text": "A recursive reversal of a singly linked list uses O(n) space because each of the n recursive calls occupies a stack frame. It is not a constant-space solution."
+        },
+        {
+          "claim": "def reverse_comments(head):",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3565,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "prev = None",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1911,
+          "keyword_grounding": 0.0,
+          "source_id": "lang-001",
+          "source_title": "Subject and predicate",
+          "source_text": "Every complete English sentence has a subject, which names what the sentence is about, and a predicate, which contains the verb and states something about the subject. In 'The old library closed last winter', the subject is 'The old library' and the predicate is 'closed last winter'."
+        },
+        {
+          "claim": "current = head",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2036,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-004",
+          "source_title": "Linked list traversal is sequential",
+          "source_text": "A singly linked list does not support random access. Reaching the i-th element requires traversing i nodes from the head, so indexed access costs O(n), unlike an array which costs O(1)."
+        },
+        {
+          "claim": "while current:",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.0685,
+          "keyword_grounding": 1.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "next_node = current.next",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4289,
+          "keyword_grounding": 0.6667,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "current.next = prev",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2432,
+          "keyword_grounding": 0.6667,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "prev = current",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1287,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "current = next_node",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.3828,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "# Test cases",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1682,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-007",
+          "source_title": "Hash table average and worst case",
+          "source_text": "Hash table lookup, insertion and deletion average O(1) time. The worst case degrades to O(n) when many keys collide into the same bucket, for example under a poor hash function or an adversarial key set."
+        },
+        {
+          "claim": "{'input': ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5))))), 'expected_output': ListNode(5, ListNode(4, ListNode(3, ListNode(2, ListNode(1)))))},",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1912,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "{'input': None, 'expected_output': None}",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.0,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        }
+      ],
+      "claims": [
+        {
+          "text": "You are developing a feature for a social media platform that allows users to reverse the order of comments on a post.",
+          "claim_type": "factual",
+          "start": 0,
+          "end": 118
+        },
+        {
+          "text": "The comments are stored in a singly linked list, where each node represents a comment and contains the comment text.",
+          "claim_type": "factual",
+          "start": 119,
+          "end": 235
+        },
+        {
+          "text": "Your task is to implement an iterative function that reverses the linked list in-place.",
+          "claim_type": "factual",
+          "start": 236,
+          "end": 323
+        },
+        {
+          "text": "The function should modify the comment order directly and return the new head of the reversed list.",
+          "claim_type": "factual",
+          "start": 324,
+          "end": 423
+        },
+        {
+          "text": "The time complexity should not exceed O(n), where n is the number of nodes in the list.",
+          "claim_type": "factual",
+          "start": 424,
+          "end": 511
+        },
+        {
+          "text": "The space complexity should not exceed O(1) beyond the call stack.",
+          "claim_type": "factual",
+          "start": 512,
+          "end": 578
+        },
+        {
+          "text": "def reverse_comments(head):",
+          "claim_type": "inference",
+          "start": 580,
+          "end": 607
+        },
+        {
+          "text": "prev = None",
+          "claim_type": "inference",
+          "start": 612,
+          "end": 623
+        },
+        {
+          "text": "current = head",
+          "claim_type": "inference",
+          "start": 628,
+          "end": 642
+        },
+        {
+          "text": "while current:",
+          "claim_type": "inference",
+          "start": 647,
+          "end": 661
+        },
+        {
+          "text": "next_node = current.next",
+          "claim_type": "inference",
+          "start": 670,
+          "end": 694
+        },
+        {
+          "text": "current.next = prev",
+          "claim_type": "inference",
+          "start": 703,
+          "end": 722
+        },
+        {
+          "text": "prev = current",
+          "claim_type": "inference",
+          "start": 731,
+          "end": 745
+        },
+        {
+          "text": "current = next_node",
+          "claim_type": "inference",
+          "start": 754,
+          "end": 773
+        },
+        {
+          "text": "# Test cases",
+          "claim_type": "inference",
+          "start": 791,
+          "end": 803
+        },
+        {
+          "text": "{'input': ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5))))), 'expected_output': ListNode(5, ListNode(4, ListNode(3, ListNode(2, ListNode(1)))))},",
+          "claim_type": "inference",
+          "start": 823,
+          "end": 982
+        },
+        {
+          "text": "{'input': None, 'expected_output': None}",
+          "claim_type": "inference",
+          "start": 987,
+          "end": 1027
+        }
+      ],
+      "contradictions": [
+        {
+          "type": "external",
+          "claim_a": "Your task is to implement an iterative function that reverses the linked list in-place.",
+          "claim_b": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory.",
+          "similarity": 0.6495,
+          "reason": "contradicts the reference corpus entry 'In-place algorithms and auxiliary space' (CLRS, Introduction to Algorithms, 3rd edition): one statement asserts what the other denies",
+          "span_a": [
+            236,
+            323
+          ],
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space"
+        }
+      ],
+      "signals": {
+        "source_grounding": 0.5833,
+        "non_hallucination": 0.6625,
+        "factual_consistency": 0.4351,
+        "non_contradiction": 0.6,
+        "answer_completeness": 1.0,
+        "unsupported": 0.4167,
+        "contradiction": 0.5,
+        "fabrication_markers": 0.0,
+        "self_inconsistency": 0.0,
+        "self_consistency_agreement": 1.0
+      },
+      "reasons": [
+        "3 of 6 checkable claims were grounded in the local reference corpus (grounding score 0.58)",
+        "estimated hallucination probability 0.34",
+        "1 conflict(s) with the reference corpus",
+        "2 of 6 checkable claims could not be grounded in the local reference corpus",
+        "1 claim(s) matched the corpus topically but their specific details were not confirmed",
+        "1 contradiction(s) detected"
+      ],
+      "recommendations": [
+        "Resolve the contradictions listed in flagged_spans before using this content - the statements cannot all be correct.",
+        "Remove unverifiable specifics - invented citations, precise statistics and absolute claims are the main drivers of the hallucination estimate."
+      ],
+      "embedding_backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+      "analysis_time_ms": 65.75,
+      "within_latency_budget": true
+    }
+  },
+  {
+    "variation": 7,
+    "solution_method": "recursive",
+    "wall_ms": 45.2,
+    "response": {
+      "reliability_score": 0.4319,
+      "hallucination_probability": 0.525,
+      "verdict": "misleading",
+      "flagged_spans": [
+        {
+          "text": "Implement a recursive function to reverse the linked list, ensuring that the original list is not modified.",
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.67 similar, so they are about the same thing)",
+          "start": 188,
+          "end": 295,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "The function should return the new head of the reversed list.",
+          "best_similarity": 0.6656
+        },
+        {
+          "text": "if not head or not head.next:",
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.79 similar, so they are about the same thing)",
+          "start": 382,
+          "end": 411,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "head.next.next = head",
+          "best_similarity": 0.7923
+        },
+        {
+          "text": "if not head or not head.next:",
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.78 similar, so they are about the same thing)",
+          "start": 382,
+          "end": 411,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "head.next = None",
+          "best_similarity": 0.7797
+        },
+        {
+          "text": "Implement a recursive function to reverse the linked list, ensuring that the original list is not modified.",
+          "reason": "contradicts the reference corpus entry 'Reversing a linked list in groups of k' (LeetCode problem 25, Reverse Nodes in k-Group): one statement asserts what the other denies",
+          "start": 188,
+          "end": 295,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order.",
+          "best_similarity": 0.6999
+        },
+        {
+          "text": "The goal is to organize the books in reverse order based on their publication year.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.36, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 104,
+          "end": 187,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left ",
+          "best_similarity": 0.3636
+        },
+        {
+          "text": "You are a librarian managing a collection of books, each represented as a node in a singly linked list.",
+          "reason": "only partially supported: only weakly related to 'Doubly linked list trade-offs' (0.45 similarity, below the 0.55 support threshold)",
+          "start": 0,
+          "end": 103,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "A doubly linked list stores both next and previous pointers, allowing O(1) deletion given a node reference and bidirectional traversal, at the cost of one extra pointer of memory per node.",
+          "best_similarity": 0.4546
+        },
+        {
+          "text": "The function should return the new head of the reversed list.",
+          "reason": "only partially supported: only weakly related to 'In-place algorithms and auxiliary space' (0.49 similarity, below the 0.55 support threshold)",
+          "start": 296,
+          "end": 357,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory.",
+          "best_similarity": 0.4941
+        }
+      ],
+      "confidence_score": 0.675,
+      "evidence": [
+        {
+          "claim": "You are a librarian managing a collection of books, each represented as a node in a singly linked list.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4546,
+          "keyword_grounding": 0.3,
+          "source_id": "prog-015",
+          "source_title": "Doubly linked list trade-offs",
+          "source_text": "A doubly linked list stores both next and previous pointers, allowing O(1) deletion given a node reference and bidirectional traversal, at the cost of one extra pointer of memory per node."
+        },
+        {
+          "claim": "The goal is to organize the books in reverse order based on their publication year.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3636,
+          "keyword_grounding": 0.125,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "Implement a recursive function to reverse the linked list, ensuring that the original list is not modified.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.6999,
+          "keyword_grounding": 0.4286,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "The function should return the new head of the reversed list.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4941,
+          "keyword_grounding": 0.6,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "def reverse(head):",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4707,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "if not head or not head.next:",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2469,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "new_head = reverse(head.next)",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4929,
+          "keyword_grounding": 0.25,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "head.next.next = head",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3686,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "head.next = None",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3396,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        }
+      ],
+      "claims": [
+        {
+          "text": "You are a librarian managing a collection of books, each represented as a node in a singly linked list.",
+          "claim_type": "factual",
+          "start": 0,
+          "end": 103
+        },
+        {
+          "text": "The goal is to organize the books in reverse order based on their publication year.",
+          "claim_type": "factual",
+          "start": 104,
+          "end": 187
+        },
+        {
+          "text": "Implement a recursive function to reverse the linked list, ensuring that the original list is not modified.",
+          "claim_type": "factual",
+          "start": 188,
+          "end": 295
+        },
+        {
+          "text": "The function should return the new head of the reversed list.",
+          "claim_type": "factual",
+          "start": 296,
+          "end": 357
+        },
+        {
+          "text": "def reverse(head):",
+          "claim_type": "inference",
+          "start": 359,
+          "end": 377
+        },
+        {
+          "text": "if not head or not head.next:",
+          "claim_type": "inference",
+          "start": 382,
+          "end": 411
+        },
+        {
+          "text": "new_head = reverse(head.next)",
+          "claim_type": "inference",
+          "start": 436,
+          "end": 465
+        },
+        {
+          "text": "head.next.next = head",
+          "claim_type": "inference",
+          "start": 470,
+          "end": 491
+        },
+        {
+          "text": "head.next = None",
+          "claim_type": "inference",
+          "start": 496,
+          "end": 512
+        }
+      ],
+      "contradictions": [
+        {
+          "type": "internal",
+          "claim_a": "Implement a recursive function to reverse the linked list, ensuring that the original list is not modified.",
+          "claim_b": "The function should return the new head of the reversed list.",
+          "similarity": 0.6656,
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.67 similar, so they are about the same thing)",
+          "span_a": [
+            188,
+            295
+          ],
+          "span_b": [
+            296,
+            357
+          ]
+        },
+        {
+          "type": "internal",
+          "claim_a": "if not head or not head.next:",
+          "claim_b": "head.next.next = head",
+          "similarity": 0.7923,
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.79 similar, so they are about the same thing)",
+          "span_a": [
+            382,
+            411
+          ],
+          "span_b": [
+            470,
+            491
+          ]
+        },
+        {
+          "type": "internal",
+          "claim_a": "if not head or not head.next:",
+          "claim_b": "head.next = None",
+          "similarity": 0.7797,
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.78 similar, so they are about the same thing)",
+          "span_a": [
+            382,
+            411
+          ],
+          "span_b": [
+            496,
+            512
+          ]
+        },
+        {
+          "type": "external",
+          "claim_a": "Implement a recursive function to reverse the linked list, ensuring that the original list is not modified.",
+          "claim_b": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order.",
+          "similarity": 0.6999,
+          "reason": "contradicts the reference corpus entry 'Reversing a linked list in groups of k' (LeetCode problem 25, Reverse Nodes in k-Group): one statement asserts what the other denies",
+          "span_a": [
+            188,
+            295
+          ],
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k"
+        }
+      ],
+      "signals": {
+        "source_grounding": 0.5,
+        "non_hallucination": 0.475,
+        "factual_consistency": 0.4472,
+        "non_contradiction": 0.0,
+        "answer_completeness": 1.0,
+        "unsupported": 0.5,
+        "contradiction": 1.0,
+        "fabrication_markers": 0.0,
+        "self_inconsistency": 0.0,
+        "self_consistency_agreement": 1.0
+      },
+      "reasons": [
+        "1 of 4 checkable claims were grounded in the local reference corpus (grounding score 0.50)",
+        "estimated hallucination probability 0.53",
+        "3 internal self-contradiction(s); 1 conflict(s) with the reference corpus",
+        "1 of 4 checkable claims could not be grounded in the local reference corpus",
+        "2 claim(s) matched the corpus topically but their specific details were not confirmed",
+        "4 contradiction(s) detected"
+      ],
+      "recommendations": [
+        "Resolve the contradictions listed in flagged_spans before using this content - the statements cannot all be correct.",
+        "Remove unverifiable specifics - invented citations, precise statistics and absolute claims are the main drivers of the hallucination estimate."
+      ],
+      "embedding_backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+      "analysis_time_ms": 40.96,
+      "within_latency_budget": true
+    }
+  },
+  {
+    "variation": 8,
+    "solution_method": "auxiliary",
+    "wall_ms": 76.3,
+    "response": {
+      "reliability_score": 0.4682,
+      "hallucination_probability": 0.465,
+      "verdict": "misleading",
+      "flagged_spans": [
+        {
+          "text": "You are a software developer tasked with implementing a feature that reverses the order of items in a stack.",
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.75 similar, so they are about the same thing)",
+          "start": 0,
+          "end": 108,
+          "severity": "high",
+          "claim_type": "contradiction",
+          "best_evidence": "Your goal is to reverse the order of items in the stack without modifying the original stack.",
+          "best_similarity": 0.7541
+        },
+        {
+          "text": "Implement a function that uses an auxiliary stack to achieve this.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.24, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 287,
+          "end": 353,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "A recursive reversal of a singly linked list uses O(n) space because each of the n recursive calls occupies a stack frame. It is not a constant-space solution.",
+          "best_similarity": 0.2392
+        },
+        {
+          "text": "The function should return the new head of the reversed stack.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.35, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 354,
+          "end": 416,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory.",
+          "best_similarity": 0.3538
+        },
+        {
+          "text": "You are a software developer tasked with implementing a feature that reverses the order of items in a stack.",
+          "reason": "only partially supported: only weakly related to 'Stack and queue ordering' (0.55 similarity, below the 0.55 support threshold)",
+          "start": 0,
+          "end": 108,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time.",
+          "best_similarity": 0.5458
+        },
+        {
+          "text": "The stack is represented as a singly linked list, where each node contains an item.",
+          "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.43 similarity, below the 0.55 support threshold)",
+          "start": 109,
+          "end": 192,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.4309
+        },
+        {
+          "text": "Your goal is to reverse the order of items in the stack without modifying the original stack.",
+          "reason": "only partially supported: only weakly related to 'Reversing a linked list in groups of k' (0.49 similarity, below the 0.55 support threshold)",
+          "start": 193,
+          "end": 286,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left ",
+          "best_similarity": 0.4934
+        }
+      ],
+      "confidence_score": 0.7,
+      "evidence": [
+        {
+          "claim": "You are a software developer tasked with implementing a feature that reverses the order of items in a stack.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5458,
+          "keyword_grounding": 0.1111,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "The stack is represented as a singly linked list, where each node contains an item.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4309,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Your goal is to reverse the order of items in the stack without modifying the original stack.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4934,
+          "keyword_grounding": 0.25,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "Implement a function that uses an auxiliary stack to achieve this.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2392,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-002",
+          "source_title": "Recursive linked list reversal space cost",
+          "source_text": "A recursive reversal of a singly linked list uses O(n) space because each of the n recursive calls occupies a stack frame. It is not a constant-space solution."
+        },
+        {
+          "claim": "The function should return the new head of the reversed stack.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3538,
+          "keyword_grounding": 0.4,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "def reverse_stack(head):",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4644,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "current = head",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2036,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-004",
+          "source_title": "Linked list traversal is sequential",
+          "source_text": "A singly linked list does not support random access. Reaching the i-th element requires traversing i nodes from the head, so indexed access costs O(n), unlike an array which costs O(1)."
+        },
+        {
+          "claim": "while current:",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.0685,
+          "keyword_grounding": 1.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "stack.append(current)",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3395,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "current = current.next",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2566,
+          "keyword_grounding": 1.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "reversed_head = stack[-1]",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.423,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-002",
+          "source_title": "Recursive linked list reversal space cost",
+          "source_text": "A recursive reversal of a singly linked list uses O(n) space because each of the n recursive calls occupies a stack frame. It is not a constant-space solution."
+        },
+        {
+          "claim": "current = reversed_head",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4149,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "for i in range(len(stack) - 2, -1, -1):",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3415,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "current.next = stack[i]",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.3938,
+          "keyword_grounding": 0.6667,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "current = current.next",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2566,
+          "keyword_grounding": 1.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "current.next = None",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2985,
+          "keyword_grounding": 0.6667,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        }
+      ],
+      "claims": [
+        {
+          "text": "You are a software developer tasked with implementing a feature that reverses the order of items in a stack.",
+          "claim_type": "factual",
+          "start": 0,
+          "end": 108
+        },
+        {
+          "text": "The stack is represented as a singly linked list, where each node contains an item.",
+          "claim_type": "factual",
+          "start": 109,
+          "end": 192
+        },
+        {
+          "text": "Your goal is to reverse the order of items in the stack without modifying the original stack.",
+          "claim_type": "factual",
+          "start": 193,
+          "end": 286
+        },
+        {
+          "text": "Implement a function that uses an auxiliary stack to achieve this.",
+          "claim_type": "factual",
+          "start": 287,
+          "end": 353
+        },
+        {
+          "text": "The function should return the new head of the reversed stack.",
+          "claim_type": "factual",
+          "start": 354,
+          "end": 416
+        },
+        {
+          "text": "def reverse_stack(head):",
+          "claim_type": "inference",
+          "start": 418,
+          "end": 442
+        },
+        {
+          "text": "current = head",
+          "claim_type": "inference",
+          "start": 462,
+          "end": 476
+        },
+        {
+          "text": "while current:",
+          "claim_type": "inference",
+          "start": 481,
+          "end": 495
+        },
+        {
+          "text": "stack.append(current)",
+          "claim_type": "inference",
+          "start": 504,
+          "end": 525
+        },
+        {
+          "text": "current = current.next",
+          "claim_type": "inference",
+          "start": 534,
+          "end": 556
+        },
+        {
+          "text": "reversed_head = stack[-1]",
+          "claim_type": "inference",
+          "start": 561,
+          "end": 586
+        },
+        {
+          "text": "current = reversed_head",
+          "claim_type": "inference",
+          "start": 591,
+          "end": 614
+        },
+        {
+          "text": "for i in range(len(stack) - 2, -1, -1):",
+          "claim_type": "inference",
+          "start": 619,
+          "end": 658
+        },
+        {
+          "text": "current.next = stack[i]",
+          "claim_type": "inference",
+          "start": 667,
+          "end": 690
+        },
+        {
+          "text": "current = current.next",
+          "claim_type": "inference",
+          "start": 699,
+          "end": 721
+        },
+        {
+          "text": "current.next = None",
+          "claim_type": "inference",
+          "start": 726,
+          "end": 745
+        }
+      ],
+      "contradictions": [
+        {
+          "type": "internal",
+          "claim_a": "You are a software developer tasked with implementing a feature that reverses the order of items in a stack.",
+          "claim_b": "Your goal is to reverse the order of items in the stack without modifying the original stack.",
+          "similarity": 0.7541,
+          "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.75 similar, so they are about the same thing)",
+          "span_a": [
+            0,
+            108
+          ],
+          "span_b": [
+            193,
+            286
+          ]
+        }
+      ],
+      "signals": {
+        "source_grounding": 0.3,
+        "non_hallucination": 0.535,
+        "factual_consistency": 0.3885,
+        "non_contradiction": 0.6,
+        "answer_completeness": 1.0,
+        "unsupported": 0.7,
+        "contradiction": 0.5,
+        "fabrication_markers": 0.0,
+        "self_inconsistency": 0.0,
+        "self_consistency_agreement": 1.0
+      },
+      "reasons": [
+        "0 of 5 checkable claims were grounded in the local reference corpus (grounding score 0.30)",
+        "estimated hallucination probability 0.47",
+        "1 internal self-contradiction(s)",
+        "2 of 5 checkable claims could not be grounded in the local reference corpus",
+        "3 claim(s) matched the corpus topically but their specific details were not confirmed",
+        "1 contradiction(s) detected"
+      ],
+      "recommendations": [
+        "Resolve the contradictions listed in flagged_spans before using this content - the statements cannot all be correct.",
+        "Add or cite supporting evidence, or extend the local reference corpus to cover this topic, then re-verify.",
+        "Remove unverifiable specifics - invented citations, precise statistics and absolute claims are the main drivers of the hallucination estimate."
+      ],
+      "embedding_backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+      "analysis_time_ms": 72.45,
+      "within_latency_budget": true
+    }
+  },
+  {
+    "variation": 9,
+    "solution_method": "rebuild",
+    "wall_ms": 92.5,
+    "response": {
+      "reliability_score": 0.6255,
+      "hallucination_probability": 0.2812,
+      "verdict": "partially_reliable",
+      "flagged_spans": [
+        {
+          "text": "The original linked list should not be modified.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.37, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 98,
+          "end": 146,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left ",
+          "best_similarity": 0.3677
+        },
+        {
+          "text": "The function should handle an empty list and a list with a single node correctly.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.32, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 198,
+          "end": 279,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.3227
+        },
+        {
+          "text": "Each node in the linked list has an integer value.",
+          "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.47 similarity, below the 0.55 support threshold)",
+          "start": 147,
+          "end": 197,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.4709
+        }
+      ],
+      "confidence_score": 0.675,
+      "evidence": [
+        {
+          "claim": "Given a singly linked list, reverse the linked list and return the new head of the reversed list.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.7636,
+          "keyword_grounding": 0.4286,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The original linked list should not be modified.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3677,
+          "keyword_grounding": 0.6,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "Each node in the linked list has an integer value.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4709,
+          "keyword_grounding": 0.6667,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The function should handle an empty list and a list with a single node correctly.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3227,
+          "keyword_grounding": 0.2857,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "def reverse(head):",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4707,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "new_head = None",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2108,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "node = head",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.373,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-004",
+          "source_title": "Linked list traversal is sequential",
+          "source_text": "A singly linked list does not support random access. Reaching the i-th element requires traversing i nodes from the head, so indexed access costs O(n), unlike an array which costs O(1)."
+        },
+        {
+          "claim": "while node:",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2606,
+          "keyword_grounding": 1.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "new_head = ListNode(node.val, new_head)",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3548,
+          "keyword_grounding": 0.25,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "node = node.next",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4321,
+          "keyword_grounding": 1.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "# Example usage:",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.111,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-007",
+          "source_title": "Hash table average and worst case",
+          "source_text": "Hash table lookup, insertion and deletion average O(1) time. The worst case degrades to O(n) when many keys collide into the same bucket, for example under a poor hash function or an adversarial key set."
+        },
+        {
+          "claim": "# list1 = ListNode(1, ListNode(2, ListNode(3)))",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4158,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-013",
+          "source_title": "Python list is a dynamic array",
+          "source_text": "A Python list is implemented as a dynamic array, not a linked list. Appending is amortised O(1), indexing is O(1), and inserting or deleting at the front is O(n) because later elements must shift."
+        },
+        {
+          "claim": "# reversed_list = reverse(list1)",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.6275,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "# Explanation: The function creates a new linked list by iterating through the original list and inserting each node at the beginning of the new list, effectively reversing the order of nodes.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.6685,
+          "keyword_grounding": 0.4375,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        }
+      ],
+      "claims": [
+        {
+          "text": "Given a singly linked list, reverse the linked list and return the new head of the reversed list.",
+          "claim_type": "factual",
+          "start": 0,
+          "end": 97
+        },
+        {
+          "text": "The original linked list should not be modified.",
+          "claim_type": "factual",
+          "start": 98,
+          "end": 146
+        },
+        {
+          "text": "Each node in the linked list has an integer value.",
+          "claim_type": "factual",
+          "start": 147,
+          "end": 197
+        },
+        {
+          "text": "The function should handle an empty list and a list with a single node correctly.",
+          "claim_type": "factual",
+          "start": 198,
+          "end": 279
+        },
+        {
+          "text": "def reverse(head):",
+          "claim_type": "inference",
+          "start": 281,
+          "end": 299
+        },
+        {
+          "text": "new_head = None",
+          "claim_type": "inference",
+          "start": 304,
+          "end": 319
+        },
+        {
+          "text": "node = head",
+          "claim_type": "inference",
+          "start": 324,
+          "end": 335
+        },
+        {
+          "text": "while node:",
+          "claim_type": "inference",
+          "start": 340,
+          "end": 351
+        },
+        {
+          "text": "new_head = ListNode(node.val, new_head)",
+          "claim_type": "inference",
+          "start": 360,
+          "end": 399
+        },
+        {
+          "text": "node = node.next",
+          "claim_type": "inference",
+          "start": 408,
+          "end": 424
+        },
+        {
+          "text": "# Example usage:",
+          "claim_type": "inference",
+          "start": 446,
+          "end": 462
+        },
+        {
+          "text": "# list1 = ListNode(1, ListNode(2, ListNode(3)))",
+          "claim_type": "inference",
+          "start": 463,
+          "end": 510
+        },
+        {
+          "text": "# reversed_list = reverse(list1)",
+          "claim_type": "inference",
+          "start": 511,
+          "end": 543
+        },
+        {
+          "text": "# Explanation: The function creates a new linked list by iterating through the original list and inserting each node at the beginning of the new list, effectively reversing the order of nodes.",
+          "claim_type": "inference",
+          "start": 545,
+          "end": 737
+        }
+      ],
+      "contradictions": [],
+      "signals": {
+        "source_grounding": 0.375,
+        "non_hallucination": 0.7188,
+        "factual_consistency": 0.4868,
+        "non_contradiction": 1.0,
+        "answer_completeness": 1.0,
+        "unsupported": 0.625,
+        "contradiction": 0.0,
+        "fabrication_markers": 0.0,
+        "self_inconsistency": 0.0,
+        "self_consistency_agreement": 1.0
+      },
+      "reasons": [
+        "1 of 4 checkable claims were grounded in the local reference corpus (grounding score 0.38)",
+        "estimated hallucination probability 0.28",
+        "2 of 4 checkable claims could not be grounded in the local reference corpus",
+        "1 claim(s) matched the corpus topically but their specific details were not confirmed"
+      ],
+      "recommendations": [
+        "Add or cite supporting evidence, or extend the local reference corpus to cover this topic, then re-verify."
+      ],
+      "embedding_backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+      "analysis_time_ms": 88.58,
+      "within_latency_budget": true
+    }
+  },
+  {
+    "variation": 10,
+    "solution_method": "rebuild",
+    "wall_ms": 65.1,
+    "response": {
+      "reliability_score": 0.6023,
+      "hallucination_probability": 0.3,
+      "verdict": "unverifiable",
+      "flagged_spans": [
+        {
+          "text": "You are given a singly linked list of strings.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.36, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 0,
+          "end": 46,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.3622
+        },
+        {
+          "text": "The original linked list should not be modified.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.37, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 240,
+          "end": 288,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left ",
+          "best_similarity": 0.3677
+        },
+        {
+          "text": "The function should handle cases where the list is empty, contains one node, or contains multiple nodes.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.31, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 350,
+          "end": 454,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "A doubly linked list stores both next and previous pointers, allowing O(1) deletion given a node reference and bidirectional traversal, at the cost of one extra pointer of memory per node.",
+          "best_similarity": 0.31
+        },
+        {
+          "text": "Your task is to implement a function that reverses the order of the strings in the list.",
+          "reason": "only partially supported: only weakly related to 'Reversing a linked list in groups of k' (0.53 similarity, below the 0.55 support threshold)",
+          "start": 47,
+          "end": 135,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left ",
+          "best_similarity": 0.532
+        },
+        {
+          "text": "Each node in the linked list contains a single string value.",
+          "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.42 similarity, below the 0.55 support threshold)",
+          "start": 289,
+          "end": 349,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.4243
+        }
+      ],
+      "confidence_score": 0.75,
+      "evidence": [
+        {
+          "claim": "You are given a singly linked list of strings.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3622,
+          "keyword_grounding": 0.75,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Your task is to implement a function that reverses the order of the strings in the list.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.532,
+          "keyword_grounding": 0.4,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "The function should take the head of the linked list as input and return the head of the reversed list.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5561,
+          "keyword_grounding": 0.5714,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "The original linked list should not be modified.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3677,
+          "keyword_grounding": 0.6,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "Each node in the linked list contains a single string value.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4243,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The function should handle cases where the list is empty, contains one node, or contains multiple nodes.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.31,
+          "keyword_grounding": 0.2727,
+          "source_id": "prog-015",
+          "source_title": "Doubly linked list trade-offs",
+          "source_text": "A doubly linked list stores both next and previous pointers, allowing O(1) deletion given a node reference and bidirectional traversal, at the cost of one extra pointer of memory per node."
+        },
+        {
+          "claim": "def reverse(head):",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4707,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "new_head = None",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2108,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "node = head",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.373,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-004",
+          "source_title": "Linked list traversal is sequential",
+          "source_text": "A singly linked list does not support random access. Reaching the i-th element requires traversing i nodes from the head, so indexed access costs O(n), unlike an array which costs O(1)."
+        },
+        {
+          "claim": "while node:",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2606,
+          "keyword_grounding": 1.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "new_head = ListNode(node.val, new_head)",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3548,
+          "keyword_grounding": 0.25,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "node = node.next",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4321,
+          "keyword_grounding": 1.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "# Test cases",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1682,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-007",
+          "source_title": "Hash table average and worst case",
+          "source_text": "Hash table lookup, insertion and deletion average O(1) time. The worst case degrades to O(n) when many keys collide into the same bucket, for example under a poor hash function or an adversarial key set."
+        },
+        {
+          "claim": "assert reverse(ListNode('a', ListNode('b', ListNode('c')))).val == 'c'",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4292,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "assert reverse(ListNode('hello', ListNode('world'))).val == 'world'",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3521,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        }
+      ],
+      "claims": [
+        {
+          "text": "You are given a singly linked list of strings.",
+          "claim_type": "factual",
+          "start": 0,
+          "end": 46
+        },
+        {
+          "text": "Your task is to implement a function that reverses the order of the strings in the list.",
+          "claim_type": "factual",
+          "start": 47,
+          "end": 135
+        },
+        {
+          "text": "The function should take the head of the linked list as input and return the head of the reversed list.",
+          "claim_type": "factual",
+          "start": 136,
+          "end": 239
+        },
+        {
+          "text": "The original linked list should not be modified.",
+          "claim_type": "factual",
+          "start": 240,
+          "end": 288
+        },
+        {
+          "text": "Each node in the linked list contains a single string value.",
+          "claim_type": "factual",
+          "start": 289,
+          "end": 349
+        },
+        {
+          "text": "The function should handle cases where the list is empty, contains one node, or contains multiple nodes.",
+          "claim_type": "factual",
+          "start": 350,
+          "end": 454
+        },
+        {
+          "text": "def reverse(head):",
+          "claim_type": "inference",
+          "start": 456,
+          "end": 474
+        },
+        {
+          "text": "new_head = None",
+          "claim_type": "inference",
+          "start": 479,
+          "end": 494
+        },
+        {
+          "text": "node = head",
+          "claim_type": "inference",
+          "start": 499,
+          "end": 510
+        },
+        {
+          "text": "while node:",
+          "claim_type": "inference",
+          "start": 515,
+          "end": 526
+        },
+        {
+          "text": "new_head = ListNode(node.val, new_head)",
+          "claim_type": "inference",
+          "start": 535,
+          "end": 574
+        },
+        {
+          "text": "node = node.next",
+          "claim_type": "inference",
+          "start": 583,
+          "end": 599
+        },
+        {
+          "text": "# Test cases",
+          "claim_type": "inference",
+          "start": 621,
+          "end": 633
+        },
+        {
+          "text": "assert reverse(ListNode('a', ListNode('b', ListNode('c')))).val == 'c'",
+          "claim_type": "inference",
+          "start": 634,
+          "end": 704
+        },
+        {
+          "text": "assert reverse(ListNode('hello', ListNode('world'))).val == 'world'",
+          "claim_type": "inference",
+          "start": 705,
+          "end": 772
+        }
+      ],
+      "contradictions": [],
+      "signals": {
+        "source_grounding": 0.3333,
+        "non_hallucination": 0.7,
+        "factual_consistency": 0.4615,
+        "non_contradiction": 1.0,
+        "answer_completeness": 1.0,
+        "unsupported": 0.6667,
+        "contradiction": 0.0,
+        "fabrication_markers": 0.0,
+        "self_inconsistency": 0.0,
+        "self_consistency_agreement": 1.0
+      },
+      "reasons": [
+        "1 of 6 checkable claims were grounded in the local reference corpus (grounding score 0.33)",
+        "estimated hallucination probability 0.30",
+        "3 of 6 checkable claims could not be grounded in the local reference corpus",
+        "2 claim(s) matched the corpus topically but their specific details were not confirmed"
+      ],
+      "recommendations": [
+        "Add or cite supporting evidence, or extend the local reference corpus to cover this topic, then re-verify.",
+        "Route to human review: the corpus has no evidence either way, so this is unconfirmed rather than wrong."
+      ],
+      "embedding_backend": "sentence-transformers:sentence-transformers/all-MiniLM-L6-v2",
+      "analysis_time_ms": 61.29,
+      "within_latency_budget": true
+    }
+  }
+]

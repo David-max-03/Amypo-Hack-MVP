@@ -1,0 +1,32 @@
+{
+  "label": "DEMO — scripted candidates, real validation",
+  "description": "Deterministic demo scenario. The two candidate outputs below replace the LLM call ONLY; parsing, PS8 structural validation, PS2 reliability verification, the decision engine and the regeneration loop are the real production code. Attempt 1 contains a deliberate factual error (a recursive reversal does NOT use O(1) space). Whether it is rejected, every score, every flagged span and the final decision are computed live - none is stored here. Not a measured benchmark result.",
+  "seed_question": "Write a function to reverse a singly linked list.",
+  "domain": "programming",
+  "candidate_outputs": [
+    {
+      "note": "attempt 1 - contains a deliberate factual error in the explanation",
+      "output": {
+        "question": "You are building a music streaming app that stores each playlist as a singly linked list of song nodes. Write an iterative function that reverses the playlist in place so the last song plays first, and return the new head of the reversed list.",
+        "answer_key": "def reverse_playlist(head):\n    prev = None\n    current = head\n    while current:\n        nxt = current.next\n        current.next = prev\n        prev = current\n        current = nxt\n    return prev\n\nA recursive reversal of a singly linked list also uses O(1) space, so recursion is an equally memory-efficient alternative.",
+        "difficulty": "medium",
+        "test_cases": [
+          {"input": "A -> B -> C", "expected_output": "C -> B -> A"},
+          {"input": "empty list", "expected_output": "None"}
+        ]
+      }
+    },
+    {
+      "note": "attempt 2 - the regenerated answer with the explanation corrected",
+      "output": {
+        "question": "You are building a music streaming app that stores each playlist as a singly linked list of song nodes. Write an iterative function that reverses the playlist in place so the last song plays first, and return the new head of the reversed list.",
+        "answer_key": "def reverse_playlist(head):\n    prev = None\n    current = head\n    while current:\n        nxt = current.next\n        current.next = prev\n        prev = current\n        current = nxt\n    return prev\n\nReversing a singly linked list iteratively uses three pointers and runs in O(n) time with O(1) extra space.",
+        "difficulty": "medium",
+        "test_cases": [
+          {"input": "A -> B -> C", "expected_output": "C -> B -> A"},
+          {"input": "empty list", "expected_output": "None"}
+        ]
+      }
+    }
+  ]
+}

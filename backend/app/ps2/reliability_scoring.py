@@ -107,6 +107,15 @@ def score(
     reliability = sum(weights[k] * v for k, v in sub_scores.items())
     reliability = round(max(0.0, min(1.0, reliability)), 4)
 
+    # A detected contradiction is a definite trust failure. It caps the score itself
+    # below the partially-reliable band, so the verdict (read from the score bands
+    # below) and the score can never disagree - previously a contradicted response
+    # was labelled "misleading" while still scoring 0.70-0.86.
+    contradiction_capped = False
+    if contradictions and reliability > contradiction_reliability_cap():
+        reliability = contradiction_reliability_cap()
+        contradiction_capped = True
+
     # Confidence is about how much evidence we had, not how good the answer was.
     # A verdict drawn from two claims deserves less confidence than one from ten.
     evidence_breadth = min(1.0, checkable_count / 5.0) if checkable_count else 0.2
@@ -128,6 +137,12 @@ def score(
     reasons = _build_reasons(
         sub_scores, supported_count, checkable_count, contradictions, hallucination_probability
     )
+    if contradiction_capped:
+        reasons.insert(
+            0,
+            f"reliability capped at {reliability:.2f} because {len(contradictions)} "
+            "contradiction(s) were detected - contradicted content cannot score as reliable",
+        )
     recommendations = _build_recommendations(verdict, sub_scores, contradictions, checkable_count)
 
     return ScoringResult(
@@ -138,6 +153,22 @@ def score(
         reasons=reasons,
         recommendations=recommendations,
     )
+
+
+def contradiction_reliability_cap() -> float:
+    """Highest score a contradicted response may have: just inside the misleading band."""
+    return round(settings.verdict_partially_reliable_min - 0.01, 4)
+
+
+def verdict_for_score(reliability: float) -> str:
+    """The one score -> verdict mapping, shared by scoring and by the tests."""
+    if reliability >= settings.verdict_trustworthy_min:
+        return "trustworthy"
+    if reliability >= settings.verdict_partially_reliable_min:
+        return "partially_reliable"
+    if reliability >= settings.verdict_misleading_min:
+        return "misleading"
+    return "fabricated"
 
 
 def _classify(
@@ -156,26 +187,20 @@ def _classify(
     """
     supported_ratio = (supported_count / checkable_count) if checkable_count else 0.0
 
-    # Any detected contradiction caps the verdict, regardless of the aggregate score.
-    # A response that conflicts with the corpus - or with itself - cannot be called
-    # trustworthy just because its other claims happened to be well grounded.
-    if any(c.get("type") == "external" for c in contradictions):
-        return "misleading"
-    if contradictions:
-        return "misleading"
+    # Evidence-based exception: almost nothing could be grounded either way and nothing
+    # conflicts, so the honest verdict is "unverifiable" (-> human review), not a
+    # score band. Contradicted responses never take this path.
+    if (
+        not contradictions
+        and checkable_count > 0
+        and supported_ratio <= settings.unverifiable_max_supported_ratio
+        and hallucination_probability < 0.6
+    ):
+        return "unverifiable"
 
-    if checkable_count > 0 and supported_ratio <= settings.unverifiable_max_supported_ratio:
-        # Almost nothing could be grounded either way.
-        if hallucination_probability < 0.6 and not contradictions:
-            return "unverifiable"
-
-    if reliability >= settings.verdict_trustworthy_min:
-        return "trustworthy"
-    if reliability >= settings.verdict_partially_reliable_min:
-        return "partially_reliable"
-    if reliability >= settings.verdict_misleading_min:
-        return "misleading"
-    return "fabricated"
+    # Otherwise the verdict is read from the score alone. Contradictions have already
+    # capped the score, so they land in "misleading" (or "fabricated") through here.
+    return verdict_for_score(reliability)
 
 
 def _build_reasons(

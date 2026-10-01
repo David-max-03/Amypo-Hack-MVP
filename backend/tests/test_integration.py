@@ -453,3 +453,92 @@ class TestGenerateBatchWaves:
         wave_one = {c.question for c in outcome.candidates[:3]}
         second_wave_prompts = [p for p in fake.prompts if all(q in p for q in wave_one)]
         assert len(second_wave_prompts) == 2
+
+
+class TestProgressAndPersistence:
+    """Live progress for the UI, and the fields the bank / review views rely on."""
+
+    @pytest.fixture
+    def client(self, temp_data_dir, monkeypatch):
+        from backend.app.ps8 import seed_parser
+
+        monkeypatch.setattr(
+            "backend.app.pipeline.seed_parser.parse_seed",
+            lambda text, domain, use_llm=True: seed_parser.heuristic_parse(text, domain),
+        )
+        return TestClient(app)
+
+    def _script(self, monkeypatch, responses):
+        from backend.tests.conftest import FakeOllama
+
+        fake = FakeOllama(responses)
+        monkeypatch.setattr("backend.app.ps8.generation_engine.ollama", fake)
+        monkeypatch.setattr("backend.app.ps2.hallucination_detector.ollama", fake, raising=False)
+        return fake
+
+    def test_progress_reports_real_steps_for_a_job(self, client, monkeypatch):
+        self._script(monkeypatch, [candidate_json(SEED_TEXT), candidate_json(GOOD_VARIATION)])
+        resp = client.post(
+            "/api/v1/generate-and-verify",
+            json={"seed_question": SEED_TEXT, "domain": "programming", "count": 1,
+                  "persist": False, "job_id": "job-test-1"},
+        )
+        assert resp.status_code == 200
+        job = client.get("/api/v1/progress/job-test-1").json()
+        assert job["stage"] == "complete" and job["done"] == 1 and job["total"] == 1
+        assert len(job["decisions"]) == 1
+        assert job["decisions"][0]["attempts"] == 2  # paraphrase rejected, then regenerated
+        assert job["elapsed_s"] >= 0
+
+    def test_unknown_job_is_404(self, client):
+        assert client.get("/api/v1/progress/nope").status_code == 404
+
+    def test_bank_record_carries_method_status_and_history(self, client, monkeypatch):
+        self._script(monkeypatch, [candidate_json(SEED_TEXT), candidate_json(GOOD_VARIATION)])
+        client.post(
+            "/api/v1/generate-and-verify",
+            json={"seed_question": SEED_TEXT, "domain": "programming", "count": 1, "persist": True},
+        )
+        stores = storage.load_question_bank() + storage.load_review_queue()
+        assert stores, "the candidate must land in the bank or the review queue"
+        rec = stores[-1]
+        assert rec["solution_method"] == "iterative"
+        assert rec["validation_status"] in {"passed both gates", "awaiting human review"}
+        assert rec["attempts"] == 2
+        assert rec["regeneration_history"][0]["decision"] == "REJECT"
+
+
+class TestReviewActions:
+    @pytest.fixture
+    def client(self, temp_data_dir):
+        storage.save_review_item({"id": "q_rev1", "question": "Reverse a linked list of trains.",
+                                  "decision": "REVIEW", "review_reasons": ["unverifiable"]})
+        storage.save_review_item({"id": "q_rev2", "question": "Reverse a linked list of cars.",
+                                  "decision": "REVIEW", "review_reasons": ["unverifiable"]})
+        return TestClient(app)
+
+    def test_approve_moves_item_into_the_bank(self, client):
+        resp = client.post("/api/v1/review-queue/q_rev1/approve", json={"note": "checked"})
+        assert resp.status_code == 200
+        assert [i["id"] for i in storage.load_review_queue()] == ["q_rev2"]
+        bank = storage.load_question_bank()
+        assert bank[-1]["id"] == "q_rev1"
+        assert bank[-1]["decision"] == "PASS"
+        assert bank[-1]["validation_status"] == "approved by human reviewer"
+        assert bank[-1]["review_note"] == "checked"
+
+    def test_reject_removes_item_and_keeps_an_auditable_record(self, client):
+        assert client.post("/api/v1/review-queue/q_rev2/reject").status_code == 200
+        queue = storage.read_json("review_queue.json")
+        assert [i["id"] for i in queue["items"]] == ["q_rev1"]
+        assert queue["resolved"][-1]["id"] == "q_rev2"
+        assert queue["resolved"][-1]["decision"] == "REJECT"
+        assert storage.load_question_bank() == []
+
+    def test_unknown_item_is_404(self, client):
+        assert client.post("/api/v1/review-queue/missing/approve").status_code == 404
+
+    def test_csv_export_includes_method_and_status(self, client):
+        client.post("/api/v1/review-queue/q_rev1/approve")
+        header = client.get("/api/v1/export?fmt=csv").text.splitlines()[0]
+        assert "solution_method" in header and "validation_status" in header

@@ -22,7 +22,7 @@ from ..core.embeddings import embeddings
 from ..core.timing import Stopwatch
 from ..schemas import Candidate, ReliabilityVerification
 from . import contradiction, hallucination_detector, reliability_scoring, source_verification
-from .response_analyzer import extract_claims
+from .response_analyzer import extract_claims, mask_code
 
 logger = logging.getLogger(__name__)
 
@@ -38,8 +38,12 @@ def verify_text(
     """Run the complete PS2 verification pipeline over one response."""
     watch = Stopwatch()
 
+    # Code is not a factual claim. Masking keeps offsets identical, so flagged-span
+    # positions still index into the original `text`.
+    prose = mask_code(text)
+
     with watch.stage("ps2.claim_extraction"):
-        claims = extract_claims(text)
+        claims = extract_claims(prose)
 
     with watch.stage("ps2.source_verification"):
         verifications = source_verification.verify_claims(
@@ -53,7 +57,7 @@ def verify_text(
 
     with watch.stage("ps2.hallucination_detection"):
         hallucination = hallucination_detector.detect(
-            text,
+            prose,
             claims,
             verifications,
             contradictions,

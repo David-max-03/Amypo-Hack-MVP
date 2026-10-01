@@ -1,0 +1,49 @@
+run: 2026-09-29 23:40:14 IST
+== full suite, local (.venv Python 3.12.14)
+183 passed in 10.02s
+== full suite, inside backend container
+183 passed in 10.41s
+== regeneration tests (container)
+====================== 17 passed, 166 deselected in 8.38s ======================
+== flagged-span / hallucination tests (container)
+====================== 19 passed, 164 deselected in 8.48s ======================
+
+== regeneration test names
+backend/tests/test_integration.py::TestDecisionEngine::test_both_gates_pass_gives_pass
+backend/tests/test_integration.py::TestDecisionEngine::test_missing_reliability_routes_to_review
+backend/tests/test_integration.py::TestDecisionEngine::test_high_hallucination_blocks_a_pass
+backend/tests/test_integration.py::TestDecisionEngine::test_combined_feedback_merges_both_gates
+backend/tests/test_integration.py::TestRegenerationLoop::test_duplicate_is_regenerated_into_an_accepted_variation
+backend/tests/test_integration.py::TestRegenerationLoop::test_regeneration_prompt_carries_ps8_and_ps2_feedback
+backend/tests/test_integration.py::TestRegenerationLoop::test_max_attempts_is_respected_and_routes_to_review
+backend/tests/test_integration.py::TestRegenerationLoop::test_regeneration_can_be_disabled
+backend/tests/test_integration.py::TestRegenerationLoop::test_unparseable_output_is_reported_not_crashed
+backend/tests/test_integration.py::TestRegenerationLoop::test_unparseable_output_is_retried_once
+backend/tests/test_integration.py::TestRegenerationLoop::test_ollama_outage_is_surfaced_not_swallowed
+backend/tests/test_integration.py::TestGenerateRouteRegeneration::test_paraphrase_is_regenerated_into_an_accepted_variation
+backend/tests/test_integration.py::TestGenerateRouteRegeneration::test_regeneration_is_capped_and_the_history_is_reported
+backend/tests/test_integration.py::TestGenerateRouteRegeneration::test_rejected_variations_regenerate_together_in_one_round
+backend/tests/test_integration.py::TestGenerateRouteRegeneration::test_regeneration_can_be_disabled
+backend/tests/test_ollama_client.py::test_one_off_500_is_retried
+backend/tests/test_ollama_client.py::test_4xx_is_not_retried
+
+== flagged-span / hallucination test names
+backend/tests/test_integration.py::TestDecisionEngine::test_high_hallucination_blocks_a_pass
+backend/tests/test_ps2_verification.py::TestReliabilityScoring::test_grounded_scores_higher_than_fabricated
+backend/tests/test_ps2_verification.py::TestFlaggedSpansAndExplainability::test_fabricated_text_produces_flagged_spans
+backend/tests/test_ps2_verification.py::TestFlaggedSpansAndExplainability::test_grounded_control_is_not_flagged
+backend/tests/test_ps2_verification.py::TestFlaggedSpansAndExplainability::test_span_offsets_point_at_real_text
+backend/tests/test_ps2_verification.py::TestFlaggedSpansAndExplainability::test_reports_which_embedding_backend_ran
+backend/tests/test_ps2_verification.py::TestFlaggedSpansAndExplainability::test_evidence_accompanies_every_claim
+backend/tests/test_ps2_verification.py::TestFlaggedSpansAndExplainability::test_recommendations_are_given_for_problems
+backend/tests/test_ps2_verification.py::TestFlaggedSpansAndExplainability::test_timings_are_recorded
+backend/tests/test_ps2_verification.py::TestNoFalsePositivesOnCorrectQuestions::test_correct_generated_question_is_not_misleading
+backend/tests/test_ps2_verification.py::TestNoFalsePositivesOnCorrectQuestions::test_code_lines_are_masked_with_offsets_preserved
+backend/tests/test_ps2_verification.py::TestNoFalsePositivesOnCorrectQuestions::test_prose_mentioning_inline_code_is_kept
+backend/tests/test_ps2_verification.py::TestNoFalsePositivesOnCorrectQuestions::test_fenced_block_is_masked
+backend/tests/test_ps2_verification.py::TestNoFalsePositivesOnCorrectQuestions::test_scenario_framing_is_an_assumption_not_a_fact
+backend/tests/test_ps2_verification.py::TestNoFalsePositivesOnCorrectQuestions::test_you_are_right_is_still_a_checkable_claim
+backend/tests/test_ps2_verification.py::TestContradictionsStillCaught::test_same_statement_negated_is_a_contradiction
+backend/tests/test_ps2_verification.py::TestContradictionsStillCaught::test_without_is_a_constraint_not_a_denial
+backend/tests/test_ps2_verification.py::TestContradictionsStillCaught::test_negation_in_another_clause_does_not_count
+backend/tests/test_ps2_verification.py::TestContradictionsStillCaught::test_negated_clause_matching_the_claim_still_counts

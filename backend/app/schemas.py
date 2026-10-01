@@ -15,7 +15,7 @@ Verdict = Literal[
     "trustworthy", "partially_reliable", "misleading", "fabricated", "unverifiable"
 ]
 Decision = Literal["PASS", "REVIEW", "REJECT"]
-DifficultyLabel = Literal["easy", "medium", "hard"]
+DifficultyLabel = Literal["easy", "medium", "hard", "expert"]
 
 
 # ======================================================================
@@ -175,6 +175,9 @@ class PipelineCandidate(BaseModel):
     ] = "generated"
     attempts: int = 1
     regeneration_history: list[dict[str, Any]] = Field(default_factory=list)
+    # The subject area the user picked (e.g. "algorithms"); the pipeline domain above
+    # stays the one PS8/PS2 validate against.
+    subject_area: str | None = None
 
 
 # ======================================================================
@@ -277,6 +280,11 @@ class GenerateAndVerifyRequest(BaseModel):
     persist: bool = Field(
         default=True, description="Write accepted/review results to local JSON stores."
     )
+    job_id: str | None = Field(
+        default=None,
+        pattern=r"^[A-Za-z0-9_-]{1,64}$",
+        description="Optional client-chosen id; poll GET /progress/{job_id} while it runs.",
+    )
 
 
 class PipelineSummary(BaseModel):
@@ -297,6 +305,28 @@ class GenerateAndVerifyResponse(BaseModel):
     summary: PipelineSummary
     timings_ms: dict[str, float] = Field(default_factory=dict)
     warnings: list[str] = Field(default_factory=list)
+    # Set only by POST /demo/run: scripted candidates, real validation, never persisted.
+    demo: bool = False
+    demo_label: str | None = None
+    demo_description: str | None = None
+
+
+class JobRequest(BaseModel):
+    """Start a background generate-and-verify job (POST /jobs)."""
+
+    seed_question: str = Field(min_length=5)
+    domain: str = "programming"
+    subject_area: str | None = Field(
+        default=None, description="Taxonomy subject area; overrides `domain` with its pipeline domain."
+    )
+    count: int = Field(default=10, ge=1, le=60)
+    difficulty_shift: DifficultyLabel | None = None
+    enable_regeneration: bool = True
+    persist: bool = True
+
+
+class DemoRunRequest(BaseModel):
+    job_id: str | None = Field(default=None, pattern=r"^[A-Za-z0-9_-]{1,64}$")
 
 
 # ======================================================================

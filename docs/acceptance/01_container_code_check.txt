@@ -1,0 +1,12 @@
+checked: 2026-09-29 23:30:00 IST
+image:  created 2026-09-29T17:59:47.524959349Z
+backend/app .py files local=      38 container=      38
+RESULT: all files byte-identical (sha256)
+latest PS2 functions present in container:
+1
+2
+4
+1
+fc450a7d6e2bdc81ac5af27ba2e8250c8fb2cbe6cd2829c26bf16ebc634c5e81  app/ps2/contradiction.py
+2ac87763ef71766ffcb8ac3ebd1557f3358d43beae47def165bd5d9522a64e64  app/ps2/engine.py
+1a6928d90adb42f063abe9173a9d666d1b85e206d05bf42b173f895c979f2790  app/ps2/response_analyzer.py

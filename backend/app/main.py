@@ -12,7 +12,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .api import routes_health, routes_pipeline, routes_ps2, routes_ps8, routes_storage
+from .api import routes_health, routes_jobs, routes_pipeline, routes_ps2, routes_ps8, routes_storage
 from .config import settings
 from .core import storage
 from .core.embeddings import embeddings
@@ -88,6 +88,7 @@ app.include_router(routes_ps8.router, prefix=API_PREFIX)
 app.include_router(routes_ps2.router, prefix=API_PREFIX)
 app.include_router(routes_pipeline.router, prefix=API_PREFIX)
 app.include_router(routes_storage.router, prefix=API_PREFIX)
+app.include_router(routes_jobs.router, prefix=API_PREFIX)
 
 
 @app.get("/", include_in_schema=False)

@@ -54,7 +54,10 @@ _MEDIUM_SIGNALS = re.compile(
 
 # Numeric bands for the three labels. Difficulty is carried as a 0..1 score because
 # PS8's API contract returns a float, while the UI and validators use the label.
-DIFFICULTY_SCORES: dict[str, float] = {"easy": 0.25, "medium": 0.55, "hard": 0.85}
+# "expert" is accepted as an explicit target (difficulty_shift) or an explicit model
+# label. The estimator bands below deliberately still stop at "hard", so no existing
+# seed is re-labelled by adding it.
+DIFFICULTY_SCORES: dict[str, float] = {"easy": 0.25, "medium": 0.55, "hard": 0.85, "expert": 0.95}
 _LABEL_BANDS: list[tuple[float, str]] = [(0.40, "easy"), (0.70, "medium"), (1.01, "hard")]
 
 

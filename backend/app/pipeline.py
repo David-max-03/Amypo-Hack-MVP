@@ -15,6 +15,7 @@ routed to REVIEW rather than looping forever or being silently dropped.
 from __future__ import annotations
 
 import logging
+from typing import Callable
 
 from .config import settings
 from .core import storage
@@ -34,6 +35,18 @@ from .schemas import (
 
 logger = logging.getLogger(__name__)
 
+ProgressCallback = Callable[[dict], None]
+
+
+def _emit(progress: ProgressCallback | None, **event) -> None:
+    """Report a real pipeline step to an observer (the UI polls these). Never raises."""
+    if progress is None:
+        return
+    try:
+        progress(event)
+    except Exception:  # pragma: no cover - progress reporting must not break a run
+        logger.debug("progress callback failed", exc_info=True)
+
 
 def _evaluate(
     candidate: Candidate,
@@ -43,21 +56,28 @@ def _evaluate(
     accepted_texts: list[str],
     difficulty_shift: str | None,
     verify: bool,
+    watch: Stopwatch | None = None,
 ):
-    """Run both gates on one candidate and return (decision, structural, reliability)."""
-    structural = validate_candidate(
-        candidate,
-        seed,
-        previously_generated=generated_so_far,
-        previously_accepted=accepted_texts,
-        difficulty_shift=difficulty_shift,
-    )
+    """Run both gates on one candidate and return (decision, structural, reliability).
 
-    # Skip PS2 when the candidate already failed PS8 - verifying a known-bad
-    # candidate wastes seconds we owe to the latency budget.
+    PS2 runs on every candidate, including ones PS8 has already failed, so each
+    candidate carries a reliability score, verdict, flagged spans and evidence.
+    The decision is unchanged by this: a PS8 failure is still a REJECT.
+    """
+    watch = watch or Stopwatch()
+    with watch.stage("ps8.structural_validation"):
+        structural = validate_candidate(
+            candidate,
+            seed,
+            previously_generated=generated_so_far,
+            previously_accepted=accepted_texts,
+            difficulty_shift=difficulty_shift,
+        )
+
     reliability = None
-    if verify and structural.passed:
-        reliability = ps2_engine.verify_candidate(candidate)
+    if verify:
+        with watch.stage("ps2.verification"):
+            reliability = ps2_engine.verify_candidate(candidate)
 
     result = decide(structural, reliability)
     return result, structural, reliability
@@ -73,10 +93,20 @@ def run_pipeline(
     verify: bool = True,
     persist: bool = True,
     use_llm_parser: bool = True,
+    progress: ProgressCallback | None = None,
+    client=None,
+    subject_area: str | None = None,
 ) -> tuple[SeedMetadata, list[PipelineCandidate], PipelineSummary, dict[str, float], list[str]]:
-    """Execute the full integrated pipeline for one seed question."""
+    """Execute the full integrated pipeline for one seed question.
+
+    `progress`, if given, receives one event per real step (seed parsed, variation
+    generating / regenerating / decided), so a UI can show true progress instead of
+    a timer.
+    """
     watch = Stopwatch()
     warnings: list[str] = []
+
+    _emit(progress, stage="parsing_seed", total=count, done=0)
 
     # ---- Step 1-2: parse the seed -----------------------------------
     with watch.stage("ps8.seed_parsing"):
@@ -96,6 +126,11 @@ def run_pipeline(
     # ---- Step 4-9: generate, validate, verify, decide ---------------
     for item in plan:
         parse_errors: list[str] = []
+        _emit(
+            progress, stage="generating", total=count, done=len(results),
+            variation=item.index + 1, attempt=1,
+            strategy=item.strategy, method=item.method,
+        )
         try:
             with watch.stage("ps8.generation"):
                 candidate = generation_engine.generate_one(
@@ -104,6 +139,7 @@ def run_pipeline(
                     avoid_questions=accepted_texts + generated_texts,
                     difficulty_shift=difficulty_shift,
                     errors=parse_errors,
+                    client=client,
                 )
         except OllamaUnavailable as exc:
             warnings.append(f"Generation stopped at variation {item.index + 1}: {exc}")
@@ -126,6 +162,7 @@ def run_pipeline(
                 accepted_texts=accepted_texts,
                 difficulty_shift=difficulty_shift,
                 verify=verify,
+                watch=watch,
             )
 
         history: list[dict] = []
@@ -146,9 +183,19 @@ def run_pipeline(
                     "structural_reasons": s_reasons,
                     "reliability_reasons": r_reasons,
                     "flagged_spans": spans,
+                    "structural_passed": structural.passed,
+                    "reliability_score": (
+                        reliability.reliability_score if reliability is not None else None
+                    ),
+                    "verdict": reliability.verdict if reliability is not None else None,
                 }
             )
 
+            _emit(
+                progress, stage="regenerating", total=count, done=len(results),
+                variation=item.index + 1, attempt=attempts + 1,
+                reason=(s_reasons + r_reasons + ["no reason recorded"])[0],
+            )
             logger.info(
                 "Regenerating variation %s (attempt %s/%s): %s",
                 item.index + 1,
@@ -169,6 +216,7 @@ def run_pipeline(
                         avoid_questions=accepted_texts + generated_texts,
                         difficulty_shift=difficulty_shift,
                         attempt=attempts,
+                        client=client,
                     )
             except OllamaUnavailable as exc:
                 warnings.append(f"Regeneration failed for variation {item.index + 1}: {exc}")
@@ -193,6 +241,7 @@ def run_pipeline(
                     accepted_texts=accepted_texts,
                     difficulty_shift=difficulty_shift,
                     verify=verify,
+                    watch=watch,
                 )
 
         # Hit the cap and still failing: a human decides, we do not discard silently.
@@ -225,8 +274,14 @@ def run_pipeline(
             status=status,  # type: ignore[arg-type]
             attempts=attempts,
             regeneration_history=history,
+            subject_area=subject_area,
         )
         results.append(pipeline_candidate)
+        _emit(
+            progress, stage="decided", total=count, done=len(results),
+            variation=item.index + 1, decision=decision, attempts=attempts,
+            candidate=pipeline_candidate,
+        )
 
         # Only accepted questions become duplicate-detection memory for this run;
         # a rejected candidate should not block a later good one.
@@ -271,9 +326,21 @@ def _persist(item: PipelineCandidate, seed: SeedMetadata) -> None:
         "learning_objective": item.candidate.learning_objective,
         "test_cases": [tc.model_dump() for tc in item.candidate.test_cases],
         "variation_strategy": item.candidate.variation_strategy,
+        "subject_area": item.subject_area,
+        "strategy_label": item.candidate.strategy_label,
+        "solution_method": item.candidate.solution_method,
         "seed_question": seed.raw_seed,
         "decision": item.decision,
+        "validation_status": {
+            "PASS": "passed both gates",
+            "REVIEW": "awaiting human review",
+            "REJECT": "rejected",
+        }[item.decision],
+        "structural_passed": (
+            item.structural_validation.passed if item.structural_validation else None
+        ),
         "attempts": item.attempts,
+        "regeneration_history": item.regeneration_history,
         "created_at": storage.utc_now(),
     }
 
@@ -296,6 +363,14 @@ def _persist(item: PipelineCandidate, seed: SeedMetadata) -> None:
                     if item.reliability_verification
                     else []
                 ),
+                "evidence": (
+                    [e.model_dump() for e in item.reliability_verification.evidence]
+                    if item.reliability_verification
+                    else []
+                ),
+                "structural_reasons": (
+                    item.structural_validation.reasons if item.structural_validation else []
+                ),
             }
         )
 
@@ -303,8 +378,16 @@ def _persist(item: PipelineCandidate, seed: SeedMetadata) -> None:
         {
             "candidate_id": item.candidate.id,
             "question": item.candidate.question[:400],
+            "domain": item.candidate.domain,
+            "subject_area": item.subject_area,
+            "difficulty": item.candidate.difficulty,
+            "difficulty_score": item.candidate.difficulty_score,
+            "variation_strategy": item.candidate.variation_strategy,
+            "solution_method": item.candidate.solution_method,
             "decision": item.decision,
+            "decision_reasons": item.decision_reasons,
             "attempts": item.attempts,
+            "regeneration_history": item.regeneration_history,
             "structural_validation": (
                 item.structural_validation.model_dump() if item.structural_validation else None
             ),

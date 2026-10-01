@@ -1,38 +1,55 @@
-const STEPS = [
-  'Parse seed',
-  'Plan variations',
-  'Generate (Qwen2.5-Coder)',
-  'PS8 structural validation',
-  'PS2 reliability verification',
-  'Decision',
-];
-
 /**
- * Stage indicator shown while a run is in flight.
+ * Live progress of a generate-and-verify run.
  *
- * The backend returns one response at the end rather than streaming, so this
- * advances on a timer calibrated to the observed stage order. It is presentational
- * only - it never claims a stage succeeded, and the real per-stage timings are
- * reported from the server once the run completes.
+ * Driven by GET /api/v1/progress/{job_id}, which the backend updates at every real
+ * step it reports: seed parsed, variation generating / regenerating / decided.
+ * Nothing here is simulated - PS8 and PS2 run inside the "decided" step, so the
+ * live view does not claim a separate "validating now" state it cannot observe.
  */
-export default function PipelineProgress({ active, elapsed }) {
+export default function PipelineProgress({ active, elapsed, job }) {
   if (!active) return null;
 
-  // Generation dominates the wall clock on a local 7B model.
-  const step = elapsed < 2 ? 0 : elapsed < 4 ? 1 : elapsed < 9 ? 2 : elapsed < 11 ? 3 : elapsed < 13 ? 4 : 5;
+  const total = job?.total ?? null;
+  const done = job?.done ?? 0;
+  const pct = total ? Math.round((done / total) * 100) : 0;
+
+  let line = 'Starting the pipeline…';
+  let reason = null;
+  if (job?.stage === 'parsing_seed') {
+    line = 'Analysing the seed question';
+  } else if (job?.stage === 'generating') {
+    line = `Generating variation ${job.variation} of ${total}` +
+      (job.strategy ? ` · ${job.strategy}` : '') + (job.method ? ` · ${job.method}` : '');
+  } else if (job?.stage === 'regenerating') {
+    line = `Regenerating variation ${job.variation} · attempt ${job.attempt}`;
+    reason = job.reason ? `Previous attempt rejected: ${job.reason}` : null;
+  } else if (job?.stage === 'decided') {
+    line = `Variation ${job.variation} decided — validating & verifying the next`;
+  } else if (job?.stage === 'complete') {
+    line = 'Finishing up';
+  }
 
   return (
-    <div>
-      <div className="progress">
-        {STEPS.map((label, i) => (
-          <span key={label} className={`step ${i === step ? 'active' : i < step ? 'done' : ''}`}>
-            {i < step ? '✓ ' : ''}{label}
-          </span>
-        ))}
+    <div className="progress-card" data-testid="progress" role="status" aria-live="polite" aria-busy="true">
+      <div className="progress-head">
+        <span className="progress-now"><span className="ai-dot" aria-hidden="true" />{line}</span>
+        <span className="progress-count">{total ? `${done} / ${total} decided · ` : ''}{elapsed}s</span>
       </div>
-      <div style={{ marginTop: 10, fontSize: 13, color: 'var(--muted)' }}>
-        <span className="spinner" /> Running the pipeline locally — {elapsed}s elapsed.
-        A local 7B model takes roughly 5–20s per variation.
+      {reason && <div className="progress-reason">{reason}</div>}
+      <div className="bar" style={{ marginTop: 10 }} aria-hidden="true">
+        <i className="ai" style={{ width: `${Math.max(pct, total ? 2 : 0)}%` }} />
+      </div>
+      {job?.decisions?.length > 0 && (
+        <div className="progress-decisions">
+          {job.decisions.map((d) => (
+            <span key={d.variation} className={`badge ${d.decision}`}>
+              #{d.variation} {d.decision}{d.attempts > 1 ? ` · ${d.attempts} attempts` : ''}
+            </span>
+          ))}
+        </div>
+      )}
+      <div className="progress-foot">
+        A local 7B model takes roughly 20–40 s per variation on a laptop; regeneration adds more.
       </div>
     </div>
   );

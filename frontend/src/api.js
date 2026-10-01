@@ -50,8 +50,25 @@ export const api = {
   verify: (payload) =>
     request('/verify', { method: 'POST', body: JSON.stringify(payload) }),
 
-  questions: () => request('/questions'),
-  reviewQueue: () => request('/review-queue'),
+  progress: (jobId) => request(`/progress/${encodeURIComponent(jobId)}`),
+  taxonomy: () => request('/taxonomy'),
+  startJob: (payload) => request('/jobs', { method: 'POST', body: JSON.stringify(payload) }),
+  startDemoJob: () => request('/jobs/demo', { method: 'POST' }),
+  job: (jobId) => request(`/jobs/${encodeURIComponent(jobId)}`),
+  jobs: (limit = 20) => request(`/jobs?limit=${limit}`),
+  runDemo: (jobId) => request('/demo/run', { method: 'POST', body: JSON.stringify({ job_id: jobId }) }),
+
+  questions: () => request('/questions?limit=1000'),
+  reviewQueue: () => request('/review-queue?limit=1000'),
+  approveReview: (id, note) =>
+    request(`/review-queue/${encodeURIComponent(id)}/approve`, {
+      method: 'POST', body: JSON.stringify({ note: note || null }),
+    }),
+  rejectReview: (id, note) =>
+    request(`/review-queue/${encodeURIComponent(id)}/reject`, {
+      method: 'POST', body: JSON.stringify({ note: note || null }),
+    }),
+  validationReports: () => request('/validation-reports?limit=200'),
   demoFixtures: () => request('/demo/problematic-responses'),
 
   exportUrl: (fmt) => `${BASE}/export?fmt=${fmt}`,

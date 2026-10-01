@@ -1,7 +1,7 @@
 /** The explainability list: what was flagged, and exactly why. */
 export default function FlaggedSpans({ spans = [] }) {
   if (!spans.length) {
-    return <div style={{ fontSize: 13, color: 'var(--pass)' }}>No claims were flagged.</div>;
+    return <div style={{ fontSize: 13, color: 'var(--pass-text)' }}>No claims were flagged.</div>;
   }
 
   return (

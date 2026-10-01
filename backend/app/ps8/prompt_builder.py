@@ -43,6 +43,15 @@ def _json_shape(seed: SeedMetadata) -> str:
     return _JSON_SHAPE.replace("__ANSWER__", answer_hint)
 
 
+def _json_shape_for(seed: SeedMetadata, target_difficulty: str) -> str:
+    """The JSON template, listing "expert" only when Expert was explicitly requested -
+    every other prompt stays identical to before."""
+    shape = _json_shape(seed)
+    if target_difficulty == "expert":
+        shape = shape.replace('"easy | medium | hard"', '"easy | medium | hard | expert"')
+    return shape
+
+
 def _answer_key_clause(seed: SeedMetadata) -> str:
     """The answer key must be usable for marking, not a description of an answer."""
     if _is_coding(seed):
@@ -131,7 +140,7 @@ RULES:
      citations, standards, library functions or historical details.
 {avoid_block}
 Return ONLY this JSON object:
-{_json_shape(seed)}"""
+{_json_shape_for(seed, target_difficulty)}"""
 
 
 def build_regeneration_prompt(

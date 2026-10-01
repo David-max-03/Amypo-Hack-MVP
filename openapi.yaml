@@ -156,6 +156,34 @@ paths:
                 additionalProperties: true
                 type: object
                 title: Response Corpus Stats Api V1 Corpus Stats Get
+  /api/v1/progress/{job_id}:
+    get:
+      tags:
+      - Integrated
+      summary: Live progress of a generate-and-verify run
+      operationId: get_progress_api_v1_progress__job_id__get
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Progress Api V1 Progress  Job Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
   /api/v1/generate-and-verify:
     post:
       tags:
@@ -170,6 +198,40 @@ paths:
             schema:
               $ref: '#/components/schemas/GenerateAndVerifyRequest'
         required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateAndVerifyResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/demo/run:
+    post:
+      tags:
+      - Integrated
+      summary: 'DEMO: deterministic reject -> regenerate -> pass run of the real pipeline'
+      description: 'Replay the scripted demo candidates through the real validation
+        pipeline.
+
+
+        Only the model call is scripted; every score, verdict and decision is computed
+
+        live. Results are labelled DEMO and never written to any store.'
+      operationId: run_demo_api_v1_demo_run_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/DemoRunRequest'
+              - type: 'null'
+              title: Request
       responses:
         '200':
           description: Successful Response
@@ -239,6 +301,80 @@ paths:
                 type: object
                 additionalProperties: true
                 title: Response Get Review Queue Api V1 Review Queue Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/review-queue/{item_id}/approve:
+    post:
+      tags:
+      - Storage
+      summary: Approve a review item into the bank
+      operationId: approve_review_item_api_v1_review_queue__item_id__approve_post
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Item Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/ReviewAction'
+              - type: 'null'
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Approve Review Item Api V1 Review Queue  Item Id  Approve
+                  Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/review-queue/{item_id}/reject:
+    post:
+      tags:
+      - Storage
+      summary: Reject a review item
+      operationId: reject_review_item_api_v1_review_queue__item_id__reject_post
+      parameters:
+      - name: item_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Item Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/ReviewAction'
+              - type: 'null'
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Reject Review Item Api V1 Review Queue  Item Id  Reject
+                  Post
         '422':
           description: Validation Error
           content:
@@ -335,6 +471,121 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/taxonomy:
+    get:
+      tags:
+      - Jobs
+      summary: The one shared domain / difficulty configuration
+      operationId: get_taxonomy_api_v1_taxonomy_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Get Taxonomy Api V1 Taxonomy Get
+  /api/v1/jobs:
+    post:
+      tags:
+      - Jobs
+      summary: Start a background generate-and-verify job
+      operationId: start_job_api_v1_jobs_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobRequest'
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Start Job Api V1 Jobs Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Jobs
+      summary: Recent jobs (without candidate results)
+      operationId: list_jobs_api_v1_jobs_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 50
+          minimum: 1
+          default: 20
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Jobs Api V1 Jobs Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/jobs/demo:
+    post:
+      tags:
+      - Jobs
+      summary: 'DEMO: start the deterministic demo scenario as a job'
+      operationId: start_demo_job_api_v1_jobs_demo_post
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Start Demo Job Api V1 Jobs Demo Post
+  /api/v1/jobs/{job_id}:
+    get:
+      tags:
+      - Jobs
+      summary: Live state of one job, including candidate results
+      operationId: get_job_api_v1_jobs__job_id__get
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Job Api V1 Jobs  Job Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
     Candidate:
@@ -365,6 +616,7 @@ components:
           - easy
           - medium
           - hard
+          - expert
           title: Difficulty
         difficulty_score:
           type: number
@@ -454,6 +706,16 @@ components:
       - start
       - end
       title: Claim
+    DemoRunRequest:
+      properties:
+        job_id:
+          anyOf:
+          - type: string
+            pattern: ^[A-Za-z0-9_-]{1,64}$
+          - type: 'null'
+          title: Job Id
+      type: object
+      title: DemoRunRequest
     DomainInfo:
       properties:
         id:
@@ -590,6 +852,7 @@ components:
             - easy
             - medium
             - hard
+            - expert
           - type: 'null'
           title: Difficulty Shift
         enable_regeneration:
@@ -601,6 +864,14 @@ components:
           title: Persist
           description: Write accepted/review results to local JSON stores.
           default: true
+        job_id:
+          anyOf:
+          - type: string
+            pattern: ^[A-Za-z0-9_-]{1,64}$
+          - type: 'null'
+          title: Job Id
+          description: Optional client-chosen id; poll GET /progress/{job_id} while
+            it runs.
       type: object
       required:
       - seed_question
@@ -628,6 +899,20 @@ components:
             type: string
           type: array
           title: Warnings
+        demo:
+          type: boolean
+          title: Demo
+          default: false
+        demo_label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Demo Label
+        demo_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Demo Description
       type: object
       required:
       - results
@@ -656,6 +941,7 @@ components:
             - easy
             - medium
             - hard
+            - expert
           - type: 'null'
           title: Difficulty Shift
           description: Request an explicit difficulty shift. None preserves the seed's.
@@ -748,6 +1034,7 @@ components:
           - easy
           - medium
           - hard
+          - expert
           title: Difficulty Label
         domain:
           type: string
@@ -851,6 +1138,52 @@ components:
       - storage
       - config
       title: HealthResponse
+    JobRequest:
+      properties:
+        seed_question:
+          type: string
+          minLength: 5
+          title: Seed Question
+        domain:
+          type: string
+          title: Domain
+          default: programming
+        subject_area:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Subject Area
+          description: Taxonomy subject area; overrides `domain` with its pipeline
+            domain.
+        count:
+          type: integer
+          maximum: 60.0
+          minimum: 1.0
+          title: Count
+          default: 10
+        difficulty_shift:
+          anyOf:
+          - type: string
+            enum:
+            - easy
+            - medium
+            - hard
+            - expert
+          - type: 'null'
+          title: Difficulty Shift
+        enable_regeneration:
+          type: boolean
+          title: Enable Regeneration
+          default: true
+        persist:
+          type: boolean
+          title: Persist
+          default: true
+      type: object
+      required:
+      - seed_question
+      title: JobRequest
+      description: Start a background generate-and-verify job (POST /jobs).
     PipelineCandidate:
       properties:
         candidate:
@@ -896,6 +1229,11 @@ components:
             type: object
           type: array
           title: Regeneration History
+        subject_area:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Subject Area
       type: object
       required:
       - candidate
@@ -1025,6 +1363,16 @@ components:
       - hallucination_probability
       - verdict
       title: ReliabilityVerification
+    ReviewAction:
+      properties:
+        note:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Note
+      type: object
+      title: ReviewAction
     SeedMetadata:
       properties:
         domain:
@@ -1050,6 +1398,7 @@ components:
           - easy
           - medium
           - hard
+          - expert
           title: Difficulty
         difficulty_score:
           type: number

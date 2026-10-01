@@ -52,13 +52,13 @@ with `OLLAMA_NUM_PARALLEL=4`. Seed: *"Write a function to reverse a singly linke
 | Measurement | Result |
 |---|---|
 | `/generate` count=15 | **14 / 15 accepted**, duplicate rate 0.0, **370 s**. First-attempt generation 168 s (~11 s/variation), retries 195 s (11 retries, 5 recovered) |
-| `/generate` count=60 | <!-- 60RUN --> |
+| `/generate` count=60 | **46 / 60 accepted**, duplicate rate 0.0, **1818 s (30.3 min)**. First-attempt generation 904 s (~15 s/variation), retries 906 s (52 retries, 19 recovered). Methods: iterative 13, recursive 13, stack 11, rebuild 9. Final rejects (14): 11 near-duplicates of other variations, 5 method mismatches; some had both |
 | Methods in accepted set (count=15) | iterative 4, recursive 3, auxiliary stack 4, non-destructive rebuild 3. Each is verified in the answer-key code |
 | Throughput, single request | 11.7 tok/s in Low Power Mode; ~2× faster on AC power |
 | Throughput, 4 parallel slots | 20.3 tok/s total, versus 11.7 tok/s for a single request (both in Low Power Mode) |
 | `/verify` latency | 6–214 ms with a warm model (PS2 limit: < 10 s) |
 | `/verify` on a hallucinated linked-list response | 6 flagged spans, verdict `misleading` |
-| Unit and integration tests | 173 passing |
+| Unit and integration tests | 183 passing |
 
 **Not yet measured:** PS2 precision, recall and false-positive rate on a labelled benchmark;
 answer-key correctness through execution; the organiser evaluation harness, which has not been

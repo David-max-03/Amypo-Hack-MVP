@@ -107,6 +107,42 @@ def save_review_item(record: dict) -> None:
     append_to("review_queue.json", "items", record)
 
 
+def resolve_review_item(item_id: str, action: str, note: str | None = None) -> dict | None:
+    """Take an item out of the review queue after a human decision.
+
+    `approve` moves it into the question bank; `reject` records it under
+    `resolved` in the review store so the decision stays auditable. Returns the
+    resolved record, or None if no queued item has that id.
+    """
+    with _LOCK:
+        queue = read_json("review_queue.json")
+        items = queue.get("items", [])
+        match = next((i for i in items if i.get("id") == item_id), None)
+        if match is None:
+            return None
+        queue["items"] = [i for i in items if i.get("id") != item_id]
+
+        resolved = {
+            **match,
+            "review_decision": action,
+            "review_note": note,
+            "reviewed_at": utc_now(),
+        }
+        if action == "approve":
+            resolved["decision"] = "PASS"
+            resolved["validation_status"] = "approved by human reviewer"
+            bank = read_json("question_bank.json")
+            bank.setdefault("questions", []).append(resolved)
+            _atomic_write(_path("question_bank.json"), bank)
+        else:
+            resolved["decision"] = "REJECT"
+            resolved["validation_status"] = "rejected by human reviewer"
+            queue.setdefault("resolved", []).append(resolved)
+        _atomic_write(_path("review_queue.json"), queue)
+    audit(f"review_{action}", id=item_id, question=str(match.get("question", ""))[:200])
+    return resolved
+
+
 def save_validation_report(record: dict) -> None:
     # Keep the report file readable during a demo rather than unbounded.
     append_to("validation_report.json", "reports", record, cap=200)

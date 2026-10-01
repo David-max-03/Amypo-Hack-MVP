@@ -1,0 +1,5 @@
+2026-09-29 23:03:54 IST
+power: Now drawing from 'Battery Power'
+lowpowermode 1
+ollama: OLLAMA_NUM_PARALLEL=4, backend AMYPO_GENERATION_CONCURRENCY=4
+stack: docker compose (Colima), backend + frontend containers, host Ollama qwen2.5-coder:7b
