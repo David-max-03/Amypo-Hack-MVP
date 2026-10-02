@@ -14,6 +14,7 @@ from ...config import settings
 from ...core.embeddings import embeddings
 from ...core.text_utils import jaccard, overlap_coefficient
 from ...schemas import Candidate, SeedMetadata
+from .. import contract as seed_contract
 from .. import methods
 
 
@@ -23,6 +24,10 @@ class ConceptResult:
     overlap: float
     semantic_similarity: float
     reasons: list[str] = field(default_factory=list)
+    # Required elements of the seed contract the question no longer mentions, and
+    # how each of the others was matched (present / acronym / synonym).
+    missing_elements: list[str] = field(default_factory=list)
+    element_matches: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
@@ -86,10 +91,18 @@ def seed_data_structure(seed: SeedMetadata) -> str | None:
 def validate_concept(candidate: Candidate, seed: SeedMetadata) -> ConceptResult:
     """Does the candidate still assess the seed's core concept?
 
-    Combines lexical overlap against the concept phrase with semantic similarity
-    against the learning objective. A candidate passes if either signal is strong -
-    a scenario variation legitimately shares few words with the seed, so demanding
-    both would reject exactly the variations PS8 wants.
+    Three independent signals, because no single similarity score separates
+    "lexically close but about something else" from "lexically far but faithful":
+
+      1. overlap with the concept phrase OR similarity to the learning objective -
+         a scenario variation legitimately shares few words with the seed, so either
+         signal may carry it;
+      2. the seed contract's required elements - the terms measured to carry the
+         seed's concept, and any technology it names - must all still be present
+         (literally, by acronym, or by a new word that means the same);
+      3. a programming seed's data structure is a hard anchor.
+
+    Signals 2 and 3 can only fail a candidate, never rescue one.
     """
     concept_text = f"{seed.core_concept} {seed.topic}"
     overlap = overlap_coefficient(candidate.question, concept_text)
@@ -109,7 +122,8 @@ def validate_concept(candidate: Candidate, seed: SeedMetadata) -> ConceptResult:
     # Overlap and similarity both tolerate swapping the data structure ("reverse an
     # array with a stack" shares "reverse" and "stack" with a linked-list seed), so a
     # programming seed's data structure is a hard anchor.
-    anchor = seed_data_structure(seed)
+    contract = seed_contract.get_contract(seed)
+    anchor = contract.structure_anchor
     if anchor and not re.search(_DATA_STRUCTURES[anchor], candidate.question, re.I):
         preserved = False
         reasons.append(
@@ -124,6 +138,17 @@ def validate_concept(candidate: Candidate, seed: SeedMetadata) -> ConceptResult:
             f"overlap or >= {settings.concept_min_semantic:.2f} semantic similarity)"
         )
 
+    missing, matches = seed_contract.missing_elements(
+        contract, candidate.question, candidate.answer_key
+    )
+    if missing:
+        preserved = False
+        about = ", ".join(contract.required_elements + contract.named_elements)
+        reasons.append(
+            f"learning objective changed: the seed is about {about}, but the question no "
+            f"longer mentions {', '.join(missing)} - it assesses something else"
+        )
+
     if candidate.domain != seed.domain:
         reasons.append(
             f"domain drifted from '{seed.domain}' to '{candidate.domain}'"
@@ -134,6 +159,113 @@ def validate_concept(candidate: Candidate, seed: SeedMetadata) -> ConceptResult:
         overlap=round(overlap, 4),
         semantic_similarity=round(semantic, 4),
         reasons=reasons,
+        missing_elements=missing,
+        element_matches=matches,
+    )
+
+
+# ----------------------------------------------------------------------
+# A2. Strategy compliance
+# ----------------------------------------------------------------------
+@dataclass
+class StrategyResult:
+    strategy: str
+    # True / False when the change the strategy asks for can be checked from the
+    # text; None when it cannot (recorded, never counted as a failure).
+    followed: bool | None
+    evidence: str
+    reasons: list[str] = field(default_factory=list)
+
+
+_CONSTRAINT_CUE_RE = re.compile(
+    r"\b(only|must|cannot|can't|without|not allowed|not permitted|forbidden|prohibited|"
+    r"do not use|don't use|may not|should not|no (?:built-in|additional|extra|external|more)|"
+    r"at most|at least|limit(?:ed)?|restrict(?:ed|ion)?|maximum|exactly|single pass|"
+    r"in-place|in place)\b|O\(",
+    re.I,
+)
+_STRUCTURE_CUE_RE = re.compile(
+    r"\b(bug|debug|fix|flaw(?:ed)?|faulty|incorrect|error|mistake|correct the|complete the|"
+    r"partial|missing|fill in|trace|step[- ]by[- ]step|justify|predict|"
+    r"what (?:is|does|will)[^.?]*(?:output|print|return|result)|"
+    r"(?:the )?following (?:code|function|implementation|solution|query|proof|steps|program))\b",
+    re.I,
+)
+_REPRESENTATION_CUE_RE = re.compile(
+    r"\b(which of the following|choose|select the|options?|table|tabular|diagram|json|csv|"
+    r"xml|matrix|format|formatted|represented as|representation|list of|array of|"
+    r"dictionary|string of|true or false|fill in the blank|pseudocode)\b|^\s*[A-D][).]",
+    re.I | re.M,
+)
+
+
+def validate_strategy(candidate: Candidate, seed: SeedMetadata) -> StrategyResult:
+    """Did the candidate change the dimension its strategy varies?
+
+    A candidate fails only where the text gives reliable evidence that the change
+    did not happen: a scenario variation with no new setting, or a parameter
+    variation that reuses the seed's values. A constraint, structure or
+    representation change has many valid forms, so the absence of a recognised cue
+    is reported as "not verifiable" (None), never as a failure.
+    """
+    contract = seed_contract.get_contract(seed)
+    strategy = candidate.variation_strategy
+    question = candidate.question
+
+    if strategy == "scenario":
+        seed_stems = {seed_contract.stem(t) for t in seed_contract.candidate_terms(seed.raw_seed)}
+        terms = seed_contract.candidate_terms(question)
+        fresh = [t for t in terms if seed_contract.stem(t) not in seed_stems]
+        ratio = len(fresh) / len(terms) if terms else 0.0
+        followed = len(fresh) >= 5 and ratio >= 0.4
+        evidence = f"{len(fresh)} new content words ({ratio:.0%} of the question)"
+        reason = (
+            "strategy not followed: a scenario variation must place the task in a new "
+            f"real-world setting, but the question adds only {evidence}"
+        )
+    elif strategy == "parameter":
+        before, after = set(contract.parameters), set(seed_contract.parameters(question))
+        if before:
+            followed = bool(after - before)
+            evidence = f"seed values {sorted(before)} -> question values {sorted(after)}"
+        else:
+            followed = True if after else None
+            evidence = f"question states values {sorted(after)}" if after else "no concrete values to compare"
+        reason = (
+            "strategy not followed: a parameter variation must change the concrete "
+            f"values, but the question reuses the seed's ({evidence})"
+        )
+    elif strategy == "constraint":
+        new_clauses = [
+            c for c in seed_contract.constraint_clauses(question) if c not in contract.constraints
+        ]
+        cue = _CONSTRAINT_CUE_RE.search(question) and not _CONSTRAINT_CUE_RE.search(seed.raw_seed)
+        # A constraint can be worded in too many ways ("using recursion rather than a
+        # loop") to treat an unrecognised one as absent, so this never fails a candidate.
+        followed = True if (new_clauses or cue) else None
+        evidence = (
+            f"new constraint: {new_clauses[0]}" if new_clauses
+            else "constraint wording present" if cue else "no recognised constraint wording"
+        )
+        reason = ""
+    elif strategy == "structure":
+        m = _STRUCTURE_CUE_RE.search(question)
+        followed = True if m else None
+        evidence = f"changed task shape: '{m.group(0)}'" if m else "no recognised cue"
+        reason = ""
+    elif strategy == "representation":
+        m = _REPRESENTATION_CUE_RE.search(question)
+        followed = True if m else None
+        evidence = f"changed presentation: '{m.group(0).strip()}'" if m else "no recognised cue"
+        reason = ""
+    else:
+        return StrategyResult(strategy=strategy or "", followed=None, evidence="unknown strategy")
+
+    return StrategyResult(
+        strategy=strategy,
+        followed=followed,
+        evidence=evidence,
+        reasons=[reason] if followed is False else [],
     )
 
 
@@ -290,6 +422,15 @@ _CODE_DEFINITION_RE = re.compile(
     r"|^\s*[A-Za-z_][\w<>\[\]*&:]*\s+\**\w+\s*\([^)]*\)\s*\{",  # C / C++
     re.M,
 )
+# Code that is not a function: a query, markup, a style rule. "Write a SQL query"
+# is answered by a SELECT statement, which defines nothing.
+_CODE_ARTIFACT_RE = re.compile(
+    r"\bSELECT\b[\s\S]{1,600}?\bFROM\b|\bINSERT\s+INTO\b|\bUPDATE\s+\w+\s+SET\b"
+    r"|\bDELETE\s+FROM\b|\bCREATE\s+(?:TABLE|INDEX|VIEW)\b"  # SQL
+    r"|<\s*[a-zA-Z][\w-]*(?:\s+[^<>]*)?>[\s\S]*<\s*/\s*[a-zA-Z][\w-]*\s*>"  # markup
+    r"|[.#]?[\w-]+\s*\{[^{}]*:[^{}]*\}",  # a style rule
+    re.I,
+)
 
 
 @dataclass
@@ -321,10 +462,24 @@ def validate_answer_key(candidate: Candidate, seed: SeedMetadata) -> AnswerKeyRe
             reasons=["missing answer key: PS8 requires an answer key for every variation"],
         )
 
+    # The prompt's own placeholder, echoed back, is not an answer.
+    from ..prompt_builder import ANSWER_HINTS  # local import avoids a cycle
+
+    if any(jaccard(text, hint) >= 0.8 for hint in ANSWER_HINTS.values()):
+        return AnswerKeyResult(
+            present=True,
+            substantive=False,
+            has_code=None,
+            reasons=[
+                "answer key is too short to be usable: it repeats the prompt's placeholder "
+                "text instead of giving an answer"
+            ],
+        )
+
     reasons: list[str] = []
     has_code: bool | None = None
     if _is_coding_question(candidate, seed):
-        has_code = bool(_CODE_DEFINITION_RE.search(text))
+        has_code = bool(_CODE_DEFINITION_RE.search(text) or _CODE_ARTIFACT_RE.search(text))
         if not has_code:
             reasons.append(
                 "answer key describes a solution instead of giving one: a coding "

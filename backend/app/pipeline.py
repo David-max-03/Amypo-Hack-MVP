@@ -24,6 +24,7 @@ from .core.timing import Stopwatch
 from .decision.decision_engine import combined_feedback, decide
 from .ps2 import engine as ps2_engine
 from .ps8 import generation_engine, seed_parser, variation_planner
+from .ps8.contract import build_contract
 from .ps8.validation.engine import compute_duplicate_rate, validate_candidate
 from .schemas import (
     Candidate,
@@ -96,6 +97,8 @@ def run_pipeline(
     progress: ProgressCallback | None = None,
     client=None,
     subject_area: str | None = None,
+    job_id: str | None = None,
+    should_stop: Callable[[], bool] | None = None,
 ) -> tuple[SeedMetadata, list[PipelineCandidate], PipelineSummary, dict[str, float], list[str]]:
     """Execute the full integrated pipeline for one seed question.
 
@@ -112,6 +115,11 @@ def run_pipeline(
     with watch.stage("ps8.seed_parsing"):
         seed = seed_parser.parse_seed(seed_question, domain, use_llm=use_llm_parser)
 
+    # ---- Step 2b: the seed contract (local, deterministic) ----------
+    # What every variation must keep; the prompt and the validator both read it.
+    with watch.stage("ps8.seed_contract"):
+        seed = seed.model_copy(update={"contract": build_contract(seed)})
+
     # ---- Step 3: plan the variations --------------------------------
     with watch.stage("ps8.variation_planning"):
         plan = variation_planner.plan_variations(
@@ -125,6 +133,14 @@ def run_pipeline(
 
     # ---- Step 4-9: generate, validate, verify, decide ---------------
     for item in plan:
+        # A background job can be cancelled between candidates; what was already
+        # decided stays decided (and persisted).
+        if should_stop is not None and should_stop():
+            warnings.append(
+                f"Cancelled before variation {item.index + 1}: "
+                f"{len(results)} of {count} candidates were decided"
+            )
+            break
         parse_errors: list[str] = []
         _emit(
             progress, stage="generating", total=count, done=len(results),
@@ -290,7 +306,7 @@ def run_pipeline(
 
         # ---- Step 11: persist ---------------------------------------
         if persist:
-            _persist(pipeline_candidate, seed)
+            _persist(pipeline_candidate, seed, job_id)
 
     # ---- Summary ----------------------------------------------------
     with watch.stage("pipeline.summary"):
@@ -311,7 +327,7 @@ def run_pipeline(
     return seed, results, summary, watch.as_dict(), warnings
 
 
-def _persist(item: PipelineCandidate, seed: SeedMetadata) -> None:
+def _persist(item: PipelineCandidate, seed: SeedMetadata, job_id: str | None = None) -> None:
     """Write one evaluated candidate to the appropriate local JSON store."""
     record = {
         "id": item.candidate.id,
@@ -330,6 +346,7 @@ def _persist(item: PipelineCandidate, seed: SeedMetadata) -> None:
         "strategy_label": item.candidate.strategy_label,
         "solution_method": item.candidate.solution_method,
         "seed_question": seed.raw_seed,
+        "job_id": job_id,
         "decision": item.decision,
         "validation_status": {
             "PASS": "passed both gates",
@@ -380,6 +397,8 @@ def _persist(item: PipelineCandidate, seed: SeedMetadata) -> None:
             "question": item.candidate.question[:400],
             "domain": item.candidate.domain,
             "subject_area": item.subject_area,
+            "seed_question": seed.raw_seed,
+            "job_id": job_id,
             "difficulty": item.candidate.difficulty,
             "difficulty_score": item.candidate.difficulty_score,
             "variation_strategy": item.candidate.variation_strategy,

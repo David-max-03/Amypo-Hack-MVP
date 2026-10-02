@@ -19,11 +19,15 @@ _TYPE_EXCLUSIONS: dict[str, set[str]] = {
 }
 
 
-def _eligible_strategies(seed: SeedMetadata) -> list[strategies.Strategy]:
-    excluded = _TYPE_EXCLUSIONS.get(seed.question_type, set())
+def eligible_strategies_for_type(question_type: str) -> list[strategies.Strategy]:
+    excluded = _TYPE_EXCLUSIONS.get(question_type, set())
     eligible = [s for s in strategies.list_strategies() if s.id not in excluded]
     # Never return an empty plan space.
     return eligible or strategies.list_strategies()
+
+
+def _eligible_strategies(seed: SeedMetadata) -> list[strategies.Strategy]:
+    return eligible_strategies_for_type(seed.question_type)
 
 
 def plan_variations(
@@ -43,7 +47,12 @@ def plan_variations(
     # Methods rotate independently of strategies. With 5 strategies and 4 methods the
     # cycle lengths are coprime, so every strategy x method pairing occurs before
     # any pairing repeats.
-    method_pool = methods.methods_for(seed.question_type)
+    # Only methods that apply to this seed are planned; a seed with none simply has no
+    # method axis, exactly like a non-coding seed.
+    method_pool = methods.applicable_methods(seed)
+    from .validation.validators import seed_data_structure
+
+    structure = seed_data_structure(seed)
     plan: list[VariationPlanItem] = []
 
     for i in range(count):
@@ -84,7 +93,9 @@ def plan_variations(
                 change=change,
                 method=method.id if method else None,
                 method_label=method.label if method else "",
-                method_instruction=method.instruction if method else "",
+                method_instruction=method.instruction_for(structure) if method else "",
+                dimension=strategy.dimension,
+                must_not_change=list(strategy.must_not_change),
             )
         )
 

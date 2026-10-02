@@ -4,6 +4,7 @@ import { EvidenceTable, verdictTone } from '../components/CandidateCard.jsx';
 import FlaggedSpans from '../components/FlaggedSpans.jsx';
 import HighlightedText from '../components/HighlightedText.jsx';
 import ScoreBar from '../components/ScoreBar.jsx';
+import PageHeader from '../components/PageHeader.jsx';
 import TaxonomyFilters from '../components/TaxonomyFilters.jsx';
 import { areaLabel, areaOf, difficultyOf, matchesFilters, useAppData } from '../state/AppData.jsx';
 
@@ -24,7 +25,7 @@ function useVerifiedItems(job) {
   }, []);
   useEffect(load, [load]);
   // Refresh when a job finishes, so its persisted reports appear.
-  useEffect(() => { if (job?.status === 'completed') load(); }, [job?.status, load]);
+  useEffect(() => { if (job?.status === 'completed' || job?.status === 'cancelled') load(); }, [job?.status, load]);
 
   const items = useMemo(() => {
     const out = [];
@@ -37,6 +38,7 @@ function useVerifiedItems(job) {
         subject_area: r.subject_area, domain: r.candidate.domain, difficulty: r.candidate.difficulty,
         strategy: r.candidate.variation_strategy, method: r.candidate.solution_method,
         rv: r.reliability_verification, sv: r.structural_validation, attempts: r.attempts, index: i + 1,
+        candidate_id: r.candidate.id, job_id: job.job_id, created_at: null,
       });
     });
     [...reports].reverse().forEach((r) => {
@@ -47,7 +49,7 @@ function useVerifiedItems(job) {
         subject_area: r.subject_area, domain: r.domain, difficulty: r.difficulty,
         strategy: r.variation_strategy, method: r.solution_method,
         rv: r.reliability_verification, sv: r.structural_validation, attempts: r.attempts,
-        created_at: r.created_at,
+        created_at: r.created_at, candidate_id: r.candidate_id, job_id: r.job_id || null,
       });
     });
     return out;
@@ -66,7 +68,10 @@ function Detail({ item, taxonomy }) {
     <div className="inspect-detail" data-testid="ps2-detail">
       <div className="card-head">
         <div className="meta">
+          <span className="tag mono">#{item.candidate_id}</span>
           <span className="tag">{item.source}</span>
+          <span className="tag mono" title="generation job">{item.job_id || 'no job id (recorded before runs were tracked)'}</span>
+          <span className="tag" title="verified at">{item.created_at ? new Date(item.created_at).toLocaleString() : 'this session'}</span>
           <span className="tag">{areaLabel(taxonomy, areaOf(item))}</span>
           {item.difficulty && <span className="tag">{item.difficulty}</span>}
           {item.strategy && <span className="tag ps8">{item.strategy}</span>}
@@ -104,8 +109,8 @@ function Detail({ item, taxonomy }) {
           ))}</>
       )}
       {rv.reasons?.length > 0 && (<><h3 style={{ marginTop: 18 }}>Why</h3><ul className="reasons">{rv.reasons.map((r, i) => <li key={i}>{r}</li>)}</ul></>)}
-      <details>
-        <summary>Signals</summary>
+      <details open>
+        <summary>Signals — grounding, contradiction and semantic-match scores PS2 computed</summary>
         {Object.entries(rv.signals || {}).map(([k, v]) => (
           <div className="check" key={k}><span className="name">{k.replace(/_/g, ' ')}</span><span className="num">{typeof v === 'number' ? v.toFixed(3) : String(v)}</span></div>
         ))}
@@ -115,7 +120,7 @@ function Detail({ item, taxonomy }) {
 }
 
 function Inspector() {
-  const { job, taxonomy } = useAppData();
+  const { job, jobRunning, taxonomy } = useAppData();
   const { items, error, reload } = useVerifiedItems(job);
   const [filters, setFilters] = useState({ area: '', difficulty: '' });
   const [decision, setDecision] = useState('');
@@ -130,13 +135,16 @@ function Inspector() {
   return (
     <div className="panel" data-testid="ps2-inspector">
       <div className="toolbar">
-        <h2>PS2 Verifier <span className="status-pill">{rows.length} of {items.length} verified</span></h2>
+        <h2>Verified candidates <span className="status-pill">{rows.length} of {items.length}</span></h2>
         <div className="actions"><button className="ghost" onClick={reload}>Refresh</button></div>
       </div>
-      <p className="lede">
-        Every generated candidate is verified by PS2 automatically. Pick one to inspect exactly what PS2
-        concluded — reliability, verdict, each claim, its evidence and the flagged spans.
-      </p>
+      {jobRunning && (
+        <div className="notice ok" role="status" data-testid="ps2-live">
+          <b>Verifying now</b> — job <span className="mono">{job.job_id}</span> is on
+          {job.current?.variation ? ` variation ${job.current.variation} of ${job.requested_count}` : ' its first candidate'}
+          {' '}({job.current_stage.replace(/_/g, ' ')}). {job.generated_count} verified so far; each one appears here as soon as PS2 has scored it.
+        </div>
+      )}
       <div className="filters">
         <TaxonomyFilters idPrefix="insp" value={filters} onChange={setFilters} />
         <div>
@@ -351,6 +359,8 @@ function CustomVerify() {
 export default function VerifierPage() {
   return (
     <>
+      <PageHeader eyebrow="Inspection" title="PS2 Verifier"
+        description="Every generated candidate is verified by PS2 automatically. Pick one to inspect what PS2 concluded: reliability, verdict, each claim, its evidence and the flagged spans." />
       <Inspector />
       <details className="panel custom-verify">
         <summary>Verify custom text — run PS2 on any response you paste (ad-hoc check)</summary>

@@ -129,7 +129,12 @@ def extract_core_concept(text: str, domain_id: str) -> str:
             # Grab a short phrase around the keyword for a more specific concept.
             window = tokens[max(0, i - 1) : i + 2]
             return " ".join(window)
-    return " ".join(tokens[:3])
+    # No domain keyword to anchor on: take the terms measured to carry the seed's
+    # meaning ("prime" for a primality seed) rather than its first three words,
+    # which are usually instructions ("check whether number").
+    from .contract import core_phrase  # local import avoids a cycle
+
+    return core_phrase(text) or " ".join(tokens[:3])
 
 
 def extract_topic(text: str, domain_id: str) -> str:

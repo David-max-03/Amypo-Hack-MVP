@@ -25,7 +25,7 @@ def _wait(client, job_id, timeout=180.0):
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
         job = client.get(f"/api/v1/jobs/{job_id}").json()
-        if job["status"] in ("completed", "failed"):
+        if job["status"] in ("completed", "failed", "cancelled"):
             return job
         time.sleep(0.05)
     raise AssertionError(f"job {job_id} did not finish: {job}")
@@ -192,3 +192,99 @@ class TestExpertDifficulty:
         text = ("Design an optimal, provably correct O(n log n) algorithm with amortised analysis, "
                 "handling concurrency, edge cases and a formal proof across distributed nodes " * 3)
         assert estimate_difficulty(text)[0] == "hard"
+
+
+class TestJobLifecycle:
+    def test_a_cancelled_job_stops_before_the_next_candidate_and_keeps_what_was_decided(self, client, monkeypatch):
+        fake = _script(monkeypatch, [candidate_json(GOOD)] * 12, delay=0.3)
+        job_id = client.post("/api/v1/jobs", json={
+            "seed_question": SEED, "count": 4, "persist": False, "enable_regeneration": False,
+        }).json()["job_id"]
+        cancelled = client.post(f"/api/v1/jobs/{job_id}/cancel")
+        assert cancelled.status_code == 200 and cancelled.json()["cancel_requested"] is True
+        job = _wait(client, job_id)
+        assert job["status"] == "cancelled" and job["completed_at"]
+        assert job["generated_count"] < 4 and len(job["results"]) == job["generated_count"]
+        assert fake.calls < 4  # the model was not called for the remaining candidates
+        assert any("Cancelled" in w for w in job["warnings"])
+
+    def test_cancelling_a_finished_or_unknown_job(self, client, monkeypatch):
+        _script(monkeypatch, [candidate_json(GOOD)])
+        job_id = client.post("/api/v1/jobs", json={"seed_question": SEED, "count": 1, "persist": False}).json()["job_id"]
+        assert _wait(client, job_id)["status"] == "completed"
+        again = client.post(f"/api/v1/jobs/{job_id}/cancel").json()
+        assert again["status"] == "completed" and again["cancel_requested"] is False
+        assert client.post("/api/v1/jobs/job_nope/cancel").status_code == 404
+
+    def test_two_jobs_run_at_the_same_time_and_stay_separate(self, client, monkeypatch):
+        _script(monkeypatch, [candidate_json(GOOD)] * 2, delay=0.4)
+        body = {"seed_question": SEED, "count": 1, "persist": False, "enable_regeneration": False}
+        first = client.post("/api/v1/jobs", json=body).json()["job_id"]
+        second = client.post("/api/v1/jobs", json={**body, "subject_area": "algorithms"}).json()["job_id"]
+        assert first != second
+        # Both are in flight together: neither waited for the other to finish.
+        live = {j: client.get(f"/api/v1/jobs/{j}").json()["status"] for j in (first, second)}
+        assert set(live.values()) <= {"queued", "running"}
+        a, b = _wait(client, first), _wait(client, second)
+        assert a["status"] == b["status"] == "completed"
+        assert a["generated_count"] == b["generated_count"] == 1
+        assert a["subject_area"] is None and b["subject_area"] == "algorithms"
+
+    def test_a_finished_job_reports_measured_metrics(self, client, monkeypatch):
+        _script(monkeypatch, [candidate_json(GOOD)], delay=0.05)
+        job = _wait(client, client.post("/api/v1/jobs", json={"seed_question": SEED, "count": 1, "persist": False}).json()["job_id"])
+        m = job["metrics"]
+        assert m["llm_generation_ms"] >= 50 and m["total_ms"] >= m["llm_generation_ms"]
+        assert m["ps8_validation_ms"] > 0 and m["ps2_verification_ms"] > 0
+        assert m["avg_candidate_ms"] == pytest.approx(m["total_ms"], rel=0.01)
+        assert m["candidates_per_min"] > 0
+        assert m["pass_rate"] + m["review_rate"] + m["reject_rate"] == pytest.approx(1.0)
+        assert 0.0 <= m["ps8_pass_rate"] <= 1.0 and 0.0 <= m["regeneration_rate"] <= 1.0
+
+
+class TestReportsFromTheBackend:
+    def _run(self, client, monkeypatch, **extra):
+        _script(monkeypatch, [candidate_json(GOOD)])
+        return _wait(client, client.post("/api/v1/jobs", json={"seed_question": SEED, "count": 1, **extra}).json()["job_id"])
+
+    def test_stored_records_carry_the_run_and_the_seed(self, client, monkeypatch):
+        job = self._run(client, monkeypatch, subject_area="data_structures")
+        report = client.get("/api/v1/validation-reports").json()["reports"][-1]
+        assert report["job_id"] == job["job_id"] and report["seed_question"] == SEED
+        stored = (storage.load_question_bank() + storage.load_review_queue())[-1]
+        assert stored["job_id"] == job["job_id"]
+
+    def test_stats_are_counted_from_the_stored_reports(self, client, monkeypatch):
+        empty = client.get("/api/v1/validation-reports/stats").json()
+        assert empty["total"] == 0 and all(d == {"count": 0, "percent": 0.0} for d in empty["decisions"].values())
+
+        job = self._run(client, monkeypatch)
+        stats = client.get("/api/v1/validation-reports/stats").json()
+        reports = client.get("/api/v1/validation-reports").json()["reports"]
+        assert stats["total"] == len(reports) == 1
+        decision = reports[0]["decision"]
+        assert stats["decisions"][decision] == {"count": 1, "percent": 100.0}
+        assert sum(d["count"] for d in stats["decisions"].values()) == stats["total"]
+        assert [r["job_id"] for r in stats["runs"]] == [job["job_id"]]
+        assert stats["runs"][0]["seed_question"] == SEED and stats["runs"][0]["reports"] == 1
+
+    def test_run_and_time_filters(self, client, monkeypatch):
+        job = self._run(client, monkeypatch)
+        mine = client.get(f"/api/v1/validation-reports?job_id={job['job_id']}").json()
+        assert mine["count"] == 1
+        assert client.get("/api/v1/validation-reports?job_id=job_other").json()["count"] == 0
+        assert client.get("/api/v1/validation-reports/stats?job_id=job_other").json()["total"] == 0
+        assert client.get("/api/v1/validation-reports?since_hours=1").json()["count"] == 1
+
+        # A report older than the window drops out of both the list and the counts.
+        data = storage.read_json("validation_report.json")
+        data["reports"][0]["created_at"] = "2020-01-01T00:00:00+00:00"
+        storage.write_json("validation_report.json", data)
+        assert client.get("/api/v1/validation-reports?since_hours=24").json()["count"] == 0
+        assert client.get("/api/v1/validation-reports/stats?since_hours=24").json()["total"] == 0
+        assert client.get("/api/v1/validation-reports/stats").json()["total"] == 1
+
+    def test_a_demo_job_leaves_no_report_behind(self, client):
+        job = _wait(client, client.post("/api/v1/jobs/demo").json()["job_id"])
+        assert job["status"] == "completed" and job["demo"] is True
+        assert client.get("/api/v1/validation-reports/stats").json()["total"] == 0

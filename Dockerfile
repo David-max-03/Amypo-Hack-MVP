@@ -20,6 +20,10 @@ RUN pip install -r requirements.txt
 # first PS2 request is not a model download.
 RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')"
 
+# ...and the entailment model PS2 uses to decide whether a corpus sentence agrees
+# with a claim. Without it PS2 falls back to similarity + keyword grounding.
+RUN python -c "from sentence_transformers import CrossEncoder; CrossEncoder('cross-encoder/nli-MiniLM2-L6-H768')"
+
 COPY backend ./backend
 COPY data ./data
 COPY pytest.ini .

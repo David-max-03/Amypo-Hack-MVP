@@ -830,6 +830,61 @@
       "review": 2,
       "rejected": 0,
       "regeneration_attempts": 2
+    },
+    {
+      "ts": "2026-10-01T07:59:29+00:00",
+      "event": "pipeline_run",
+      "seed": "Write a function to detect a cycle in a singly linked list.",
+      "domain": "programming",
+      "requested": 10,
+      "passed": 0,
+      "review": 10,
+      "rejected": 0,
+      "regeneration_attempts": 9
+    },
+    {
+      "ts": "2026-10-01T08:13:14+00:00",
+      "event": "pipeline_run",
+      "seed": "Write a function to reverse a singly linked list.",
+      "domain": "programming",
+      "requested": 10,
+      "passed": 1,
+      "review": 0,
+      "rejected": 0,
+      "regeneration_attempts": 2
+    },
+    {
+      "ts": "2026-10-01T08:14:20+00:00",
+      "event": "pipeline_run",
+      "seed": "Write a function to reverse a singly linked list.",
+      "domain": "programming",
+      "requested": 1,
+      "passed": 1,
+      "review": 0,
+      "rejected": 0,
+      "regeneration_attempts": 0
+    },
+    {
+      "ts": "2026-10-01T09:44:21+00:00",
+      "event": "pipeline_run",
+      "seed": "write a python program to find whether the given number is prime or not?",
+      "domain": "programming",
+      "requested": 2,
+      "passed": 0,
+      "review": 2,
+      "rejected": 0,
+      "regeneration_attempts": 2
+    },
+    {
+      "ts": "2026-10-02T13:16:08+00:00",
+      "event": "pipeline_run",
+      "seed": "Write a function to reverse a singly linked list.",
+      "domain": "programming",
+      "requested": 10,
+      "passed": 3,
+      "review": 7,
+      "rejected": 0,
+      "regeneration_attempts": 10
     }
   ]
 }

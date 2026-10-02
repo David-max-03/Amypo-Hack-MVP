@@ -34,8 +34,14 @@ def verify_text(
     domain: str | None = None,
     question: str | None = None,
     answer_text: str | None = None,
+    question_end: int | None = None,
+    code_answer: bool = False,
 ) -> ReliabilityVerification:
-    """Run the complete PS2 verification pipeline over one response."""
+    """Run the complete PS2 verification pipeline over one response.
+
+    `question_end` is set only for a generated candidate (see `verify_candidate`): it
+    tells claim extraction which characters are the question and which the answer key.
+    """
     watch = Stopwatch()
 
     # Code is not a factual claim. Masking keeps offsets identical, so flagged-span
@@ -43,7 +49,7 @@ def verify_text(
     prose = mask_code(text)
 
     with watch.stage("ps2.claim_extraction"):
-        claims = extract_claims(prose)
+        claims = extract_claims(prose, question_end=question_end, code_answer=code_answer)
 
     with watch.stage("ps2.source_verification"):
         verifications = source_verification.verify_claims(
@@ -100,6 +106,11 @@ def verify_candidate(candidate: Candidate) -> ReliabilityVerification:
     The question and its answer key are verified together: a question can be fine
     while its answer key is wrong, and that combination is exactly what must not
     reach a learner.
+
+    A question is not a list of assertions, so its sentences are classified as what
+    they are - instructions, premises, examples, or general statements. Only the last
+    kind, and the factual prose of the answer key, is held to source grounding. Every
+    sentence is still compared with the corpus for contradictions.
     """
     combined = f"{candidate.question}\n\n{candidate.answer_key}".strip()
     return verify_text(
@@ -107,6 +118,8 @@ def verify_candidate(candidate: Candidate) -> ReliabilityVerification:
         domain=candidate.domain,
         question=candidate.question,
         answer_text=candidate.answer_key,
+        question_end=len(candidate.question),
+        code_answer="coding" in (candidate.question_type or "").lower(),
     )
 
 

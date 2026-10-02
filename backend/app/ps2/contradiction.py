@@ -17,7 +17,9 @@ from __future__ import annotations
 import re
 from typing import Any
 
+from ..config import settings
 from ..core.embeddings import embeddings
+from ..core.entailment import entailment
 from ..core.text_utils import content_tokens, normalize, split_sentences
 from ..schemas import Claim
 
@@ -38,6 +40,41 @@ _ANTONYM_GROUPS: list[set[str]] = [
     {"lifo", "fifo"},
     {"ascending", "descending"},
 ]
+
+# Opposites that have several word forms each. A conflict needs one statement to use
+# only words from one side and the other only words from the opposite side, so an
+# entry that explains both ("grows in slow start, is halved on loss") conflicts with
+# neither. These are general English opposites, not a vocabulary of any one topic.
+_OPPOSITE_SIDES: list[tuple[frozenset[str], frozenset[str]]] = [
+    (frozenset({"increase", "increases", "increased", "increasing", "grow", "grows", "growing",
+                "double", "doubles", "doubled", "doubling", "rise", "rises", "raises"}),
+     frozenset({"decrease", "decreases", "decreased", "decreasing", "shrink", "shrinks",
+                "halve", "halves", "halved", "halving", "reduce", "reduces", "reduced",
+                "drop", "drops", "lowers"})),
+    (frozenset({"connection-oriented"}), frozenset({"connectionless"})),
+    (frozenset({"reliable", "reliably"}), frozenset({"unreliable", "unreliably"})),
+    (frozenset({"linear", "linearly"}), frozenset({"exponential", "exponentially"})),
+    (frozenset({"supervised"}), frozenset({"unsupervised"})),
+    (frozenset({"symmetric"}), frozenset({"asymmetric"})),
+    (frozenset({"static", "statically"}), frozenset({"dynamic", "dynamically"})),
+    (frozenset({"preemptive"}), frozenset({"non-preemptive", "nonpreemptive"})),
+    (frozenset({"stateless"}), frozenset({"stateful"})),
+    (frozenset({"before"}), frozenset({"after"})),
+    (frozenset({"first-in", "fifo"}), frozenset({"last-in", "lifo"})),
+    (frozenset({"minimum", "smallest", "lowest"}), frozenset({"maximum", "largest", "highest"})),
+    (frozenset({"discrete"}), frozenset({"continuous"})),
+    (frozenset({"horizontal", "horizontally"}), frozenset({"vertical", "vertically"})),
+    (frozenset({"compiled"}), frozenset({"interpreted"})),
+    (frozenset({"lossless"}), frozenset({"lossy"})),
+    (frozenset({"underfit", "underfits", "underfitting"}), frozenset({"overfit", "overfits", "overfitting"})),
+]
+_WORD_RE = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
+
+
+def _words(text: str) -> set[str]:
+    """Lower-cased words with punctuation removed, hyphenated compounds kept whole."""
+    return set(_WORD_RE.findall(text.lower()))
+
 
 # Words that deny the main statement. "without" is deliberately absent: it adds a
 # constraint ("reverse it in place without extra structures") rather than negating
@@ -86,6 +123,21 @@ def _antonym_conflict(a: str, b: str) -> str | None:
         hit_b = tb & group
         if hit_a and hit_b and hit_a.isdisjoint(hit_b):
             return f"'{sorted(hit_a)[0]}' versus '{sorted(hit_b)[0]}'"
+
+    # Sided opposites are compared clause by clause: a multi-sentence reference entry
+    # says several things, and only the clause about the same thing may conflict.
+    for ca in _clauses(a):
+        wa = _words(ca)
+        for cb in _clauses(b):
+            wb = _words(cb)
+            if not _same_statement_modulo_negation(ca, cb):
+                continue
+            for left, right in _OPPOSITE_SIDES:
+                a_left, a_right, b_left, b_right = wa & left, wa & right, wb & left, wb & right
+                if a_left and b_right and not a_right and not b_left:
+                    return f"'{sorted(a_left)[0]}' versus '{sorted(b_right)[0]}'"
+                if a_right and b_left and not a_left and not b_right:
+                    return f"'{sorted(a_right)[0]}' versus '{sorted(b_left)[0]}'"
     return None
 
 
@@ -181,6 +233,21 @@ def _same_complexity_subject(a: str, b: str) -> bool:
     return len(ta & tb) / min(len(ta), len(tb)) >= _COMPLEXITY_SAME_SUBJECT
 
 
+_CASE_RE = re.compile(r"\b(worst|average|best)\b", re.I)
+
+
+def _different_cases(a: str, b: str) -> bool:
+    """"O(n^2) in the worst case" and "O(n log n) on average" are both true of quicksort:
+    two complexities are only comparable when they describe the same case."""
+    ca = {m.group(1).lower() for m in _CASE_RE.finditer(a)}
+    cb = {m.group(1).lower() for m in _CASE_RE.finditer(b)}
+    return bool(ca and cb and not (ca & cb))
+
+
+def complexity_conflict(a: str, b: str) -> str | None:
+    return _complexity_conflict(a, b)
+
+
 def _complexity_conflict(a: str, b: str) -> str | None:
     # 1. Per-dimension comparison, clause by clause.
     for sa in _clauses(a):
@@ -189,7 +256,7 @@ def _complexity_conflict(a: str, b: str) -> str | None:
             continue
         for sb in _clauses(b):
             db = _dimensioned_complexities(sb)
-            if not any(db.values()) or _different_approaches(sa, sb):
+            if not any(db.values()) or _different_approaches(sa, sb) or _different_cases(sa, sb):
                 continue
             if not _same_complexity_subject(sa, sb):
                 continue
@@ -204,7 +271,7 @@ def _complexity_conflict(a: str, b: str) -> str | None:
     #    same subject, same approach, no Big-O term in common. Labelled terms are
     #    only ever compared per dimension above - "O(n) time" and "O(1) space"
     #    describe different things and are not a conflict.
-    if _different_approaches(a, b) or not _same_complexity_subject(a, b):
+    if _different_approaches(a, b) or _different_cases(a, b) or not _same_complexity_subject(a, b):
         return None
     da, db = _dimensioned_complexities(a), _dimensioned_complexities(b)
     ua, ub = da["unlabelled"], db["unlabelled"]
@@ -229,10 +296,21 @@ def _numeric_conflict(a: str, b: str) -> str | None:
     return None
 
 
-def _conflict_reason(a: str, b: str) -> str | None:
+# Sentences of a generated question that assert nothing: an instruction, a premise
+# the problem sets up, a description of the candidate's own solution. "Implement
+# binary search iteratively" cannot deny anything, so the polarity, antonym and
+# number rules - which compare assertions - do not apply to them. A stated
+# complexity is different: "implement the recursive reversal, which uses O(1) space"
+# is wrong wherever it is written, so that rule always applies.
+_NON_ASSERTIVE = {"instruction", "setup", "explanation"}
+
+
+def _conflict_reason(a: str, b: str, *, assertive: bool = True) -> str | None:
     """Why these two same-subject statements cannot both hold, or None."""
     if (reason := _complexity_conflict(a, b)) is not None:
         return reason
+    if not assertive:
+        return None
     if (reason := _antonym_conflict(a, b)) is not None:
         return reason
     if (reason := _prefix_negation_conflict(a, b)) is not None:
@@ -276,10 +354,63 @@ def _same_statement_modulo_negation(a: str, b: str) -> bool:
     return len(ta & tb) / min(len(ta), len(tb)) >= _POLARITY_MIN_SHARED
 
 
+def _confirmed(reason: str, a: str, b: str) -> bool:
+    """Is a word-level conflict real?
+
+    The complexity rule is exact and stands on its own. The polarity, antonym and
+    number rules compare words, and misfire on sentences that merely share words
+    ("checks its cache" / "if not found in the cache, queries ..."). When the
+    entailment model is available it has to agree that one statement contradicts
+    the other; without it the word-level rule is all there is.
+    """
+    if "complexity" in reason or not entailment.available:
+        return True
+    pairs = [(clause, a) for clause in _clauses(b)] + [(clause, b) for clause in _clauses(a)]
+    scores = [entailment.judge([premise], hypothesis)[0][1] for premise, hypothesis in pairs]
+    return max(scores, default=0.0) >= settings.entailment_decision_min
+
+
+# "h'(x) = 15x^2 - 4x + 4 is incorrect. The correct derivative is h'(x) = 15x^2 - 4x + 4."
+_EXPRESSION_RE = re.compile(r"=\s*([^=;,]{3,60}?)(?=\s+(?:is|are|was)\b|[.;,]?\s*$|[.;]\s)")
+_CALLED_WRONG_RE = re.compile(r"\b(incorrect|wrong|mistaken|in error|not correct|erroneous)\b", re.I)
+_CALLED_RIGHT_RE = re.compile(r"\b(correct|right)\b(?! (?:the|this|that|it)\b)", re.I)
+
+
+def _expressions(text: str) -> set[str]:
+    return {re.sub(r"\s+", "", m.group(1)).rstrip(".").lower() for m in _EXPRESSION_RE.finditer(text)}
+
+
+def _rejected_then_restated(claims: list[Claim]) -> list[dict[str, Any]]:
+    """An answer that calls a result wrong and then gives the same result as the fix."""
+    wrong = [c for c in claims if _CALLED_WRONG_RE.search(c.text)]
+    right = [c for c in claims if _CALLED_RIGHT_RE.search(c.text) and not _CALLED_WRONG_RE.search(c.text)]
+    found: list[dict[str, Any]] = []
+    for w in wrong:
+        # "X is incorrect. The correct ... is X" may be one sentence or two.
+        halves = re.split(r"(?<=[.;])\s+", w.text)
+        candidates = [(w, h) for h in halves[1:] if _CALLED_RIGHT_RE.search(h) and not _CALLED_WRONG_RE.search(h)]
+        candidates += [(r, r.text) for r in right if r is not w]
+        rejected = _expressions(halves[0] if len(halves) > 1 else w.text)
+        for other, text in candidates:
+            same = rejected & _expressions(text)
+            if same:
+                found.append({
+                    "type": "internal", "claim_a": w.text, "claim_b": other.text, "similarity": 1.0,
+                    "reason": (
+                        "the response contradicts itself: it calls "
+                        f"'{sorted(same)[0]}' incorrect and then gives the same result as the correction"
+                    ),
+                    "span_a": [w.start, w.end], "span_b": [other.start, other.end],
+                })
+                break
+    return found
+
+
 def find_internal_contradictions(claims: list[Claim]) -> list[dict[str, Any]]:
     """Claim pairs within one response that cannot both be true."""
+    restated = _rejected_then_restated(claims)
     if len(claims) < 2:
-        return []
+        return restated
 
     texts = [c.text for c in claims]
     sim = embeddings.similarity_matrix(texts, texts)
@@ -290,8 +421,11 @@ def find_internal_contradictions(claims: list[Claim]) -> list[dict[str, Any]]:
             similarity = float(sim[i][j])
             if similarity < _SAME_SUBJECT_MIN:
                 continue
-            reason = _conflict_reason(texts[i], texts[j])
-            if reason is None:
+            assertive = not (
+                claims[i].claim_type in _NON_ASSERTIVE or claims[j].claim_type in _NON_ASSERTIVE
+            )
+            reason = _conflict_reason(texts[i], texts[j], assertive=assertive)
+            if reason is None or not _confirmed(reason, texts[i], texts[j]):
                 continue
             found.append(
                 {
@@ -308,7 +442,7 @@ def find_internal_contradictions(claims: list[Claim]) -> list[dict[str, Any]]:
                     "span_b": [claims[j].start, claims[j].end],
                 }
             )
-    return found
+    return restated + found
 
 
 def find_external_contradictions(verifications) -> list[dict[str, Any]]:
@@ -320,10 +454,34 @@ def find_external_contradictions(verifications) -> list[dict[str, Any]]:
     """
     found: list[dict[str, Any]] = []
     for v in verifications:
+        # The entailment model read a corpus sentence about the same subject and found
+        # that it says the opposite of the claim.
+        if v.status == "contradicted" and v.entry is not None:
+            found.append(
+                {
+                    "type": "external",
+                    "claim_a": v.claim.text,
+                    "claim_b": (v.evidence_sentence or v.entry.text)[:300],
+                    "similarity": round(v.similarity, 4),
+                    "reason": (
+                        f"contradicts the reference corpus entry '{v.entry.title}' "
+                        f"({v.entry.source}): {v.conflict or 'the entry states the opposite'}"
+                    ),
+                    "span_a": [v.claim.start, v.claim.end],
+                    "source_id": v.entry.id,
+                    "source_title": v.entry.title,
+                }
+            )
+            continue
         if v.entry is None or v.similarity < _SAME_SUBJECT_MIN:
             continue
-        reason = _conflict_reason(v.claim.text, v.entry.text)
-        if reason is None:
+        # A claim the entailment model has read needs no word-level polarity or
+        # antonym rule on top - only the complexity rule, which the model cannot do.
+        reason = _conflict_reason(
+            v.claim.text, v.entry.text,
+            assertive=v.claim.claim_type not in _NON_ASSERTIVE and v.judged_by != "entailment",
+        )
+        if reason is None or not _confirmed(reason, v.claim.text, v.entry.text):
             continue
         found.append(
             {

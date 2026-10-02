@@ -7,6 +7,7 @@ the API contract and the decision engine consume.
 from __future__ import annotations
 
 from ...schemas import Candidate, SeedMetadata, StructuralValidation
+from ..contract import get_contract
 from . import validators
 
 
@@ -34,12 +35,15 @@ def validate_candidate(
         candidate, seed, method_changed=method.changed_from_default
     )
     answer_key = validators.validate_answer_key(candidate, seed)
+    strategy = validators.validate_strategy(candidate, seed)
+    contract = get_contract(seed)
 
     reasons: list[str] = [
         *concept.reasons,
         *difficulty.reasons,
         *duplicate.reasons,
         *variation.reasons,
+        *strategy.reasons,
         *answer_key.reasons,
         *method.reasons,
     ]
@@ -50,6 +54,7 @@ def validate_candidate(
         and difficulty.matched
         and not duplicate.is_duplicate
         and variation.meaningful
+        and strategy.followed is not False
         and answer_key.substantive
         and method.ok
     )
@@ -59,6 +64,7 @@ def validate_candidate(
         difficulty_match=difficulty.matched,
         is_duplicate=duplicate.is_duplicate,
         meaningful_variation=variation.meaningful,
+        strategy_followed=strategy.followed,
         passed=passed,
         semantic_similarity=variation.similarity_to_seed,
         lexical_similarity=variation.lexical_to_seed,
@@ -72,6 +78,18 @@ def validate_candidate(
                 "preserved": concept.preserved,
                 "keyword_overlap": concept.overlap,
                 "semantic_similarity_to_objective": concept.semantic_similarity,
+            },
+            "contract": {
+                "required_elements": contract.required_elements,
+                "named_elements": contract.named_elements,
+                "structure_anchor": contract.structure_anchor,
+                "matches": concept.element_matches,
+                "missing": concept.missing_elements,
+            },
+            "strategy": {
+                "id": strategy.strategy,
+                "followed": strategy.followed,
+                "evidence": strategy.evidence,
             },
             "difficulty": {
                 "matched": difficulty.matched,

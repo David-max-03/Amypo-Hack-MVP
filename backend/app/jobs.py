@@ -27,6 +27,29 @@ from .pipeline import run_pipeline
 logger = logging.getLogger(__name__)
 
 _MAX_JOBS = 50
+TERMINAL = ("completed", "failed", "cancelled")
+
+
+def _metrics(results: list[dict], timings: dict[str, float], total_ms: float) -> dict[str, Any]:
+    """Measured performance of one job, from the pipeline's own stage timers."""
+    decided = len(results)
+    rate = lambda n: round(n / decided, 3) if decided else None  # noqa: E731
+    ps8_passed = sum(1 for r in results if (r.get("structural_validation") or {}).get("passed"))
+    by_decision = {d: sum(1 for r in results if r.get("decision") == d) for d in ("PASS", "REVIEW", "REJECT")}
+    return {
+        "llm_generation_ms": round(timings.get("ps8.generation", 0.0), 1),
+        "regeneration_ms": round(timings.get("ps8.regeneration", 0.0), 1),
+        "ps8_validation_ms": round(timings.get("ps8.structural_validation", 0.0), 1),
+        "ps2_verification_ms": round(timings.get("ps2.verification", 0.0), 1),
+        "total_ms": round(total_ms, 1),
+        "avg_candidate_ms": round(total_ms / decided, 1) if decided else None,
+        "candidates_per_min": round(decided / (total_ms / 60000.0), 2) if decided and total_ms else None,
+        "ps8_pass_rate": rate(ps8_passed),
+        "pass_rate": rate(by_decision["PASS"]),
+        "review_rate": rate(by_decision["REVIEW"]),
+        "reject_rate": rate(by_decision["REJECT"]),
+        "regeneration_rate": rate(sum(1 for r in results if int(r.get("attempts", 1)) > 1)),
+    }
 
 
 def _dump(model: Any) -> Any:
@@ -62,6 +85,8 @@ class JobManager:
             "summary": None,
             "seed_metadata": None,
             "timings_ms": {},
+            "metrics": None,
+            "cancel_requested": False,
             "warnings": [],
             "errors": [],
             "started_at": storage.utc_now(),
@@ -73,7 +98,7 @@ class JobManager:
             self._jobs[job_id] = job
             while len(self._jobs) > _MAX_JOBS:
                 oldest = next(iter(self._jobs))
-                if self._jobs[oldest]["status"] in ("completed", "failed"):
+                if self._jobs[oldest]["status"] in TERMINAL:
                     self._jobs.pop(oldest)
                 else:
                     break
@@ -102,6 +127,18 @@ class JobManager:
                 for j in reversed(jobs)
             ]
 
+    def cancel(self, job_id: str) -> dict[str, Any] | None:
+        """Ask a job to stop. It stops before its next candidate; a model call that is
+        already in flight finishes first, and candidates already decided are kept."""
+        with self._lock:
+            job = self._jobs.get(job_id)
+            if job is None:
+                return None
+            if job["status"] not in TERMINAL:
+                job["cancel_requested"] = True
+                job["current_stage"] = "cancelling"
+        return self.get(job_id, include_results=False)
+
     def wait_idle(self, timeout: float = 60.0) -> bool:
         """Block until no job is queued or running. Returns False on timeout."""
         deadline = time.monotonic() + timeout
@@ -128,7 +165,7 @@ class JobManager:
                     return
                 job["elapsed_s"] = round(time.monotonic() - started, 1)
                 stage = event.get("stage")
-                if stage:
+                if stage and not job["cancel_requested"]:
                     job["current_stage"] = stage
                 job["current"] = {
                     k: v for k, v in event.items() if k not in ("candidate", "stage", "done", "total")
@@ -144,6 +181,11 @@ class JobManager:
                     job["regeneration_attempts"] += max(0, int(result.get("attempts", 1)) - 1)
 
         return record
+
+    def _cancel_requested(self, job_id: str) -> bool:
+        with self._lock:
+            job = self._jobs.get(job_id)
+            return bool(job and job["cancel_requested"])
 
     def _run(self, job_id: str, params: dict[str, Any], kind: str) -> None:
         started = time.monotonic()
@@ -163,6 +205,8 @@ class JobManager:
                     persist=params.get("persist", True),
                     progress=progress,
                     subject_area=params.get("subject_area"),
+                    job_id=job_id,
+                    should_stop=lambda: self._cancel_requested(job_id),
                 )
             with self._lock:
                 job = self._jobs[job_id]
@@ -178,10 +222,18 @@ class JobManager:
                 job["seed_metadata"] = _dump(seed)
                 job["timings_ms"] = timings
                 job["warnings"] = list(warnings)
-                job["status"] = "completed" if results or not warnings else "failed"
-                if job["status"] == "failed":
-                    job["errors"].extend(warnings)
-                job["current_stage"] = "complete"
+                job["metrics"] = _metrics(
+                    job["results"], timings, (time.monotonic() - started) * 1000.0
+                )
+                if job["cancel_requested"]:
+                    job["status"] = "cancelled"
+                    job["current_stage"] = "cancelled"
+                else:
+                    job["status"] = "completed" if results or not warnings else "failed"
+                    if job["status"] == "failed":
+                        job["errors"].extend(warnings)
+                    job["current_stage"] = "complete"
+                logger.info("Job %s %s - metrics: %s", job_id, job["status"], job["metrics"])
         except Exception as exc:  # the job must always end in a terminal state
             logger.exception("Job %s failed", job_id)
             with self._lock:

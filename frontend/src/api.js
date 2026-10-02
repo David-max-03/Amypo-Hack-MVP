@@ -36,6 +36,13 @@ async function request(path, options = {}) {
   return response.json();
 }
 
+/** Query string from the defined, non-empty values only. */
+function query(params) {
+  const q = new URLSearchParams();
+  Object.entries(params).forEach(([k, v]) => { if (v !== undefined && v !== null && v !== '') q.set(k, v); });
+  return q.toString();
+}
+
 export const api = {
   health: () => request('/health'),
   domains: () => request('/domains'),
@@ -56,6 +63,7 @@ export const api = {
   startDemoJob: () => request('/jobs/demo', { method: 'POST' }),
   job: (jobId) => request(`/jobs/${encodeURIComponent(jobId)}`),
   jobs: (limit = 20) => request(`/jobs?limit=${limit}`),
+  cancelJob: (jobId) => request(`/jobs/${encodeURIComponent(jobId)}/cancel`, { method: 'POST' }),
   runDemo: (jobId) => request('/demo/run', { method: 'POST', body: JSON.stringify({ job_id: jobId }) }),
 
   questions: () => request('/questions?limit=1000'),
@@ -68,7 +76,8 @@ export const api = {
     request(`/review-queue/${encodeURIComponent(id)}/reject`, {
       method: 'POST', body: JSON.stringify({ note: note || null }),
     }),
-  validationReports: () => request('/validation-reports?limit=200'),
+  validationReports: (filters = {}) => request(`/validation-reports?${query({ limit: 200, ...filters })}`),
+  reportStats: (filters = {}) => request(`/validation-reports/stats?${query(filters)}`),
   demoFixtures: () => request('/demo/problematic-responses'),
 
   exportUrl: (fmt) => `${BASE}/export?fmt=${fmt}`,

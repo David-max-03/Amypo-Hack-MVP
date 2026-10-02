@@ -7,6 +7,7 @@ from fastapi import APIRouter
 from ..config import settings
 from ..core import storage
 from ..core.embeddings import embeddings
+from ..core.entailment import entailment
 from ..core.ollama_client import ollama
 from ..ps2.source_verification import corpus
 from ..schemas import HealthResponse
@@ -31,6 +32,13 @@ def health() -> HealthResponse:
         "is_minilm": embeddings.is_minilm,
         "configured_model": settings.embedding_model,
         "load_error": embeddings.load_error,
+        # The model that decides whether a corpus sentence agrees with a claim.
+        "entailment": {
+            "backend": entailment.backend,
+            "available": entailment.available,
+            "configured_model": settings.entailment_model,
+            "load_error": entailment.load_error,
+        },
     }
 
     degraded = (

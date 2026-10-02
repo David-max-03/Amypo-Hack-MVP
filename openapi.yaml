@@ -397,6 +397,27 @@ paths:
           minimum: 1
           default: 50
           title: Limit
+      - name: job_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Only reports from this generation job
+          title: Job Id
+        description: Only reports from this generation job
+      - name: since_hours
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: number
+            exclusiveMinimum: 0
+          - type: 'null'
+          description: Only reports newer than this
+          title: Since Hours
+        description: Only reports newer than this
       responses:
         '200':
           description: Successful Response
@@ -406,6 +427,47 @@ paths:
                 type: object
                 additionalProperties: true
                 title: Response Get Validation Reports Api V1 Validation Reports Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/validation-reports/stats:
+    get:
+      tags:
+      - Storage
+      summary: PASS / REVIEW / REJECT counts and the runs on record
+      description: Decision statistics computed from the stored reports (never estimated).
+      operationId: get_validation_report_stats_api_v1_validation_reports_stats_get
+      parameters:
+      - name: job_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Id
+      - name: since_hours
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: number
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Since Hours
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Validation Report Stats Api V1 Validation Reports
+                  Stats Get
         '422':
           description: Validation Error
           content:
@@ -586,6 +648,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/jobs/{job_id}/cancel:
+    post:
+      tags:
+      - Jobs
+      summary: Stop a running job before its next candidate
+      operationId: cancel_job_api_v1_jobs__job_id__cancel_post
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Cancel Job Api V1 Jobs  Job Id  Cancel Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
     Candidate:
@@ -692,6 +782,9 @@ components:
           - assumption
           - opinion
           - inference
+          - instruction
+          - setup
+          - explanation
           title: Claim Type
         start:
           type: integer
@@ -1373,6 +1466,79 @@ components:
           title: Note
       type: object
       title: ReviewAction
+    SeedContract:
+      properties:
+        domain:
+          type: string
+          title: Domain
+        core_concept:
+          type: string
+          title: Core Concept
+        learning_objective:
+          type: string
+          title: Learning Objective
+        task_type:
+          type: string
+          title: Task Type
+        task:
+          type: string
+          title: Task
+        required_elements:
+          items:
+            type: string
+          type: array
+          title: Required Elements
+        element_weights:
+          additionalProperties:
+            type: number
+          type: object
+          title: Element Weights
+        named_elements:
+          items:
+            type: string
+          type: array
+          title: Named Elements
+        structure_anchor:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Structure Anchor
+        constraints:
+          items:
+            type: string
+          type: array
+          title: Constraints
+        parameters:
+          items:
+            type: string
+          type: array
+          title: Parameters
+        immutable_elements:
+          items:
+            type: string
+          type: array
+          title: Immutable Elements
+        allowed_variation_dimensions:
+          items:
+            type: string
+          type: array
+          title: Allowed Variation Dimensions
+      type: object
+      required:
+      - domain
+      - core_concept
+      - learning_objective
+      - task_type
+      - task
+      title: SeedContract
+      description: 'What a variation of a seed must keep, and what it is allowed to
+        change.
+
+
+        Derived locally from the seed and its analysis (see ps8/contract.py). Fields
+        that
+
+        cannot be determined reliably stay empty.'
     SeedMetadata:
       properties:
         domain:
@@ -1416,6 +1582,10 @@ components:
         raw_seed:
           type: string
           title: Raw Seed
+        contract:
+          anyOf:
+          - $ref: '#/components/schemas/SeedContract'
+          - type: 'null'
       type: object
       required:
       - domain
@@ -1442,6 +1612,11 @@ components:
         meaningful_variation:
           type: boolean
           title: Meaningful Variation
+        strategy_followed:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Strategy Followed
         passed:
           type: boolean
           title: Passed

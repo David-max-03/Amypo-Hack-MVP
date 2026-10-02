@@ -1,0 +1,4438 @@
+{
+  "label": "opening_first",
+  "started_at": "2026-10-01T15:02:52.974003+00:00",
+  "model": "qwen2.5-coder:7b",
+  "count": 5,
+  "max_regeneration_attempts": 2,
+  "regeneration": false,
+  "seeds": [
+    {
+      "key": "programming",
+      "subject_area": "programming",
+      "pipeline_domain": "programming",
+      "seed": "Write a function to check whether a number is prime.",
+      "seed_metadata": {
+        "domain": "programming",
+        "topic": "Programming",
+        "subtopic": "Algorithms",
+        "core_concept": "Prime number checking",
+        "question_type": "coding",
+        "difficulty": "easy",
+        "difficulty_score": 0.36,
+        "learning_objective": "The learner should be able to write a function to determine if a number is prime.",
+        "keywords": [
+          "check",
+          "number",
+          "prime",
+          "whether"
+        ],
+        "raw_seed": "Write a function to check whether a number is prime.",
+        "contract": {
+          "domain": "programming",
+          "core_concept": "Prime number checking",
+          "learning_objective": "The learner should be able to write a function to determine if a number is prime.",
+          "task_type": "coding",
+          "task": "Write a function to check whether a number is prime.",
+          "required_elements": [
+            "prime"
+          ],
+          "element_weights": {
+            "prime": 0.8634,
+            "number": 0.1366
+          },
+          "named_elements": [],
+          "structure_anchor": null,
+          "constraints": [],
+          "parameters": [],
+          "immutable_elements": [
+            "the core learning objective: The learner should be able to write a function to determine if a number is prime.",
+            "the task the learner performs, as the seed states it (coding)",
+            "the domain: programming",
+            "the subject: prime"
+          ],
+          "allowed_variation_dimensions": [
+            "the real-world setting the task is placed in",
+            "the constraints the solution must respect",
+            "the concrete values the task is posed with",
+            "what is given to the learner versus what is asked of them",
+            "how the problem and its data are presented"
+          ]
+        }
+      },
+      "wall_s": 178.2,
+      "timings_ms": {
+        "ps8.seed_parsing": 9339.12,
+        "ps8.seed_contract": 1.24,
+        "ps8.variation_planning": 0.16,
+        "ps8.generation": 168495.88,
+        "ps8.structural_validation": 160.54,
+        "ps2.verification": 154.08,
+        "pipeline.evaluation": 314.79,
+        "pipeline.summary": 0.22,
+        "total_ms": 178151.65
+      },
+      "summary": {
+        "requested": 5,
+        "generated": 5,
+        "passed": 0,
+        "review": 3,
+        "rejected": 2,
+        "duplicate_rate": 0.0,
+        "regeneration_attempts": 0,
+        "mean_reliability_score": 0.3696,
+        "flagged_span_count": 23
+      },
+      "warnings": [],
+      "candidates": [
+        {
+          "strategy": "scenario",
+          "method": "iterative",
+          "question": "You are a software engineer at a digital music platform. Your team has developed a feature that suggests songs to users based on their listening history. To ensure that the suggested songs are diverse and representative, you need to implement a function that checks whether a given playlist of song IDs is diverse. A playlist is considered diverse if all song IDs in the playlist are prime numbers. Write a function named `is_diverse_playlist` that takes a list of song IDs as input and returns `True` if the playlist is diverse, and `False` otherwise. For example, if the input list is `[3, 5, 7, 11]`, the function should return `True` because all song IDs are prime numbers. If the input list is `[4, 6, 8, 10]`, the function should return `False` because all song IDs are not prime numbers. The function should handle an empty list by returning `True`, as there are no non-prime numbers in an empty list. Write this function using an iterative approach and return the result.",
+          "answer_key": "def is_diverse_playlist(song_ids):\n    def is_prime(n):\n        if n <= 1:\n            return False\n        for i in range(2, int(n**0.5) + 1):\n            if n % i == 0:\n                return False\n        return True\n    for song_id in song_ids:\n        if not is_prime(song_id):\n            return False\n    return True\n\n# Test cases\ntest_cases = [\n    ({\"input\": [3, 5, 7, 11], \"expected_output\": True}),\n    ({\"input\": [4, 6, 8, 10], \"expected_output\": False}),\n    ({\"input\": [], \"expected_output\": True})\n]\n\n# Run tests\nfor test_case in test_cases:\n    result = is_diverse_playlist(test_case[\"input\"])\n    assert result == test_case[\"expected_output\"], f'For input {test_case[\"input\"]}, expected {test_case[\"expected_output\"]} but got {result}'\nprint('All tests passed')",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.25,
+              "semantic_similarity_to_objective": 0.4712
+            },
+            "contract": {
+              "required_elements": [
+                "prime"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "prime": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "scenario",
+              "followed": true,
+              "evidence": "44 new content words (92% of the question)"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.11
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.4083,
+              "max_lexical_similarity": 0.0392,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.4083,
+              "lexical_similarity_to_seed": 0.0392
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": "iterative",
+              "used_in_answer": true,
+              "required_by_question": true,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.2903,
+          "ps2_verdict": "fabricated",
+          "decision_reasons": [
+            "PS2 verdict 'fabricated': the content conflicts with the reference corpus or is largely ungrounded",
+            "PS2: 0 of 8 checkable claims were grounded in the local reference corpus (grounding score 0.00)",
+            "PS2: estimated hallucination probability 0.60",
+            "PS2: 1 internal self-contradiction(s)"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "constraint",
+          "method": "recursive",
+          "question": "Given a positive integer `n`, determine if `n` is a prime number using a recursive approach. A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself. Write a recursive function `is_prime(n)` that returns `True` if `n` is a prime number, and `False` otherwise.",
+          "answer_key": "def is_prime(n, divisor=2):\n    if n <= 2:\n        return n > 1\n    if n % divisor == 0:\n        return False\n    if divisor * divisor > n:\n        return True\n    return is_prime(n, divisor + 1)\n\nThe function is_prime(n) checks if n is a prime number using recursion. It uses a helper parameter 'divisor' to test divisibility starting from 2 up to the square root of n. If n is divisible by any number in this range, it returns False; otherwise, it returns True.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.7459
+            },
+            "contract": {
+              "required_elements": [
+                "prime"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "prime": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "constraint",
+              "followed": null,
+              "evidence": "no recognised constraint wording"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.11
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.7205,
+              "max_lexical_similarity": 0.1111,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.7205,
+              "lexical_similarity_to_seed": 0.1111
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": "recursive",
+              "used_in_answer": true,
+              "required_by_question": true,
+              "changed_from_default": true
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.3996,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "parameter",
+          "method": "iterative",
+          "question": "Write a function to check whether the number 29 is prime.",
+          "answer_key": "def is_prime(n):\n    if n <= 1:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\nprint(is_prime(29))",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": false,
+          "ps8_reasons": [
+            "lexical similarity too high: 0.80 against the seed question (threshold 0.75)",
+            "not a meaningful variation: 0.80 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.8357
+            },
+            "contract": {
+              "required_elements": [
+                "prime"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "prime": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "parameter",
+              "followed": true,
+              "evidence": "question states values ['29']"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.11
+            },
+            "duplicate": {
+              "is_duplicate": true,
+              "max_semantic_similarity": 0.8006,
+              "max_lexical_similarity": 0.8,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": false,
+              "semantic_similarity_to_seed": 0.8006,
+              "lexical_similarity_to_seed": 0.8
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": "iterative",
+              "used_in_answer": true,
+              "required_by_question": true,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.3811,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS8 structural failure: lexical similarity too high: 0.80 against the seed question (threshold 0.75)",
+            "PS8 structural failure: not a meaningful variation: 0.80 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "structure",
+          "method": "recursive",
+          "question": "Given a number `n`, you are provided with the following recursive function to check if it is prime:\n\n```python\ndef is_prime(n, divisor=n-1):\n    if divisor == 1:\n        return True\n    elif n % divisor == 0:\n        return False\n    else:\n        return is_prime(n, divisor-1)\n``` \n\nIdentify and correct the error in this function. Explain the mistake and provide the corrected version. Test your corrected function with the values `n = 29` and `n = 10`.",
+          "answer_key": "def is_prime(n, divisor=n-1):\n    if divisor == 1:\n        return True\n    elif n % divisor == 0:\n        return False\n    else:\n        return is_prime(n, divisor-1)\n\nprint(is_prime(29))  # True\nprint(is_prime(10))  # False\nThe error in the function is that the base case is incorrect. Instead of checking if `divisor` is 2, it should check if `divisor` is 1. The function correctly checks if `n` is divisible by `divisor`, but it does not continue the recursion properly when `divisor` is 1.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.6882
+            },
+            "contract": {
+              "required_elements": [
+                "prime"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "prime": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "structure",
+              "followed": true,
+              "evidence": "changed task shape: 'correct the'"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.11
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.679,
+              "max_lexical_similarity": 0.1154,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.679,
+              "lexical_similarity_to_seed": 0.1154
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": "recursive",
+              "used_in_answer": true,
+              "required_by_question": true,
+              "changed_from_default": true
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.3905,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "representation",
+          "method": "iterative",
+          "question": "Determine if the number 29 is prime.\n\nWrite a function that takes an integer as input and returns True if it is a prime number, otherwise returns False.",
+          "answer_key": "def is_prime(n):\n    if n <= 1:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\n# Test cases\ntest_cases = [\n    (29, True),\n    (15, False)\n]",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.8128
+            },
+            "contract": {
+              "required_elements": [
+                "prime"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "prime": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "representation",
+              "followed": null,
+              "evidence": "no recognised cue"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.11
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.7681,
+              "max_lexical_similarity": 0.1667,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.7681,
+              "lexical_similarity_to_seed": 0.1667
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": "iterative",
+              "used_in_answer": true,
+              "required_by_question": true,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.3867,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        }
+      ]
+    },
+    {
+      "key": "algorithms",
+      "subject_area": "algorithms",
+      "pipeline_domain": "programming",
+      "seed": "Implement binary search on a sorted array of integers.",
+      "seed_metadata": {
+        "domain": "programming",
+        "topic": "Algorithms",
+        "subtopic": "Searching Algorithms",
+        "core_concept": "Binary Search",
+        "question_type": "coding",
+        "difficulty": "medium",
+        "difficulty_score": 0.51,
+        "learning_objective": "The learner should be able to implement binary search on a sorted array of integers.",
+        "keywords": [
+          "array",
+          "binary",
+          "integers",
+          "search",
+          "sorted"
+        ],
+        "raw_seed": "Implement binary search on a sorted array of integers.",
+        "contract": {
+          "domain": "programming",
+          "core_concept": "Binary Search",
+          "learning_objective": "The learner should be able to implement binary search on a sorted array of integers.",
+          "task_type": "coding",
+          "task": "Implement binary search on a sorted array of integers.",
+          "required_elements": [
+            "binary",
+            "search"
+          ],
+          "element_weights": {
+            "search": 0.4057,
+            "binary": 0.2258,
+            "sorted": 0.1366,
+            "integers": 0.1287,
+            "array": 0.1031
+          },
+          "named_elements": [],
+          "structure_anchor": null,
+          "constraints": [],
+          "parameters": [],
+          "immutable_elements": [
+            "the core learning objective: The learner should be able to implement binary search on a sorted array of integers.",
+            "the task the learner performs, as the seed states it (coding)",
+            "the domain: programming",
+            "the subject: binary, search"
+          ],
+          "allowed_variation_dimensions": [
+            "the real-world setting the task is placed in",
+            "the constraints the solution must respect",
+            "the concrete values the task is posed with",
+            "what is given to the learner versus what is asked of them",
+            "how the problem and its data are presented"
+          ]
+        }
+      },
+      "wall_s": 223.3,
+      "timings_ms": {
+        "ps8.seed_parsing": 7246.46,
+        "ps8.seed_contract": 19.39,
+        "ps8.variation_planning": 0.1,
+        "ps8.generation": 215718.67,
+        "ps8.structural_validation": 161.29,
+        "ps2.verification": 170.13,
+        "pipeline.evaluation": 331.56,
+        "pipeline.summary": 0.25,
+        "total_ms": 223316.6
+      },
+      "summary": {
+        "requested": 5,
+        "generated": 5,
+        "passed": 0,
+        "review": 3,
+        "rejected": 2,
+        "duplicate_rate": 0.0,
+        "regeneration_attempts": 0,
+        "mean_reliability_score": 0.4696,
+        "flagged_span_count": 13
+      },
+      "warnings": [],
+      "candidates": [
+        {
+          "strategy": "scenario",
+          "method": "iterative",
+          "question": "You are a data analyst working for a streaming service. The service has a vast library of movies, and you need to search for a movie by its title to update its rating. The titles of the movies are stored in a sorted array. Implement binary search to find the index of the movie title.",
+          "answer_key": "def binary_search(arr, target):\n    low = 0\n    high = len(arr) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1\n\n# Test cases\ntest_cases = [\n    {'input': (['Inception', 'Interstellar', 'The Matrix', 'Up', 'Moana'], 'Up'), 'expected_output': 3},\n    {'input': (['Interstellar', 'Inception', 'The Matrix', 'Moana', 'Up'], 'The Matrix'), 'expected_output': 2}\n]",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.6667,
+              "semantic_similarity_to_objective": 0.4727
+            },
+            "contract": {
+              "required_elements": [
+                "binary",
+                "search"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "binary": "present",
+                "search": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "scenario",
+              "followed": true,
+              "evidence": "17 new content words (81% of the question)"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "medium",
+              "target": "medium",
+              "delta": 0.04
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.3068,
+              "max_lexical_similarity": 0.1818,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.3068,
+              "lexical_similarity_to_seed": 0.1818
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": "iterative",
+              "used_in_answer": true,
+              "required_by_question": true,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.3989,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "constraint",
+          "method": "recursive",
+          "question": "You are implementing binary search for a company's employee ID system. The IDs are sorted and stored in an array. Your function must be recursive and avoid using loops. Additionally, the function should handle the case where the target ID is not in the array and return -1 in such cases. Implement binary search on the given sorted array of employee IDs.\n\nExample:\nEmployee IDs: [101, 103, 105, 107, 109, 111]\nTarget ID: 105\nExpected Output: 2\n\nEmployee IDs: [101, 103, 105, 107, 109, 111]\nTarget ID: 112\nExpected Output: -1",
+          "answer_key": "def binary_search_recursive(arr, target, low, high):\n    if low > high:\n        return -1\n    mid = (low + high) // 2\n    if arr[mid] == target:\n        return mid\n    elif arr[mid] < target:\n        return binary_search_recursive(arr, target, mid + 1, high)\n    else:\n        return binary_search_recursive(arr, target, low, mid - 1)\n\ndef binary_search(arr, target):\n    return binary_search_recursive(arr, target, 0, len(arr) - 1)",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.6667,
+              "semantic_similarity_to_objective": 0.643
+            },
+            "contract": {
+              "required_elements": [
+                "binary",
+                "search"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "binary": "present",
+                "search": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "constraint",
+              "followed": true,
+              "evidence": "new constraint: must be recursive and avoid using loops"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "medium",
+              "target": "medium",
+              "delta": 0.04
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.6094,
+              "max_lexical_similarity": 0.1176,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.6094,
+              "lexical_similarity_to_seed": 0.1176
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": "recursive",
+              "used_in_answer": true,
+              "required_by_question": true,
+              "changed_from_default": true
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.4135,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "parameter",
+          "method": "iterative",
+          "question": "Implement binary search on a sorted array of integers. Write a function that takes a sorted array and a target value as input, and returns the index of the target value if found, or -1 if not found. For example, given the array [1, 2, 3, 4, 5] and the target 3, the function should return 2. If the target is not found, such as with the array [1, 2, 3, 4, 5] and the target 6, the function should return -1.",
+          "answer_key": "def binary_search(arr, target):\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n\n# Test cases\ntest_cases = [\n    {'input': ([1, 2, 3, 4, 5], 3), 'expected_output': 2},\n    {'input': ([1, 2, 3, 4, 5], 6), 'expected_output': -1}\n]",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": false,
+          "ps8_reasons": [
+            "semantic similarity too high: 0.88 against the seed question (threshold 0.86)",
+            "not a meaningful variation: 0.88 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.6667,
+              "semantic_similarity_to_objective": 0.8635
+            },
+            "contract": {
+              "required_elements": [
+                "binary",
+                "search"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "binary": "present",
+                "search": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "parameter",
+              "followed": true,
+              "evidence": "question states values ['1', '2', '3', '4', '5', '6']"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "medium",
+              "target": "medium",
+              "delta": 0.04
+            },
+            "duplicate": {
+              "is_duplicate": true,
+              "max_semantic_similarity": 0.8809,
+              "max_lexical_similarity": 0.3571,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": false,
+              "semantic_similarity_to_seed": 0.8809,
+              "lexical_similarity_to_seed": 0.3571
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": "iterative",
+              "used_in_answer": true,
+              "required_by_question": true,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.3115,
+          "ps2_verdict": "fabricated",
+          "decision_reasons": [
+            "PS8 structural failure: semantic similarity too high: 0.88 against the seed question (threshold 0.86)",
+            "PS8 structural failure: not a meaningful variation: 0.88 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "structure",
+          "method": "recursive",
+          "question": "Consider the following flawed implementation of binary search on a sorted array of integers:\n\n```python\ndef binary_search(arr, target):\n    low = 0\n    high = len(arr) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] < target:\n            low = mid + 1\n        elif arr[mid] > target:\n            high = mid - 1\n        else:\n            return mid\n    return -1\n```\n\nIdentify the error in this implementation and correct it to make a valid recursive binary search function. Implement your recursive function and ensure it returns the correct index of the target if found, or -1 if not found. Make sure to test your function with the provided test cases.",
+          "answer_key": "def binary_search(arr, target, low=0, high=None):\n    if high is None:\n        high = len(arr) - 1\n    if low > high:\n        return -1\n    mid = (low + high) // 2\n    if arr[mid] < target:\n        return binary_search(arr, target, mid + 1, high)\n    elif arr[mid] > target:\n        return binary_search(arr, target, low, mid - 1)\n    else:\n        return mid\nThis implementation correctly uses recursion to search for the target value in a sorted array of integers, returning the index of the target if found, or -1 if not found.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.6667,
+              "semantic_similarity_to_objective": 0.7202
+            },
+            "contract": {
+              "required_elements": [
+                "binary",
+                "search"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "binary": "present",
+                "search": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "structure",
+              "followed": true,
+              "evidence": "changed task shape: 'flawed'"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "medium",
+              "target": "medium",
+              "delta": 0.04
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.7208,
+              "max_lexical_similarity": 0.1515,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.7208,
+              "lexical_similarity_to_seed": 0.1515
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": "recursive",
+              "used_in_answer": true,
+              "required_by_question": true,
+              "changed_from_default": true
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.6507,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "representation",
+          "method": "iterative",
+          "question": "Given a sorted array of integers, write a Python function to perform binary search and return the index of the target if found. If the target is not found, return -1. The function should use an iterative approach. Test the function with the following inputs:\n\n- Input: [1, 2, 3, 4, 5, 6, 7, 8, 9], Target: 5\n- Input: [10, 20, 30, 40, 50], Target: 25",
+          "answer_key": "def binary_search(arr, target):\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n\n# Test cases\ntest_cases = [\n    ([1, 2, 3, 4, 5, 6, 7, 8, 9], 5, 4),\n    ([10, 20, 30, 40, 50], 25, -1)\n]\n\nfor arr, target, expected in test_cases:\n    result = binary_search(arr, target)\n    assert result == expected, f'Failed for input: {arr} with target: {target}. Expected {expected}, got {result}'",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": false,
+          "ps8_reasons": [
+            "not a meaningful variation: 0.80 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.6667,
+              "semantic_similarity_to_objective": 0.7621
+            },
+            "contract": {
+              "required_elements": [
+                "binary",
+                "search"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "binary": "present",
+                "search": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "representation",
+              "followed": true,
+              "evidence": "changed presentation: 'array of'"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "medium",
+              "target": "medium",
+              "delta": 0.04
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.804,
+              "max_lexical_similarity": 0.2174,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": false,
+              "semantic_similarity_to_seed": 0.804,
+              "lexical_similarity_to_seed": 0.2174
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": "iterative",
+              "used_in_answer": true,
+              "required_by_question": true,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.5733,
+          "ps2_verdict": "partially_reliable",
+          "decision_reasons": [
+            "PS8 structural failure: not a meaningful variation: 0.80 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "rejected_attempts": []
+        }
+      ]
+    },
+    {
+      "key": "data_structures",
+      "subject_area": "data_structures",
+      "pipeline_domain": "programming",
+      "seed": "Implement a stack that supports push, pop and retrieving the minimum element.",
+      "seed_metadata": {
+        "domain": "programming",
+        "topic": "Data Structures",
+        "subtopic": "Stacks",
+        "core_concept": "Min Stack",
+        "question_type": "coding",
+        "difficulty": "medium",
+        "difficulty_score": 0.51,
+        "learning_objective": "The learner should be able to implement a stack that supports push, pop, and retrieving the minimum element efficiently.",
+        "keywords": [
+          "element",
+          "minimum",
+          "pop",
+          "push",
+          "retrieving",
+          "stack",
+          "supports"
+        ],
+        "raw_seed": "Implement a stack that supports push, pop and retrieving the minimum element.",
+        "contract": {
+          "domain": "programming",
+          "core_concept": "Min Stack",
+          "learning_objective": "The learner should be able to implement a stack that supports push, pop, and retrieving the minimum element efficiently.",
+          "task_type": "coding",
+          "task": "Implement a stack that supports push, pop and retrieving the minimum element.",
+          "required_elements": [
+            "minimum"
+          ],
+          "element_weights": {
+            "minimum": 0.4467,
+            "retrieving": 0.1282,
+            "element": 0.1261,
+            "stack": 0.1037,
+            "push": 0.0961,
+            "pop": 0.0845,
+            "supports": 0.0148
+          },
+          "named_elements": [],
+          "structure_anchor": null,
+          "constraints": [],
+          "parameters": [],
+          "immutable_elements": [
+            "the core learning objective: The learner should be able to implement a stack that supports push, pop, and retrieving the minimum element efficiently.",
+            "the task the learner performs, as the seed states it (coding)",
+            "the domain: programming",
+            "the subject: minimum"
+          ],
+          "allowed_variation_dimensions": [
+            "the real-world setting the task is placed in",
+            "the constraints the solution must respect",
+            "the concrete values the task is posed with",
+            "what is given to the learner versus what is asked of them",
+            "how the problem and its data are presented"
+          ]
+        }
+      },
+      "wall_s": 293.7,
+      "timings_ms": {
+        "ps8.seed_parsing": 7660.46,
+        "ps8.seed_contract": 22.65,
+        "ps8.variation_planning": 0.08,
+        "ps8.generation": 285639.46,
+        "ps8.structural_validation": 157.29,
+        "ps2.verification": 215.65,
+        "pipeline.evaluation": 373.08,
+        "pipeline.summary": 0.13,
+        "total_ms": 293696.03
+      },
+      "summary": {
+        "requested": 5,
+        "generated": 5,
+        "passed": 0,
+        "review": 2,
+        "rejected": 3,
+        "duplicate_rate": 0.0,
+        "regeneration_attempts": 0,
+        "mean_reliability_score": 0.4724,
+        "flagged_span_count": 21
+      },
+      "warnings": [],
+      "candidates": [
+        {
+          "strategy": "scenario",
+          "method": null,
+          "question": "As a project manager, you need to keep track of the minimum number of active tasks in a project. Your team can add new tasks (push) and complete tasks (pop). Additionally, you need to be able to quickly determine the minimum number of active tasks at any time. Implement a stack that supports push, pop, and retrieving the minimum element efficiently.",
+          "answer_key": "def min_stack_operations():\n    stack = []\n    min_stack = []\n\n    def push(x):\n        stack.append(x)\n        if not min_stack or x <= min_stack[-1]:\n            min_stack.append(x)\n\n    def pop():\n        if stack:\n            if stack[-1] == min_stack[-1]:\n                min_stack.pop()\n            return stack.pop()\n        return None\n\n    def get_min():\n        if min_stack:\n            return min_stack[-1]\n        return None\n\n    return push, pop, get_min\n\n# Example usage:\npush, pop, get_min = min_stack_operations()\npush(3)\npush(5)\npush(2)\nprint(get_min())  # Output: 2\npop()\nprint(get_min())  # Output: 3",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.25,
+              "semantic_similarity_to_objective": 0.6159
+            },
+            "contract": {
+              "required_elements": [
+                "minimum"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "minimum": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "scenario",
+              "followed": true,
+              "evidence": "19 new content words (73% of the question)"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "medium",
+              "target": "medium",
+              "delta": 0.04
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.4978,
+              "max_lexical_similarity": 0.2692,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.4978,
+              "lexical_similarity_to_seed": 0.2692
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.4651,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "constraint",
+          "method": null,
+          "question": "Implement a min stack that supports push, pop, and retrieving the minimum element. However, you are not allowed to use any additional data structures or arrays. How would you design the stack to achieve this?",
+          "answer_key": "class MinStack:\n    def __init__(self):\n        self.stack = []\n\n    def push(self, x: int) -> None:\n        self.stack.append((x, min(x, self.stack[-1][1] if self.stack else x)))\n\n    def pop(self) -> None:\n        self.stack.pop()\n\n    def top(self) -> int:\n        return self.stack[-1][0]\n\n    def getMin(self) -> int:\n        return self.stack[-1][1]\nThe stack stores each element along with the current minimum value. This allows for constant time retrieval of the minimum element.",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": false,
+          "ps8_reasons": [
+            "semantic similarity too high: 0.90 against the seed question (threshold 0.86)",
+            "not a meaningful variation: 0.90 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 1.0,
+              "semantic_similarity_to_objective": 0.8852
+            },
+            "contract": {
+              "required_elements": [
+                "minimum"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "minimum": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "constraint",
+              "followed": true,
+              "evidence": "new constraint: are not allowed to use any additional data structures or arrays"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "medium",
+              "target": "medium",
+              "delta": 0.04
+            },
+            "duplicate": {
+              "is_duplicate": true,
+              "max_semantic_similarity": 0.8987,
+              "max_lexical_similarity": 0.3889,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": false,
+              "semantic_similarity_to_seed": 0.8987,
+              "lexical_similarity_to_seed": 0.3889
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.5308,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS8 structural failure: semantic similarity too high: 0.90 against the seed question (threshold 0.86)",
+            "PS8 structural failure: not a meaningful variation: 0.90 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "parameter",
+          "method": null,
+          "question": "Implement a stack that supports push, pop, and retrieving the minimum element for a stack of integers. The stack will contain the values [4, 2, 3, 1]. Write the code for the `MinStack` class with the following methods: `push(x)`, `pop()`, and `getMin()`. Ensure that each method operates in constant time.",
+          "answer_key": "class MinStack:\n    def __init__(self):\n        self.stack = []\n        self.min_stack = []\n\n    def push(self, x):\n        self.stack.append(x)\n        if not self.min_stack or x <= self.min_stack[-1]:\n            self.min_stack.append(x)\n\n    def pop(self):\n        if self.stack[-1] == self.min_stack[-1]:\n            self.min_stack.pop()\n        return self.stack.pop()\n\n    def getMin(self):\n        return self.min_stack[-1]\n\n# Test cases\nmin_stack = MinStack()\nmin_stack.push(4)\nmin_stack.push(2)\nmin_stack.push(3)\nmin_stack.push(1)\nprint(min_stack.getMin())  # Output: 1\nmin_stack.pop()\nprint(min_stack.getMin())  # Output: 2",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": false,
+          "ps8_reasons": [
+            "not a meaningful variation: 0.81 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.25,
+              "semantic_similarity_to_objective": 0.8544
+            },
+            "contract": {
+              "required_elements": [
+                "minimum"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "minimum": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "parameter",
+              "followed": true,
+              "evidence": "question states values ['1', '2', '3', '4']"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "medium",
+              "target": "medium",
+              "delta": 0.04
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.8103,
+              "max_lexical_similarity": 0.35,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": false,
+              "semantic_similarity_to_seed": 0.8103,
+              "lexical_similarity_to_seed": 0.35
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.5029,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS8 structural failure: not a meaningful variation: 0.81 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "structure",
+          "method": null,
+          "question": "You are given a stack implementation that supports push, pop, and retrieving the minimum element. However, the implementation has a bug. The minimum element retrieval is incorrect. Your task is to correct the bug and provide a working solution.",
+          "answer_key": "class MinStack:\n    def __init__(self):\n        self.stack = []\n        self.min_stack = []\n\n    def push(self, x: int) -> None:\n        self.stack.append(x)\n        if not self.min_stack or x <= self.min_stack[-1]:\n            self.min_stack.append(x)\n\n    def pop(self) -> None:\n        if self.stack[-1] == self.min_stack[-1]:\n            self.min_stack.pop()\n        self.stack.pop()\n\n    def top(self) -> int:\n        return self.stack[-1]\n\n    def getMin(self) -> int:\n        return self.min_stack[-1]\nThe bug in the seed implementation was that it did not correctly update the min_stack when popping an element. The corrected implementation ensures that the min_stack only contains the minimum element, and it is updated correctly when pushing and popping elements.",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": false,
+          "ps8_reasons": [
+            "semantic similarity too high: 0.93 against the seed question (threshold 0.86)",
+            "not a meaningful variation: 0.93 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.25,
+              "semantic_similarity_to_objective": 0.9056
+            },
+            "contract": {
+              "required_elements": [
+                "minimum"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "minimum": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "structure",
+              "followed": true,
+              "evidence": "changed task shape: 'bug'"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "medium",
+              "target": "medium",
+              "delta": 0.04
+            },
+            "duplicate": {
+              "is_duplicate": true,
+              "max_semantic_similarity": 0.9271,
+              "max_lexical_similarity": 0.4118,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": false,
+              "semantic_similarity_to_seed": 0.9271,
+              "lexical_similarity_to_seed": 0.4118
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.3555,
+          "ps2_verdict": "misleading",
+          "decision_reasons": [
+            "PS8 structural failure: semantic similarity too high: 0.93 against the seed question (threshold 0.86)",
+            "PS8 structural failure: not a meaningful variation: 0.93 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "representation",
+          "method": null,
+          "question": "Design a class `MinStack` that supports push, pop, and retrieving the minimum element in constant time. The class should have the following methods:\n\n- `__init__()`: Initializes an empty stack.\n- `push(val: int) -> None`: Pushes `val` onto the stack.\n- `pop() -> None`: Removes the element on top of the stack.\n- `top() -> int`: Retrieves the element on top of the stack.\n- `get_min() -> int`: Retrieves the minimum element in the stack.\n\n**Example:**\n\n```python\nmin_stack = MinStack()\nmin_stack.push(-2)\nmin_stack.push(0)\nmin_stack.push(-3)\nprint(min_stack.get_min())  # Output: -3\nmin_stack.pop()\nprint(min_stack.top())     # Output: 0\nprint(min_stack.get_min())  # Output: -2\n```",
+          "answer_key": "class MinStack:\n    def __init__(self):\n        self.stack = []\n        self.min_stack = []\n\n    def push(self, val: int) -> None:\n        self.stack.append(val)\n        if not self.min_stack or val <= self.min_stack[-1]:\n            self.min_stack.append(val)\n\n    def pop(self) -> None:\n        if self.stack[-1] == self.min_stack[-1]:\n            self.min_stack.pop()\n        self.stack.pop()\n\n    def top(self) -> int:\n        return self.stack[-1]\n\n    def get_min(self) -> int:\n        return self.min_stack[-1]\n\nThe MinStack class maintains two stacks: one for the actual elements and another for the minimum values. The `push` method adds the new value to the main stack and updates the min stack if the new value is less than or equal to the current minimum. The `pop` method removes the top element from both stacks if it is the current minimum. The `get_min` method simply returns the top element of the min stack.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.25,
+              "semantic_similarity_to_objective": 0.7518
+            },
+            "contract": {
+              "required_elements": [
+                "minimum"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "minimum": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "representation",
+              "followed": null,
+              "evidence": "no recognised cue"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "medium",
+              "target": "medium",
+              "delta": 0.04
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.7262,
+              "max_lexical_similarity": 0.2258,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.7262,
+              "lexical_similarity_to_seed": 0.2258
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.5077,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        }
+      ]
+    },
+    {
+      "key": "database",
+      "subject_area": "databases",
+      "pipeline_domain": "programming",
+      "seed": "Write a SQL query to find duplicate email addresses in a users table.",
+      "seed_metadata": {
+        "domain": "programming",
+        "topic": "SQL Queries",
+        "subtopic": "Data Retrieval",
+        "core_concept": "Finding Duplicates",
+        "question_type": "coding",
+        "difficulty": "easy",
+        "difficulty_score": 0.4,
+        "learning_objective": "The learner should be able to write a SQL query to identify duplicate email addresses in a users table.",
+        "keywords": [
+          "addresses",
+          "duplicate",
+          "email",
+          "find",
+          "query",
+          "sql",
+          "table",
+          "users"
+        ],
+        "raw_seed": "Write a SQL query to find duplicate email addresses in a users table.",
+        "contract": {
+          "domain": "programming",
+          "core_concept": "Finding Duplicates",
+          "learning_objective": "The learner should be able to write a SQL query to identify duplicate email addresses in a users table.",
+          "task_type": "coding",
+          "task": "Write a SQL query to find duplicate email addresses in a users table.",
+          "required_elements": [
+            "duplicate"
+          ],
+          "element_weights": {
+            "duplicate": 0.3592,
+            "email": 0.329,
+            "users": 0.1124,
+            "addresses": 0.1056,
+            "table": 0.0475,
+            "sql": 0.0298,
+            "query": 0.0167
+          },
+          "named_elements": [
+            "SQL"
+          ],
+          "structure_anchor": null,
+          "constraints": [],
+          "parameters": [],
+          "immutable_elements": [
+            "the core learning objective: The learner should be able to write a SQL query to identify duplicate email addresses in a users table.",
+            "the task the learner performs, as the seed states it (coding)",
+            "the domain: programming",
+            "the subject: duplicate",
+            "the technology or named concept: SQL"
+          ],
+          "allowed_variation_dimensions": [
+            "the real-world setting the task is placed in",
+            "the constraints the solution must respect",
+            "the concrete values the task is posed with",
+            "what is given to the learner versus what is asked of them",
+            "how the problem and its data are presented"
+          ]
+        }
+      },
+      "wall_s": 151.4,
+      "timings_ms": {
+        "ps8.seed_parsing": 7552.37,
+        "ps8.seed_contract": 20.02,
+        "ps8.variation_planning": 0.09,
+        "ps8.generation": 143324.92,
+        "ps8.structural_validation": 211.4,
+        "ps2.verification": 262.9,
+        "pipeline.evaluation": 475.49,
+        "pipeline.summary": 0.13,
+        "total_ms": 151373.27
+      },
+      "summary": {
+        "requested": 5,
+        "generated": 5,
+        "passed": 0,
+        "review": 2,
+        "rejected": 3,
+        "duplicate_rate": 0.0,
+        "regeneration_attempts": 0,
+        "mean_reliability_score": 0.3891,
+        "flagged_span_count": 9
+      },
+      "warnings": [],
+      "candidates": [
+        {
+          "strategy": "scenario",
+          "method": null,
+          "question": "A local bookstore is experiencing issues with duplicate email addresses in their customer database. They need a query to identify any customers who have registered with the same email address. Write a SQL query to find duplicate email addresses in the `customers` table.",
+          "answer_key": "SELECT email, COUNT(email) AS count FROM customers GROUP BY email HAVING count > 1;\nThis query groups the records in the `customers` table by the `email` column and counts the number of records for each email. The `HAVING count > 1` clause filters the results to only include email addresses that have more than one record, which indicates duplicates.",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": false,
+          "ps8_reasons": [
+            "not a meaningful variation: 0.82 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.25,
+              "semantic_similarity_to_objective": 0.8932
+            },
+            "contract": {
+              "required_elements": [
+                "duplicate"
+              ],
+              "named_elements": [
+                "SQL"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "duplicate": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "scenario",
+              "followed": true,
+              "evidence": "14 new content words (67% of the question)"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.15
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.8186,
+              "max_lexical_similarity": 0.3182,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": false,
+              "semantic_similarity_to_seed": 0.8186,
+              "lexical_similarity_to_seed": 0.3182
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.3848,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS8 structural failure: not a meaningful variation: 0.82 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "constraint",
+          "method": null,
+          "question": "Given a users table with columns id, name, and email, write a SQL query to find duplicate email addresses. Your query should not use the GROUP BY clause and must run in less than 2 seconds.",
+          "answer_key": "SELECT email FROM users WHERE email IN (SELECT email FROM users GROUP BY email HAVING COUNT(email) > 1) -- The query first groups emails and finds those with more than one occurrence. It then selects these duplicate emails.\n\nTest Cases:\n1. Input: id=1, name='John', email='john@example.com'\n   id=2, name='Jane', email='john@example.com'\n   Expected Output: ['john@example.com']\n2. Input: id=3, name='Alex', email='alex@example.com'\n   Expected Output: []",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": false,
+          "ps8_reasons": [
+            "not a meaningful variation: 0.84 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.25,
+              "semantic_similarity_to_objective": 0.9036
+            },
+            "contract": {
+              "required_elements": [
+                "duplicate"
+              ],
+              "named_elements": [
+                "SQL"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "duplicate": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "constraint",
+              "followed": true,
+              "evidence": "new constraint: should not use the group by clause and must run in less than 2 seconds"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.15
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.8441,
+              "max_lexical_similarity": 0.4444,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": false,
+              "semantic_similarity_to_seed": 0.8441,
+              "lexical_similarity_to_seed": 0.4444
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.3908,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS8 structural failure: not a meaningful variation: 0.84 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "parameter",
+          "method": null,
+          "question": "Given a users table with the following structure and data, write a SQL query to find duplicate email addresses in the table. Assume the table is named `user_accounts` and has the following columns: `id` (integer), `username` (varchar), and `email` (varchar). For this task, consider the following data: \n\n| id | username | email        |\n|----|----------|--------------|\n| 1  | user1    | example1@example.com |\n| 2  | user2    | example2@example.com |\n| 3  | user3    | example1@example.com |\n| 4  | user4    | example3@example.com |\n| 5  | user5    | example2@example.com |\n\nWhat SQL query would you use to identify duplicate email addresses?",
+          "answer_key": "SELECT email FROM user_accounts GROUP BY email HAVING COUNT(email) > 1;\nThis query groups the emails and counts occurrences, returning only those with more than one entry.",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": false,
+          "ps8_reasons": [
+            "not a meaningful variation: 0.85 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.25,
+              "semantic_similarity_to_objective": 0.8462
+            },
+            "contract": {
+              "required_elements": [
+                "duplicate"
+              ],
+              "named_elements": [
+                "SQL"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "duplicate": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "parameter",
+              "followed": true,
+              "evidence": "question states values ['1', '2', '3', '4', '5']"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.15
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.8513,
+              "max_lexical_similarity": 0.2353,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": false,
+              "semantic_similarity_to_seed": 0.8513,
+              "lexical_similarity_to_seed": 0.2353
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.3878,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS8 structural failure: not a meaningful variation: 0.85 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "structure",
+          "method": null,
+          "question": "You are given a table named `employees` with columns `id` and `email`. The query provided below attempts to find duplicate email addresses but does not work as expected. Identify the error and correct it. The query is:\n\n```sql\nSELECT email\nFROM employees\nWHERE email IN (\n    SELECT email\n    FROM employees\n    GROUP BY email\n    HAVING COUNT(email) > 1\n)\n```",
+          "answer_key": "SELECT email\nFROM employees\ngroup by email\nHAVING COUNT(email) > 1\n\nThe original query had an unnecessary subquery. The corrected query directly selects the email addresses that appear more than once in the `employees` table.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.25,
+              "semantic_similarity_to_objective": 0.8513
+            },
+            "contract": {
+              "required_elements": [
+                "duplicate"
+              ],
+              "named_elements": [
+                "SQL"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "duplicate": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "structure",
+              "followed": true,
+              "evidence": "changed task shape: 'error'"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.15
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.7971,
+              "max_lexical_similarity": 0.2917,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.7971,
+              "lexical_similarity_to_seed": 0.2917
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.3892,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "representation",
+          "method": null,
+          "question": "Given a table named `accounts` with columns `id` and `email`, write a SQL query to find all email addresses that appear more than once in the table. The result should include the email address and the count of occurrences.",
+          "answer_key": "SELECT email, COUNT(*) AS count FROM accounts GROUP BY email HAVING COUNT(*) > 1;\nThis query groups the accounts by email and counts the occurrences of each email. It then filters out the emails that appear only once, leaving only those that have duplicates.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.25,
+              "semantic_similarity_to_objective": 0.9022
+            },
+            "contract": {
+              "required_elements": [
+                "duplicate"
+              ],
+              "named_elements": [
+                "SQL"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "duplicate": "in answer key"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "representation",
+              "followed": true,
+              "evidence": "changed presentation: 'table'"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.15
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.7253,
+              "max_lexical_similarity": 0.2727,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.7253,
+              "lexical_similarity_to_seed": 0.2727
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.3928,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        }
+      ]
+    },
+    {
+      "key": "operating_systems",
+      "subject_area": "operating_systems",
+      "pipeline_domain": "programming",
+      "seed": "Explain how round-robin CPU scheduling decides which process runs next.",
+      "seed_metadata": {
+        "domain": "programming",
+        "topic": "Operating Systems",
+        "subtopic": "CPU Scheduling",
+        "core_concept": "Round-robin scheduling",
+        "question_type": "descriptive",
+        "difficulty": "easy",
+        "difficulty_score": 0.4,
+        "learning_objective": "The learner should be able to explain how round-robin CPU scheduling decides which process runs next.",
+        "keywords": [
+          "cpu",
+          "decides",
+          "explain",
+          "how",
+          "next",
+          "process",
+          "robin",
+          "round",
+          "runs",
+          "scheduling",
+          "which"
+        ],
+        "raw_seed": "Explain how round-robin CPU scheduling decides which process runs next.",
+        "contract": {
+          "domain": "programming",
+          "core_concept": "Round-robin scheduling",
+          "learning_objective": "The learner should be able to explain how round-robin CPU scheduling decides which process runs next.",
+          "task_type": "descriptive",
+          "task": "Explain how round-robin CPU scheduling decides which process runs next.",
+          "required_elements": [
+            "round",
+            "robin"
+          ],
+          "element_weights": {
+            "round": 0.3161,
+            "robin": 0.3161,
+            "cpu": 0.1555,
+            "scheduling": 0.0817,
+            "process": 0.0733,
+            "next": 0.0407,
+            "runs": 0.0166
+          },
+          "named_elements": [
+            "CPU"
+          ],
+          "structure_anchor": null,
+          "constraints": [],
+          "parameters": [],
+          "immutable_elements": [
+            "the core learning objective: The learner should be able to explain how round-robin CPU scheduling decides which process runs next.",
+            "the task the learner performs, as the seed states it (descriptive)",
+            "the domain: programming",
+            "the subject: round, robin",
+            "the technology or named concept: CPU"
+          ],
+          "allowed_variation_dimensions": [
+            "the real-world setting the task is placed in",
+            "the constraints the solution must respect",
+            "the concrete values the task is posed with",
+            "what is given to the learner versus what is asked of them",
+            "how the problem and its data are presented"
+          ]
+        }
+      },
+      "wall_s": 113.5,
+      "timings_ms": {
+        "ps8.seed_parsing": 8242.02,
+        "ps8.seed_contract": 1.11,
+        "ps8.variation_planning": 0.17,
+        "ps8.generation": 104660.28,
+        "ps8.structural_validation": 347.11,
+        "ps2.verification": 253.5,
+        "pipeline.evaluation": 600.77,
+        "pipeline.summary": 0.35,
+        "total_ms": 113504.94
+      },
+      "summary": {
+        "requested": 5,
+        "generated": 5,
+        "passed": 0,
+        "review": 4,
+        "rejected": 1,
+        "duplicate_rate": 0.0,
+        "regeneration_attempts": 0,
+        "mean_reliability_score": 0.4353,
+        "flagged_span_count": 33
+      },
+      "warnings": [],
+      "candidates": [
+        {
+          "strategy": "scenario",
+          "method": null,
+          "question": "A university has a computer lab with four CPU cores to manage student projects. The operating system uses round-robin scheduling with a time quantum of 10 seconds. There are five student projects (A, B, C, D, E) that need to run. The operating system tracks the time each project has used since it last started. Project A has used 5 seconds, project B has used 2 seconds, project C has used 8 seconds, project D has used 3 seconds, and project E has used 7 seconds. Which project will the operating system choose to run next?",
+          "answer_key": "Project B\n\nWorking: In round-robin scheduling, the operating system selects the next process to run based on the time quantum. If a process has not used up its entire time quantum, it is selected again in the next round. Since project A has already used 5 seconds of its 10-second quantum, it is not selected. Project B has used only 2 seconds, so it will be chosen next.",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.8,
+              "semantic_similarity_to_objective": 0.7061
+            },
+            "contract": {
+              "required_elements": [
+                "round",
+                "robin"
+              ],
+              "named_elements": [
+                "CPU"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "round": "present",
+                "robin": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "scenario",
+              "followed": true,
+              "evidence": "25 new content words (78% of the question)"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.15
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.5826,
+              "max_lexical_similarity": 0.1622,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.5826,
+              "lexical_similarity_to_seed": 0.1622
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.2939,
+          "ps2_verdict": "fabricated",
+          "decision_reasons": [
+            "PS2 verdict 'fabricated': the content conflicts with the reference corpus or is largely ungrounded",
+            "PS2: 0 of 10 checkable claims were grounded in the local reference corpus (grounding score 0.00)",
+            "PS2: estimated hallucination probability 0.60",
+            "PS2: 1 internal self-contradiction(s)"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "constraint",
+          "method": null,
+          "question": "Given a set of processes with arrival times and execution times, explain how a round-robin CPU scheduler with a time quantum of 5 units decides which process runs next after a process has finished its quantum.",
+          "answer_key": "The next process to run will be the one that arrived first among those that are not yet completed. If multiple processes arrived at the same time, the scheduler will select the one that has been waiting the longest for its quantum.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.4,
+              "semantic_similarity_to_objective": 0.7838
+            },
+            "contract": {
+              "required_elements": [
+                "round",
+                "robin"
+              ],
+              "named_elements": [
+                "CPU"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "round": "present",
+                "robin": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "constraint",
+              "followed": null,
+              "evidence": "no recognised constraint wording"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.15
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.7396,
+              "max_lexical_similarity": 0.4545,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.7396,
+              "lexical_similarity_to_seed": 0.4545
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.4183,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "parameter",
+          "method": null,
+          "question": "In a round-robin CPU scheduler with a quantum of 4 time units, consider the following processes in the ready queue: P1, P2, P3, P4, P5. If P1 has already used 2 time units and it is next in line to run, how much more time will it use before giving up the CPU? If P2, P3, P4, and P5 each complete in 3 time units, how will the ready queue change after each of these processes completes?",
+          "answer_key": "P1 will use 2 more time units before giving up the CPU. After P2 completes, P2 will be removed from the ready queue. After P3 completes, P3 will be removed from the ready queue. After P4 completes, P4 will be removed from the ready queue. After P5 completes, P5 will be removed from the ready queue. The ready queue will then be empty.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.4,
+              "semantic_similarity_to_objective": 0.6525
+            },
+            "contract": {
+              "required_elements": [
+                "round",
+                "robin"
+              ],
+              "named_elements": [
+                "CPU"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "round": "present",
+                "robin": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "parameter",
+              "followed": true,
+              "evidence": "question states values ['2', '3', '4']"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.15
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.6242,
+              "max_lexical_similarity": 0.1316,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.6242,
+              "lexical_similarity_to_seed": 0.1316
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.4747,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "structure",
+          "method": null,
+          "question": "A system uses round-robin scheduling with a time quantum of 2 units. The current state of the ready queue is [P1, P2, P3, P4]. Which process will run next? Explain why.",
+          "answer_key": "P1 will run next. According to round-robin scheduling, processes are given a fixed time quantum (2 units in this case) before being swapped out. Since P1 has just been added to the ready queue, it will be the first one to use its time quantum and will then be swapped out. The next process in the ready queue (P2) will take its turn next.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.6,
+              "semantic_similarity_to_objective": 0.7667
+            },
+            "contract": {
+              "required_elements": [
+                "round",
+                "robin"
+              ],
+              "named_elements": [
+                "CPU"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "round": "present",
+                "robin": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "structure",
+              "followed": null,
+              "evidence": "no recognised cue"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.15
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.6748,
+              "max_lexical_similarity": 0.2692,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.6748,
+              "lexical_similarity_to_seed": 0.2692
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.5177,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "representation",
+          "method": null,
+          "question": "In a round-robin CPU scheduler, consider the following process table with their respective CPU times and priorities:\n\n| Process | CPU Time | Priority |\n|---------|----------|----------|\n| P1      | 3        | 2        |\n| P2      | 1        | 1        |\n| P3      | 2        | 2        |\n\nAssuming a time quantum of 2 units, which process will run first according to the round-robin scheduling algorithm?",
+          "answer_key": "P2\n\n**Working:** In round-robin scheduling, processes are given a fixed time slice (time quantum) to run. The processes are then scheduled in a cyclic order. Since the time quantum is 2 units, P2, which has the highest priority and a CPU time of 1 unit, will run first as it can complete its execution within the given time slice.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.6,
+              "semantic_similarity_to_objective": 0.7606
+            },
+            "contract": {
+              "required_elements": [
+                "round",
+                "robin"
+              ],
+              "named_elements": [
+                "CPU"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "round": "present",
+                "robin": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "representation",
+              "followed": true,
+              "evidence": "changed presentation: 'table'"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.15
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.7116,
+              "max_lexical_similarity": 0.2,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.7116,
+              "lexical_similarity_to_seed": 0.2
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.4721,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        }
+      ]
+    },
+    {
+      "key": "computer_networks",
+      "subject_area": "computer_networks",
+      "pipeline_domain": "programming",
+      "seed": "Explain how TCP congestion control uses slow start and congestion avoidance.",
+      "seed_metadata": {
+        "domain": "programming",
+        "topic": "TCP Congestion Control",
+        "subtopic": null,
+        "core_concept": "Slow Start and Congestion Avoidance",
+        "question_type": "descriptive",
+        "difficulty": "medium",
+        "difficulty_score": 0.55,
+        "learning_objective": "The learner should be able to explain how TCP congestion control uses slow start and congestion avoidance.",
+        "keywords": [
+          "avoidance",
+          "congestion",
+          "control",
+          "explain",
+          "how",
+          "slow",
+          "start",
+          "tcp",
+          "uses"
+        ],
+        "raw_seed": "Explain how TCP congestion control uses slow start and congestion avoidance.",
+        "contract": {
+          "domain": "programming",
+          "core_concept": "Slow Start and Congestion Avoidance",
+          "learning_objective": "The learner should be able to explain how TCP congestion control uses slow start and congestion avoidance.",
+          "task_type": "descriptive",
+          "task": "Explain how TCP congestion control uses slow start and congestion avoidance.",
+          "required_elements": [
+            "tcp",
+            "congestion"
+          ],
+          "element_weights": {
+            "congestion": 0.2627,
+            "tcp": 0.2257,
+            "avoidance": 0.1558,
+            "start": 0.1421,
+            "slow": 0.0924,
+            "control": 0.0875,
+            "uses": 0.0338
+          },
+          "named_elements": [
+            "TCP"
+          ],
+          "structure_anchor": null,
+          "constraints": [],
+          "parameters": [],
+          "immutable_elements": [
+            "the core learning objective: The learner should be able to explain how TCP congestion control uses slow start and congestion avoidance.",
+            "the task the learner performs, as the seed states it (descriptive)",
+            "the domain: programming",
+            "the subject: tcp, congestion",
+            "the technology or named concept: TCP"
+          ],
+          "allowed_variation_dimensions": [
+            "the real-world setting the task is placed in",
+            "the constraints the solution must respect",
+            "the concrete values the task is posed with",
+            "what is given to the learner versus what is asked of them",
+            "how the problem and its data are presented"
+          ]
+        }
+      },
+      "wall_s": 114.3,
+      "timings_ms": {
+        "ps8.seed_parsing": 7886.29,
+        "ps8.seed_contract": 0.49,
+        "ps8.variation_planning": 0.06,
+        "ps8.generation": 106017.94,
+        "ps8.structural_validation": 157.68,
+        "ps2.verification": 270.36,
+        "pipeline.evaluation": 428.19,
+        "pipeline.summary": 0.27,
+        "total_ms": 114333.42
+      },
+      "summary": {
+        "requested": 5,
+        "generated": 5,
+        "passed": 0,
+        "review": 3,
+        "rejected": 2,
+        "duplicate_rate": 0.0,
+        "regeneration_attempts": 0,
+        "mean_reliability_score": 0.3952,
+        "flagged_span_count": 27
+      },
+      "warnings": [],
+      "candidates": [
+        {
+          "strategy": "scenario",
+          "method": null,
+          "question": "Imagine you're developing a web application for a major e-commerce platform. The application needs to handle large numbers of simultaneous connections and ensure that it doesn't overwhelm the server's resources. As a result, you decide to implement TCP congestion control to manage network traffic effectively. Your task is to explain how TCP congestion control uses slow start and congestion avoidance to prevent overloading the server.",
+          "answer_key": "Slow Start is a phase where TCP increases the number of packets it sends in each round trip progressively. It starts by sending just one packet and then doubles the number of packets sent in each subsequent round trip until it reaches a certain threshold. This helps in gradually building up congestion window size without overwhelming the network. Congestion Avoidance, on the other hand, is a phase where TCP increases the size of the congestion window more slowly. It doubles the congestion window size for every round trip in which no packets are lost, allowing the network to reach a higher bandwidth without suffering packet loss. By combining these two phases, TCP congestion control efficiently manages network congestion, ensuring smooth and reliable data transmission.",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": false,
+          "ps8_reasons": [
+            "not a meaningful variation: 0.86 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 1.0,
+              "semantic_similarity_to_objective": 0.7017
+            },
+            "contract": {
+              "required_elements": [
+                "tcp",
+                "congestion"
+              ],
+              "named_elements": [
+                "TCP"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "tcp": "present",
+                "congestion": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "scenario",
+              "followed": true,
+              "evidence": "28 new content words (76% of the question)"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "medium",
+              "target": "medium",
+              "delta": 0.0
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.858,
+              "max_lexical_similarity": 0.2432,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": false,
+              "semantic_similarity_to_seed": 0.858,
+              "lexical_similarity_to_seed": 0.2432
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.396,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS8 structural failure: not a meaningful variation: 0.86 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "constraint",
+          "method": null,
+          "question": "Imagine you are implementing a simple version of TCP congestion control for a network simulation. Your simulation has a maximum segment size (MSS) of 1000 bytes. The current round-trip time (RTT) is 100 milliseconds. You are in slow start phase. What would be the next step in TCP's congestion control algorithm, and what is the new value of the congestion window (cwnd) after this step?",
+          "answer_key": "After one RTT, the congestion control algorithm will enter the congestion avoidance phase. The new value of the congestion window (cwnd) will be 2 * 1000 = 2000 bytes. Working: In slow start, cwnd is doubled after each successful round-trip. Therefore, cwnd = cwnd * 2 = 1000 * 2 = 2000 bytes.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.8333,
+              "semantic_similarity_to_objective": 0.4855
+            },
+            "contract": {
+              "required_elements": [
+                "tcp",
+                "congestion"
+              ],
+              "named_elements": [
+                "TCP"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "tcp": "present",
+                "congestion": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "constraint",
+              "followed": true,
+              "evidence": "constraint wording present"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "medium",
+              "target": "medium",
+              "delta": 0.0
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.6405,
+              "max_lexical_similarity": 0.1282,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.6405,
+              "lexical_similarity_to_seed": 0.1282
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.3958,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "parameter",
+          "method": null,
+          "question": "Consider a TCP connection between a sender and receiver with a buffer size of 4 segments. The sender starts with a congestion window size of 1 segment. After sending 3 segments, it receives no acknowledgments for 2 consecutive segments. Describe the sequence of events that occurs during slow start and congestion avoidance.",
+          "answer_key": "After sending 3 segments, the sender will transition into slow start. The congestion window size will double with each packet sent, up to a maximum of 2 segments. When the congestion window reaches 2 segments, the sender will enter congestion avoidance, and the window size will increase linearly with the acknowledgment of each packet.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.8333,
+              "semantic_similarity_to_objective": 0.5893
+            },
+            "contract": {
+              "required_elements": [
+                "tcp",
+                "congestion"
+              ],
+              "named_elements": [
+                "TCP"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "tcp": "present",
+                "congestion": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "parameter",
+              "followed": true,
+              "evidence": "question states values ['1', '2', '3', '4']"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "medium",
+              "target": "medium",
+              "delta": 0.0
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.693,
+              "max_lexical_similarity": 0.1667,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.693,
+              "lexical_similarity_to_seed": 0.1667
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.3965,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "structure",
+          "method": null,
+          "question": "Explain the role of slow start and congestion avoidance in TCP congestion control, and provide an example scenario where these phases would be utilized.",
+          "answer_key": "The role of slow start is to gradually increase the TCP window size until it reaches a certain threshold. Congestion avoidance is used to prevent further increases in the window size and to slow down the rate of data transmission to allow the network to recover. An example scenario where these phases would be utilized is when a TCP connection is established between a sender and a receiver. Initially, the sender will use slow start to gradually increase the window size, allowing more data to be sent and received. Once the window size reaches a certain threshold, the sender will switch to congestion avoidance and slow down the rate of data transmission to allow the network to recover from any congestion that may have occurred. This ensures that the network remains stable and reliable, even under heavy load.",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": false,
+          "ps8_reasons": [
+            "semantic similarity too high: 0.91 against the seed question (threshold 0.86)",
+            "not a meaningful variation: 0.91 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 1.0,
+              "semantic_similarity_to_objective": 0.8682
+            },
+            "contract": {
+              "required_elements": [
+                "tcp",
+                "congestion"
+              ],
+              "named_elements": [
+                "TCP"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "tcp": "present",
+                "congestion": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "structure",
+              "followed": null,
+              "evidence": "no recognised cue"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "medium",
+              "target": "medium",
+              "delta": 0.0
+            },
+            "duplicate": {
+              "is_duplicate": true,
+              "max_semantic_similarity": 0.9088,
+              "max_lexical_similarity": 0.4118,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": false,
+              "semantic_similarity_to_seed": 0.9088,
+              "lexical_similarity_to_seed": 0.4118
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.393,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS8 structural failure: semantic similarity too high: 0.91 against the seed question (threshold 0.86)",
+            "PS8 structural failure: not a meaningful variation: 0.91 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "representation",
+          "method": null,
+          "question": "You are debugging a network application and observe that the TCP connection is experiencing frequent retransmissions. You decide to investigate the congestion control mechanism. Explain how TCP uses slow start and congestion avoidance to manage network congestion and prevent excessive retransmissions.",
+          "answer_key": "TCP uses two phases to manage network congestion: slow start and congestion avoidance. During slow start, the sender gradually increases the size of the transmission window by one segment per round trip. This helps determine the maximum segment size that can be sent without causing congestion. When the sender reaches a certain threshold, it transitions to congestion avoidance. In congestion avoidance, the sender increases the transmission window size linearly with the number of round trips, preventing excessive growth that could lead to congestion. This method helps efficiently manage network resources and minimize retransmissions.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 1.0,
+              "semantic_similarity_to_objective": 0.6748
+            },
+            "contract": {
+              "required_elements": [
+                "tcp",
+                "congestion"
+              ],
+              "named_elements": [
+                "TCP"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "tcp": "present",
+                "congestion": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "representation",
+              "followed": null,
+              "evidence": "no recognised cue"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "medium",
+              "target": "medium",
+              "delta": 0.0
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.7646,
+              "max_lexical_similarity": 0.3913,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.7646,
+              "lexical_similarity_to_seed": 0.3913
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.3948,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        }
+      ]
+    },
+    {
+      "key": "ai_ml",
+      "subject_area": "ai_ml",
+      "pipeline_domain": "programming",
+      "seed": "Explain how the k-nearest neighbours algorithm classifies a new data point.",
+      "seed_metadata": {
+        "domain": "programming",
+        "topic": "Machine Learning",
+        "subtopic": "Classification Algorithms",
+        "core_concept": "k-nearest neighbors",
+        "question_type": "descriptive",
+        "difficulty": "easy",
+        "difficulty_score": 0.4,
+        "learning_objective": "The learner should be able to explain how the k-nearest neighbors algorithm classifies a new data point.",
+        "keywords": [
+          "algorithm",
+          "classifies",
+          "data",
+          "explain",
+          "how",
+          "nearest",
+          "neighbours",
+          "new",
+          "point"
+        ],
+        "raw_seed": "Explain how the k-nearest neighbours algorithm classifies a new data point.",
+        "contract": {
+          "domain": "programming",
+          "core_concept": "k-nearest neighbors",
+          "learning_objective": "The learner should be able to explain how the k-nearest neighbors algorithm classifies a new data point.",
+          "task_type": "descriptive",
+          "task": "Explain how the k-nearest neighbours algorithm classifies a new data point.",
+          "required_elements": [
+            "nearest"
+          ],
+          "element_weights": {
+            "nearest": 0.3569,
+            "neighbours": 0.192,
+            "point": 0.1253,
+            "data": 0.0999,
+            "algorithm": 0.0921,
+            "new": 0.0813,
+            "classifies": 0.0525
+          },
+          "named_elements": [],
+          "structure_anchor": null,
+          "constraints": [],
+          "parameters": [],
+          "immutable_elements": [
+            "the core learning objective: The learner should be able to explain how the k-nearest neighbors algorithm classifies a new data point.",
+            "the task the learner performs, as the seed states it (descriptive)",
+            "the domain: programming",
+            "the subject: nearest"
+          ],
+          "allowed_variation_dimensions": [
+            "the real-world setting the task is placed in",
+            "the constraints the solution must respect",
+            "the concrete values the task is posed with",
+            "what is given to the learner versus what is asked of them",
+            "how the problem and its data are presented"
+          ]
+        }
+      },
+      "wall_s": 182.1,
+      "timings_ms": {
+        "ps8.seed_parsing": 7819.18,
+        "ps8.seed_contract": 30.95,
+        "ps8.variation_planning": 0.11,
+        "ps8.generation": 173645.58,
+        "ps8.structural_validation": 241.16,
+        "ps2.verification": 379.13,
+        "pipeline.evaluation": 620.6,
+        "pipeline.summary": 0.32,
+        "total_ms": 182117.06
+      },
+      "summary": {
+        "requested": 5,
+        "generated": 5,
+        "passed": 0,
+        "review": 3,
+        "rejected": 2,
+        "duplicate_rate": 0.0,
+        "regeneration_attempts": 0,
+        "mean_reliability_score": 0.3533,
+        "flagged_span_count": 31
+      },
+      "warnings": [],
+      "candidates": [
+        {
+          "strategy": "scenario",
+          "method": null,
+          "question": "A local hospital is trying to diagnose a new patient with either a cold or flu based on their symptoms. The hospital has a dataset of 100 previous patients' symptoms, including fever, cough, and runny nose. They decide to use the k-nearest neighbors algorithm to classify the new patient's symptoms. The new patient has a fever and a runny nose but no cough. How would you explain how the k-nearest neighbors algorithm would classify this new patient?",
+          "answer_key": "The k-nearest neighbors algorithm would classify the new patient as having a cold. Working: The algorithm would find the 5 nearest neighbors (k=5) to the new patient's symptoms in the dataset. Let's assume these neighbors are: 2 with a cold, 2 with a flu, and 1 with unknown. Since there are more neighbors with a cold (2) than with a flu (2), the algorithm would classify the new patient as having a cold.",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.7151
+            },
+            "contract": {
+              "required_elements": [
+                "nearest"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "nearest": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "scenario",
+              "followed": true,
+              "evidence": "23 new content words (82% of the question)"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.15
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.6772,
+              "max_lexical_similarity": 0.1562,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.6772,
+              "lexical_similarity_to_seed": 0.1562
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.2859,
+          "ps2_verdict": "fabricated",
+          "decision_reasons": [
+            "PS2 verdict 'fabricated': the content conflicts with the reference corpus or is largely ungrounded",
+            "PS2: 0 of 5 checkable claims were grounded in the local reference corpus (grounding score 0.00)",
+            "PS2: estimated hallucination probability 0.60",
+            "PS2: 1 internal self-contradiction(s)"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "constraint",
+          "method": null,
+          "question": "In a dataset containing two classes, 'Apple' and 'Banana', you are asked to classify a new fruit that is green and has a stem. However, the dataset only contains examples of red and yellow fruits. Without using any additional information or resources, explain how the k-nearest neighbors algorithm would classify this new fruit based solely on its nearest neighbors.",
+          "answer_key": "The new fruit would not be classified based on any neighbors because the dataset does not contain any examples of green fruits with stems. The algorithm would not have enough relevant data to make a classification.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.7142
+            },
+            "contract": {
+              "required_elements": [
+                "nearest"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "nearest": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "constraint",
+              "followed": true,
+              "evidence": "new constraint: without using any additional information or resources"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.15
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.6257,
+              "max_lexical_similarity": 0.1389,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.6257,
+              "lexical_similarity_to_seed": 0.1389
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.3917,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "parameter",
+          "method": null,
+          "question": "Consider a dataset with three classes: Class A, Class B, and Class C. Each class has four features: Feature 1, Feature 2, Feature 3, and Feature 4. You are given a new data point with the following feature values: Feature 1 = 3, Feature 2 = 5, Feature 3 = 2, and Feature 4 = 4. Class A has three data points with feature values: (3, 4, 1, 3), (2, 3, 2, 3), and (4, 5, 2, 5). Class B has two data points with feature values: (4, 6, 3, 4) and (3, 5, 3, 3). Class C has one data point with feature values: (5, 4, 4, 5). Using the k-nearest neighbors algorithm with k=3, classify the new data point. Explain your reasoning step by step.",
+          "answer_key": "New data point is classified as Class A. Working: Calculate the Euclidean distance between the new data point and each data point in the dataset. Distances are: Class A: sqrt((3-3)^2 + (5-4)^2 + (2-1)^2 + (4-3)^2) = 1.73, sqrt((3-2)^2 + (5-3)^2 + (2-2)^2 + (4-3)^2) = 2.24, sqrt((3-4)^2 + (5-5)^2 + (2-2)^2 + (4-5)^2) = 1.41. Class B: sqrt((4-3)^2 + (6-5)^2 + (3-3)^2 + (4-3)^2) = 1.41, sqrt((3-3)^2 + (5-5)^2 + (3-3)^2 + (3-3)^2) = 0. The k-nearest neighbors are two data points from Class A and one data point from Class B, so Class A is the majority class.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.7203
+            },
+            "contract": {
+              "required_elements": [
+                "nearest"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "nearest": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "parameter",
+              "followed": true,
+              "evidence": "question states values ['1', '2', '3', '4', '5', '6']"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.15
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.7266,
+              "max_lexical_similarity": 0.2222,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.7266,
+              "lexical_similarity_to_seed": 0.2222
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.4023,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "structure",
+          "method": null,
+          "question": "Given the following list of data points where each point is a tuple (x, y, label), where label is 'A' or 'B', and a new data point (x_new, y_new), implement a function to classify the new data point using the k-nearest neighbors algorithm with k=3. Assume the data points are: [(1, 2, 'A'), (2, 3, 'A'), (4, 5, 'A'), (5, 6, 'B'), (6, 7, 'B')]. Classify the new data point (3, 4) using this algorithm. Show your work step-by-step.",
+          "answer_key": "The new data point (3, 4) should be classified as 'A'.\nStep 1: Calculate the Euclidean distance between the new point and each data point.\n- Distance to (1, 2): sqrt((1-3)^2 + (2-4)^2) = 2.83\n- Distance to (2, 3): sqrt((2-3)^2 + (3-4)^2) = 1.41\n- Distance to (4, 5): sqrt((4-3)^2 + (5-4)^2) = 1.41\n- Distance to (5, 6): sqrt((5-3)^2 + (6-4)^2) = 2.83\n- Distance to (6, 7): sqrt((6-3)^2 + (7-4)^2) = 4.24\n\nStep 2: Sort the data points by their distances to the new point.\n(2, 3, 'A') and (4, 5, 'A') are the two nearest points with a distance of 1.41, and (1, 2, 'A') is the third nearest with a distance of 2.83.\n\nStep 3: Assign the label based on the majority of the nearest neighbors.\nBoth 'A' and 'A' are among the nearest neighbors, so the new point is classified as 'A'.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.7197
+            },
+            "contract": {
+              "required_elements": [
+                "nearest"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "nearest": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "structure",
+              "followed": true,
+              "evidence": "changed task shape: 'step-by-step'"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.15
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.6852,
+              "max_lexical_similarity": 0.2083,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.6852,
+              "lexical_similarity_to_seed": 0.2083
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.401,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "representation",
+          "method": null,
+          "question": "Consider a dataset of fruits, each represented by its weight and color. The dataset is as follows:\n\n| Fruit | Weight (g) | Color   |\n|-------|------------|---------|\n| Apple | 120        | Red     |\n| Banana| 150        | Yellow  |\n| Apple | 130        | Green   |\n| Orange| 180        | Orange  |\n\nYou are to classify a new fruit, a fruit with a weight of 140g and a color of Yellow. Using the k-nearest neighbors algorithm with k=2, classify the new fruit.",
+          "answer_key": "The new fruit is classified as a Banana.\n\nWorking:\n1. The new fruit has a weight of 140g and a color of Yellow.\n2. The three fruits with the nearest weight to 140g are: Banana (150g), Apple (130g), and Orange (180g).\n3. The three fruits with the nearest color to Yellow are: Banana (Yellow), Orange (Orange), and Apple (Green).\n4. Combining the two lists and taking the top 2 (k=2), the fruits are Banana and Apple.\n5. Since there are equal numbers of Banana and Apple in the top 2, and no other fruits share the same properties as the new fruit, the algorithm classifies it as a Banana.",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.708
+            },
+            "contract": {
+              "required_elements": [
+                "nearest"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "nearest": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "representation",
+              "followed": null,
+              "evidence": "no recognised cue"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.15
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.5759,
+              "max_lexical_similarity": 0.0968,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.5759,
+              "lexical_similarity_to_seed": 0.0968
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.2857,
+          "ps2_verdict": "fabricated",
+          "decision_reasons": [
+            "PS2 verdict 'fabricated': the content conflicts with the reference corpus or is largely ungrounded",
+            "PS2: 0 of 8 checkable claims were grounded in the local reference corpus (grounding score 0.00)",
+            "PS2: estimated hallucination probability 0.60",
+            "PS2: 1 internal self-contradiction(s)"
+          ],
+          "rejected_attempts": []
+        }
+      ]
+    },
+    {
+      "key": "web_development",
+      "subject_area": "web_development",
+      "pipeline_domain": "programming",
+      "seed": "Write an HTML form that collects a user's name and email address.",
+      "seed_metadata": {
+        "domain": "programming",
+        "topic": "HTML Forms",
+        "subtopic": null,
+        "core_concept": "Creating a form",
+        "question_type": "coding",
+        "difficulty": "easy",
+        "difficulty_score": 0.335,
+        "learning_objective": "The learner should be able to write an HTML form that collects a user's name and email address.",
+        "keywords": [
+          "address",
+          "collects",
+          "email",
+          "form",
+          "html",
+          "name",
+          "user"
+        ],
+        "raw_seed": "Write an HTML form that collects a user's name and email address.",
+        "contract": {
+          "domain": "programming",
+          "core_concept": "Creating a form",
+          "learning_objective": "The learner should be able to write an HTML form that collects a user's name and email address.",
+          "task_type": "coding",
+          "task": "Write an HTML form that collects a user's name and email address.",
+          "required_elements": [
+            "html",
+            "form"
+          ],
+          "element_weights": {
+            "form": 0.1863,
+            "email": 0.173,
+            "html": 0.166,
+            "collects": 0.1541,
+            "user": 0.1298,
+            "address": 0.1123,
+            "name": 0.0784
+          },
+          "named_elements": [
+            "HTML"
+          ],
+          "structure_anchor": null,
+          "constraints": [],
+          "parameters": [],
+          "immutable_elements": [
+            "the core learning objective: The learner should be able to write an HTML form that collects a user's name and email address.",
+            "the task the learner performs, as the seed states it (coding)",
+            "the domain: programming",
+            "the subject: html, form",
+            "the technology or named concept: HTML"
+          ],
+          "allowed_variation_dimensions": [
+            "the real-world setting the task is placed in",
+            "the constraints the solution must respect",
+            "the concrete values the task is posed with",
+            "what is given to the learner versus what is asked of them",
+            "how the problem and its data are presented"
+          ]
+        }
+      },
+      "wall_s": 548.6,
+      "timings_ms": {
+        "ps8.seed_parsing": 7842.68,
+        "ps8.seed_contract": 0.69,
+        "ps8.variation_planning": 0.09,
+        "ps8.generation": 540167.64,
+        "ps8.structural_validation": 286.93,
+        "ps2.verification": 287.11,
+        "pipeline.evaluation": 574.33,
+        "pipeline.summary": 1.01,
+        "total_ms": 548587.41
+      },
+      "summary": {
+        "requested": 5,
+        "generated": 5,
+        "passed": 0,
+        "review": 5,
+        "rejected": 0,
+        "duplicate_rate": 0.0,
+        "regeneration_attempts": 0,
+        "mean_reliability_score": 0.3951,
+        "flagged_span_count": 21
+      },
+      "warnings": [],
+      "candidates": [
+        {
+          "strategy": "scenario",
+          "method": null,
+          "question": "A local library is organizing a summer reading program and needs to collect the names and email addresses of participants. Write an HTML form that collects a user's name and email address.",
+          "answer_key": "<form action='/submit_registration' method='post'>\n  <label for='name'>Name:</label><br>\n  <input type='text' id='name' name='name' required><br>\n  <label for='email'>Email:</label><br>\n  <input type='email' id='email' name='email' required><br>\n  <input type='submit' value='Register'>\n</form>\n\nThis form collects a user's name and email address and submits it to the '/submit_registration' endpoint using the POST method.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.7926
+            },
+            "contract": {
+              "required_elements": [
+                "html",
+                "form"
+              ],
+              "named_elements": [
+                "HTML"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "html": "present",
+                "form": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "scenario",
+              "followed": true,
+              "evidence": "8 new content words (47% of the question)"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.085
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.6776,
+              "max_lexical_similarity": 0.4118,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.6776,
+              "lexical_similarity_to_seed": 0.4118
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.3959,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "constraint",
+          "method": null,
+          "question": "You are creating a website for a local library. The library wants to collect the names and email addresses of potential members. However, to protect privacy, they want to ensure that the email addresses are in all lowercase. Write an HTML form that collects a user's name and email address, but ensure that the email address is automatically converted to lowercase before being submitted. Use JavaScript to achieve this.",
+          "answer_key": "<form action='/submit_member' method='post'>\n  <label for='name'>Name:</label><br>\n  <input type='text' id='name' name='name'><br>\n  <label for='email'>Email:</label><br>\n  <input type='email' id='email' name='email' oninput='this.value = this.value.toLowerCase()'><br>\n  <input type='submit' value='Submit'>\n</form>\nThe JavaScript code ensures that the email input is automatically converted to lowercase when the user types.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.75,
+              "semantic_similarity_to_objective": 0.733
+            },
+            "contract": {
+              "required_elements": [
+                "html",
+                "form"
+              ],
+              "named_elements": [
+                "HTML"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "html": "present",
+                "form": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "constraint",
+              "followed": null,
+              "evidence": "no recognised constraint wording"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.085
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.6379,
+              "max_lexical_similarity": 0.2333,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.6379,
+              "lexical_similarity_to_seed": 0.2333
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.388,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "parameter",
+          "method": null,
+          "question": "Create an HTML form that collects a user's name and age.",
+          "answer_key": "<form action='/submit' method='post'>\n  <label for='name'>Name:</label>\n  <input type='text' id='name' name='name' required>\n  <br>\n  <label for='age'>Age:</label>\n  <input type='number' id='age' name='age' min='0' required>\n  <br>\n  <input type='submit' value='Submit'>\n</form>\nThis form collects a user's name and age. The age input has a minimum value of 0 and is required.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.9224
+            },
+            "contract": {
+              "required_elements": [
+                "html",
+                "form"
+              ],
+              "named_elements": [
+                "HTML"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "html": "present",
+                "form": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "parameter",
+              "followed": null,
+              "evidence": "no concrete values to compare"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.085
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.7311,
+              "max_lexical_similarity": 0.625,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.7311,
+              "lexical_similarity_to_seed": 0.625
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.4045,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "structure",
+          "method": null,
+          "question": "You are given the following HTML form that is supposed to collect a user's name and email address. However, it is not working as intended. Your task is to identify and correct the error in the form.\n\n```html\n<form>\n  <label for=\"name\">Name:</label>\n  <input type=\"text\" id=\"name\" name=\"name\"\\n  <label for=\"email\">Email:</label>\n  <input type=\"text\" id=\"email\" name=\"email\"\\n  <input type=\"submit\" value=\"Submit\">\n</form>\n```",
+          "answer_key": "<form>\n  <label for=\"name\">Name:</label>\n  <input type=\"text\" id=\"name\" name=\"name\">\n  <label for=\"email\">Email:</label>\n  <input type=\"email\" id=\"email\" name=\"email\">\n  <input type=\"submit\" value=\"Submit\">\n</form>\n\nThe error in the original form was that the `input` elements for name and email were missing the closing `\"` character. Additionally, the email input should have a `type=\"email\"` attribute to ensure proper validation.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.8095
+            },
+            "contract": {
+              "required_elements": [
+                "html",
+                "form"
+              ],
+              "named_elements": [
+                "HTML"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "html": "present",
+                "form": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "structure",
+              "followed": true,
+              "evidence": "changed task shape: 'correct the'"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.085
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.6906,
+              "max_lexical_similarity": 0.25,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.6906,
+              "lexical_similarity_to_seed": 0.25
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.3856,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "representation",
+          "method": null,
+          "question": "Design an HTML form that prompts a user to enter their name and email address. The form should include a label for the name field and another label for the email field. The name field should have a placeholder of 'Enter your name' and the email field should have a placeholder of 'Enter your email'. The form should also include a submit button labeled 'Submit'. Write the HTML code for this form.",
+          "answer_key": "<form action=\"/submit\" method=\"post\">\n  <label for=\"name\">Name:</label>\n  <input type=\"text\" id=\"name\" name=\"name\" placeholder=\"Enter your name\">\n  <br>\n  <label for=\"email\">Email:</label>\n  <input type=\"email\" id=\"email\" name=\"email\" placeholder=\"Enter your email\">\n  <br>\n  <input type=\"submit\" value=\"Submit\">\n</form>\nThe solution is a complete HTML form with labeled input fields and a submit button.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.8778
+            },
+            "contract": {
+              "required_elements": [
+                "html",
+                "form"
+              ],
+              "named_elements": [
+                "HTML"
+              ],
+              "structure_anchor": null,
+              "matches": {
+                "html": "present",
+                "form": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "representation",
+              "followed": null,
+              "evidence": "no recognised cue"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.085
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.7646,
+              "max_lexical_similarity": 0.3158,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.7646,
+              "lexical_similarity_to_seed": 0.3158
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": true
+            }
+          },
+          "ps2_score": 0.4014,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        }
+      ]
+    },
+    {
+      "key": "software_engineering",
+      "subject_area": "software_engineering",
+      "pipeline_domain": "programming",
+      "seed": "Explain the difference between unit testing and integration testing.",
+      "seed_metadata": {
+        "domain": "programming",
+        "topic": "Software Testing",
+        "subtopic": null,
+        "core_concept": "Difference between unit testing and integration testing",
+        "question_type": "short_answer",
+        "difficulty": "easy",
+        "difficulty_score": 0.36,
+        "learning_objective": "The learner should be able to explain the difference between unit testing and integration testing.",
+        "keywords": [
+          "between",
+          "difference",
+          "explain",
+          "integration",
+          "testing",
+          "unit"
+        ],
+        "raw_seed": "Explain the difference between unit testing and integration testing.",
+        "contract": {
+          "domain": "programming",
+          "core_concept": "Difference between unit testing and integration testing",
+          "learning_objective": "The learner should be able to explain the difference between unit testing and integration testing.",
+          "task_type": "short_answer",
+          "task": "Explain the difference between unit testing and integration testing.",
+          "required_elements": [
+            "testing",
+            "integration"
+          ],
+          "element_weights": {
+            "testing": 0.5731,
+            "integration": 0.304,
+            "unit": 0.1229
+          },
+          "named_elements": [],
+          "structure_anchor": null,
+          "constraints": [],
+          "parameters": [],
+          "immutable_elements": [
+            "the core learning objective: The learner should be able to explain the difference between unit testing and integration testing.",
+            "the task the learner performs, as the seed states it (short_answer)",
+            "the domain: programming",
+            "the subject: testing, integration"
+          ],
+          "allowed_variation_dimensions": [
+            "the real-world setting the task is placed in",
+            "the constraints the solution must respect",
+            "the concrete values the task is posed with",
+            "what is given to the learner versus what is asked of them",
+            "how the problem and its data are presented"
+          ]
+        }
+      },
+      "wall_s": 125.6,
+      "timings_ms": {
+        "ps8.seed_parsing": 8300.08,
+        "ps8.seed_contract": 0.59,
+        "ps8.variation_planning": 0.08,
+        "ps8.generation": 116906.52,
+        "ps8.structural_validation": 189.97,
+        "ps2.verification": 244.75,
+        "pipeline.evaluation": 434.9,
+        "pipeline.summary": 0.48,
+        "total_ms": 125642.87
+      },
+      "summary": {
+        "requested": 5,
+        "generated": 5,
+        "passed": 0,
+        "review": 4,
+        "rejected": 1,
+        "duplicate_rate": 0.0,
+        "regeneration_attempts": 0,
+        "mean_reliability_score": 0.4054,
+        "flagged_span_count": 23
+      },
+      "warnings": [],
+      "candidates": [
+        {
+          "strategy": "scenario",
+          "method": null,
+          "question": "Imagine you are working as a QA engineer for a software company that develops a messaging app. Your team has just finished building a new feature that allows users to send and receive emojis in their messages. Before the feature is released, you need to ensure that each individual emoji is functioning correctly. How would you go about testing this feature? Write an explanation of both unit testing and integration testing in the context of your emoji feature.",
+          "answer_key": "Unit testing: You would test each individual emoji in isolation to ensure that it works as expected. This involves writing unit tests for each emoji function to check if it behaves correctly when given specific input and produces the expected output. Integration testing: After ensuring that each emoji works individually, you would perform integration testing to verify that the emojis work correctly together. This involves testing the entire emoji feature to ensure that it integrates seamlessly with the rest of the messaging app and that there are no issues when emojis are sent and received.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.6667,
+              "semantic_similarity_to_objective": 0.5392
+            },
+            "contract": {
+              "required_elements": [
+                "testing",
+                "integration"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "testing": "present",
+                "integration": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "scenario",
+              "followed": true,
+              "evidence": "36 new content words (92% of the question)"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.11
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.4724,
+              "max_lexical_similarity": 0.0714,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.4724,
+              "lexical_similarity_to_seed": 0.0714
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.3792,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "constraint",
+          "method": null,
+          "question": "Consider a software module with the following functions:\n\n```python\ndef add(a, b):\n    return a + b\n\ndef subtract(a, b):\n    return a - b\n\ndef multiply(a, b):\n    return a * b\n```\n\nWithout using any external libraries or frameworks, write the unit tests and integration test for the `add` function. Ensure that your unit tests cover all possible scenarios (positive, negative, and zero values). The integration test should verify that the `add` function works correctly when used in conjunction with other functions in the module (e.g., `multiply` and `subtract`).",
+          "answer_key": "Unit Test for add function:\n- Test case 1: add(2, 3) should return 5\n- Test case 2: add(-1, -2) should return -3\n- Test case 3: add(0, 0) should return 0\n\nIntegration Test for add function:\n- Test case: multiply(add(2, 3), subtract(4, 1)) should return 15",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.5318
+            },
+            "contract": {
+              "required_elements": [
+                "testing",
+                "integration"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "testing": "present",
+                "integration": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "constraint",
+              "followed": true,
+              "evidence": "new constraint: without using any external libraries or frameworks"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.11
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.3676,
+              "max_lexical_similarity": 0.0513,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.3676,
+              "lexical_similarity_to_seed": 0.0513
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.3917,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "parameter",
+          "method": null,
+          "question": "Consider a software application that calculates the total cost of a shopping cart. Each item in the cart has a price and a quantity. Unit testing is used to test the functionality of each individual item. How would integration testing be applied to this scenario to ensure that the total cost calculation is accurate? Please explain the difference between unit testing and integration testing in this context.",
+          "answer_key": "Integration testing would involve testing the entire shopping cart system, including the interaction between different components such as the items and the total cost calculation. Unit testing, on the other hand, would focus on testing each individual item's price and quantity. The integration testing would ensure that the total cost calculation is accurate by verifying that the individual item prices and quantities are correctly added together. The unit testing would ensure that each item's price and quantity are calculated correctly.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 1.0,
+              "semantic_similarity_to_objective": 0.679
+            },
+            "contract": {
+              "required_elements": [
+                "testing",
+                "integration"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "testing": "present",
+                "integration": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "parameter",
+              "followed": null,
+              "evidence": "no concrete values to compare"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.11
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.7637,
+              "max_lexical_similarity": 0.2069,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.7637,
+              "lexical_similarity_to_seed": 0.2069
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.4741,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "structure",
+          "method": null,
+          "question": "Consider the following Python function that calculates the sum of all numbers in a list. Write unit tests for this function to ensure it works correctly with various inputs.",
+          "answer_key": "Unit tests should be written for the function to test its correctness with different inputs. Here are some examples:\n\n# Test case 1: Test with a list of positive numbers\nassert sum_of_numbers([1, 2, 3, 4]) == 10, 'Test failed for positive numbers'\n\n# Test case 2: Test with a list containing a zero\nassert sum_of_numbers([1, 0, 3]) == 4, 'Test failed for a zero'\n\n# Test case 3: Test with a list containing negative numbers\nassert sum_of_numbers([-1, -2, -3]) == -6, 'Test failed for negative numbers'\n\n# Test case 4: Test with an empty list\nassert sum_of_numbers([]) == 0, 'Test failed for an empty list'",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": false,
+          "ps8_reasons": [
+            "learning objective changed: the seed is about testing, integration, but the question no longer mentions integration - it assesses something else"
+          ],
+          "ps8_checks": {
+            "concept": {
+              "preserved": false,
+              "keyword_overlap": 0.1667,
+              "semantic_similarity_to_objective": 0.574
+            },
+            "contract": {
+              "required_elements": [
+                "testing",
+                "integration"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "testing": "present",
+                "integration": "missing"
+              },
+              "missing": [
+                "integration"
+              ]
+            },
+            "strategy": {
+              "id": "structure",
+              "followed": null,
+              "evidence": "no recognised cue"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.11
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.3132,
+              "max_lexical_similarity": 0.05,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.3132,
+              "lexical_similarity_to_seed": 0.05
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.3962,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS8 structural failure: learning objective changed: the seed is about testing, integration, but the question no longer mentions integration - it assesses something else"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "representation",
+          "method": null,
+          "question": "Consider the following software system with the following modules: Module A, Module B, and Module C. Module A calls Module B, and Module B calls Module C. When testing the functionality of this system, which type of testing would you use to verify that the data flows correctly between these modules without any issues?",
+          "answer_key": "Integration testing is the type of testing used to verify that the data flows correctly between these modules without any issues. This involves testing the modules as a whole to ensure that they interact correctly with each other. Unit testing would be used to test each module individually.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.5474
+            },
+            "contract": {
+              "required_elements": [
+                "testing",
+                "integration"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "testing": "present",
+                "integration": "in answer key"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "representation",
+              "followed": null,
+              "evidence": "no recognised cue"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.11
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.4006,
+              "max_lexical_similarity": 0.08,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.4006,
+              "lexical_similarity_to_seed": 0.08
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.3856,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        }
+      ]
+    },
+    {
+      "key": "mathematics",
+      "subject_area": "mathematics",
+      "pipeline_domain": "mathematics",
+      "seed": "Find the derivative of f(x) = 3x^2 + 5x - 7.",
+      "seed_metadata": {
+        "domain": "mathematics",
+        "topic": "Calculus",
+        "subtopic": "Differentiation",
+        "core_concept": "Derivative of a function",
+        "question_type": "numerical",
+        "difficulty": "easy",
+        "difficulty_score": 0.335,
+        "learning_objective": "The learner should be able to find the derivative of a polynomial function.",
+        "keywords": [
+          "3x",
+          "5x",
+          "derivative",
+          "find"
+        ],
+        "raw_seed": "Find the derivative of f(x) = 3x^2 + 5x - 7.",
+        "contract": {
+          "domain": "mathematics",
+          "core_concept": "Derivative of a function",
+          "learning_objective": "The learner should be able to find the derivative of a polynomial function.",
+          "task_type": "numerical",
+          "task": "Find the derivative of f(x) = 3x^2 + 5x - 7.",
+          "required_elements": [
+            "derivative"
+          ],
+          "element_weights": {
+            "derivative": 1.0
+          },
+          "named_elements": [],
+          "structure_anchor": null,
+          "constraints": [],
+          "parameters": [
+            "3",
+            "2",
+            "5",
+            "7"
+          ],
+          "immutable_elements": [
+            "the core learning objective: The learner should be able to find the derivative of a polynomial function.",
+            "the task the learner performs, as the seed states it (numerical)",
+            "the domain: mathematics",
+            "the subject: derivative"
+          ],
+          "allowed_variation_dimensions": [
+            "the real-world setting the task is placed in",
+            "the constraints the solution must respect",
+            "the concrete values the task is posed with",
+            "what is given to the learner versus what is asked of them",
+            "how the problem and its data are presented"
+          ]
+        }
+      },
+      "wall_s": 101.4,
+      "timings_ms": {
+        "ps8.seed_parsing": 8171.52,
+        "ps8.seed_contract": 34.47,
+        "ps8.variation_planning": 0.12,
+        "ps8.generation": 92835.37,
+        "ps8.structural_validation": 134.32,
+        "ps2.verification": 184.38,
+        "pipeline.evaluation": 318.84,
+        "pipeline.summary": 0.23,
+        "total_ms": 101360.81
+      },
+      "summary": {
+        "requested": 5,
+        "generated": 5,
+        "passed": 0,
+        "review": 4,
+        "rejected": 1,
+        "duplicate_rate": 0.25,
+        "regeneration_attempts": 0,
+        "mean_reliability_score": 0.478,
+        "flagged_span_count": 18
+      },
+      "warnings": [],
+      "candidates": [
+        {
+          "strategy": "scenario",
+          "method": null,
+          "question": "A local bakery is trying to optimize its production process. They have a function that models the cost of producing x batches of cookies as C(x) = 2x^2 + 3x + 10. The bakery wants to know the rate at which the cost is changing with respect to the number of batches produced. What is the derivative of C(x)?",
+          "answer_key": "4x + 3\nC'(x) = 4x + 3\nWorking: The derivative of 2x^2 is 4x and the derivative of 3x is 3. The derivative of a constant is 0. Therefore, C'(x) = 4x + 3.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.5706
+            },
+            "contract": {
+              "required_elements": [
+                "derivative"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "derivative": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "scenario",
+              "followed": true,
+              "evidence": "22 new content words (92% of the question)"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.085
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.4305,
+              "max_lexical_similarity": 0.0769,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.4305,
+              "lexical_similarity_to_seed": 0.0769
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.5427,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "constraint",
+          "method": null,
+          "question": "A scientist is studying the growth rate of a plant. The height of the plant in centimeters as a function of time in days is given by h(t) = 2t^2 + 3t + 1. Calculate the growth rate of the plant after 4 days without using the power rule.",
+          "answer_key": "The growth rate of the plant after 4 days is 23 cm/day. Working: h'(t) = lim(h(t+h) - h(t)) / h. Substituting h = 4, we get h'(4) = lim((2(4+h)^2 + 3(4+h) + 1) - (2(4)^2 + 3(4) + 1)) / h. Simplifying and taking the limit as h approaches 0, we find h'(4) = 23.",
+          "decision": "REJECT",
+          "attempts": 1,
+          "ps8_passed": false,
+          "ps8_reasons": [
+            "learning objective changed: the seed is about derivative, but the question no longer mentions derivative - it assesses something else"
+          ],
+          "ps8_checks": {
+            "concept": {
+              "preserved": false,
+              "keyword_overlap": 0.0,
+              "semantic_similarity_to_objective": 0.5042
+            },
+            "contract": {
+              "required_elements": [
+                "derivative"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "derivative": "missing"
+              },
+              "missing": [
+                "derivative"
+              ]
+            },
+            "strategy": {
+              "id": "constraint",
+              "followed": true,
+              "evidence": "new constraint: without using the power rule"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.085
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.2876,
+              "max_lexical_similarity": 0.0,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.2876,
+              "lexical_similarity_to_seed": 0.0
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.3947,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS8 structural failure: learning objective changed: the seed is about derivative, but the question no longer mentions derivative - it assesses something else"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "parameter",
+          "method": null,
+          "question": "Find the derivative of the function g(x) = 4x^2 + 2x + 3.",
+          "answer_key": "The derivative is g'(x) = 8x + 2.\nWorking: The derivative of 4x^2 is 8x, the derivative of 2x is 2, and the derivative of a constant (3) is 0. Therefore, g'(x) = 8x + 2.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.7371
+            },
+            "contract": {
+              "required_elements": [
+                "derivative"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "derivative": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "parameter",
+              "followed": true,
+              "evidence": "seed values ['2', '3', '5', '7'] -> question values ['2', '3', '4']"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.085
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.6184,
+              "max_lexical_similarity": 0.3333,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.6184,
+              "lexical_similarity_to_seed": 0.3333
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.4385,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "structure",
+          "method": null,
+          "question": "Given that f(x) = 3x^2 + 5x - 7, a student attempted to find its derivative and wrote f'(x) = 6x + 5. Identify the error in the student's solution and correct it.",
+          "answer_key": "The correct derivative is f'(x) = 6x + 5. The student correctly applied the power rule for the first two terms but missed the constant term. The derivative of a constant is zero, so the correct derivative includes f'(x) = 6x + 5 - 0.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.8499
+            },
+            "contract": {
+              "required_elements": [
+                "derivative"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "derivative": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "structure",
+              "followed": true,
+              "evidence": "changed task shape: 'error'"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.085
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.7532,
+              "max_lexical_similarity": 0.3333,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.7532,
+              "lexical_similarity_to_seed": 0.3333
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.4343,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        },
+        {
+          "strategy": "representation",
+          "method": null,
+          "question": "Given the function g(x) = 4x^3 + 6x^2 - 9x + 2, find its derivative.",
+          "answer_key": "g'(x) = 12x^2 + 12x - 9\n\nTo find the derivative, we apply the power rule to each term:\n- The derivative of 4x^3 is 12x^2.\n- The derivative of 6x^2 is 12x.\n- The derivative of -9x is -9.\n- The derivative of a constant (2) is 0.\n\nAdding these results together gives us the final derivative.",
+          "decision": "REVIEW",
+          "attempts": 1,
+          "ps8_passed": true,
+          "ps8_reasons": [],
+          "ps8_checks": {
+            "concept": {
+              "preserved": true,
+              "keyword_overlap": 0.5,
+              "semantic_similarity_to_objective": 0.7513
+            },
+            "contract": {
+              "required_elements": [
+                "derivative"
+              ],
+              "named_elements": [],
+              "structure_anchor": null,
+              "matches": {
+                "derivative": "present"
+              },
+              "missing": []
+            },
+            "strategy": {
+              "id": "representation",
+              "followed": null,
+              "evidence": "no recognised cue"
+            },
+            "difficulty": {
+              "matched": true,
+              "candidate": "easy",
+              "target": "easy",
+              "delta": -0.085
+            },
+            "duplicate": {
+              "is_duplicate": false,
+              "max_semantic_similarity": 0.6261,
+              "max_lexical_similarity": 0.2857,
+              "nearest_source": "seed question"
+            },
+            "variation": {
+              "meaningful": true,
+              "semantic_similarity_to_seed": 0.6261,
+              "lexical_similarity_to_seed": 0.2857
+            },
+            "answer_key_present": true,
+            "method": {
+              "planned": null,
+              "used_in_answer": null,
+              "required_by_question": null,
+              "changed_from_default": false
+            },
+            "answer_key": {
+              "present": true,
+              "substantive": true,
+              "has_code": null
+            }
+          },
+          "ps2_score": 0.5799,
+          "ps2_verdict": "unverifiable",
+          "decision_reasons": [
+            "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+          ],
+          "rejected_attempts": []
+        }
+      ]
+    }
+  ],
+  "finished_at": "2026-10-01T15:36:45.115408+00:00"
+}

@@ -1,7 +1,13 @@
 """Prompt Builder (PS8).
 
-Turns seed metadata + a chosen variation strategy + (on a retry) the combined
+Turns the seed contract + a chosen variation strategy + (on a retry) the combined
 PS8/PS2 rejection feedback into one structured generation prompt.
+
+The model is never told just to "generate a variation". It is given a contract: the
+seed, what the seed assesses, what is immutable, the one dimension the current
+strategy varies, what it may change and what it must not. Nothing in the prompt
+names a topic of its own - every example is phrased in terms of the seed - so the
+prompt cannot pull a question towards an unrelated subject.
 
 The regeneration path is the important one: we never ask the model to "try again".
 We tell it exactly which checks failed and what to change, which is what makes the
@@ -11,6 +17,8 @@ loop converge instead of producing the same rejected candidate twice.
 from __future__ import annotations
 
 from ..schemas import SeedMetadata, VariationPlanItem
+from . import strategies
+from .contract import get_contract
 
 SYSTEM_PROMPT = (
     "You are an expert assessment author who writes original exam questions. "
@@ -34,12 +42,17 @@ def _is_coding(seed: SeedMetadata) -> bool:
     return seed.question_type == "coding"
 
 
+# What the JSON template shows in place of the answer key. A weak model sometimes
+# returns the hint itself as its answer; the validator rejects that by comparing
+# against these exact strings.
+ANSWER_HINTS = {
+    "coding": "complete runnable reference solution code, then a one-sentence explanation",
+    "other": "the final answer stated explicitly, then the working that justifies it",
+}
+
+
 def _json_shape(seed: SeedMetadata) -> str:
-    answer_hint = (
-        "complete runnable reference solution code, then a one-sentence explanation"
-        if _is_coding(seed)
-        else "the final answer stated explicitly, then the working that justifies it"
-    )
+    answer_hint = ANSWER_HINTS["coding" if _is_coding(seed) else "other"]
     return _JSON_SHAPE.replace("__ANSWER__", answer_hint)
 
 
@@ -57,10 +70,11 @@ def _answer_key_clause(seed: SeedMetadata) -> str:
     if _is_coding(seed):
         return (
             "The answer_key MUST contain a complete, runnable reference solution as code "
-            "(e.g. `def reverse(head): ...`) in the language the question asks for, or "
-            "Python if none is specified. Do NOT describe what the function should do - "
-            "write the function. Put tests in test_cases, not in the answer_key. "
-            "Encode newlines inside the JSON string as \\n."
+            "- the full function, query or markup the question asks for - in the "
+            "language or technology the question names, or Python if none is named. Do "
+            "NOT describe what the solution should do - write it. Put tests in "
+            "test_cases, not in the answer_key. Encode newlines inside the JSON string "
+            "as \\n."
         )
     return (
         "The answer_key MUST state the final answer explicitly, followed by the working. "
@@ -108,30 +122,74 @@ def build_generation_prompt(
         else "Leave test_cases as an empty list unless concrete examples genuinely help."
     )
 
+    contract = get_contract(seed)
+    immutable = [
+        f"It assesses the same core learning objective: {contract.learning_objective}",
+        f"It asks the learner to do what the seed asks ({contract.task_type}), in the "
+        f"same domain ({contract.domain}).",
+    ]
+    if contract.required_elements:
+        immutable.append(
+            "It is still explicitly about: " + ", ".join(contract.required_elements) + "."
+        )
+    if contract.named_elements:
+        immutable.append(
+            "It keeps the technology / named concept of the seed: "
+            + ", ".join(contract.named_elements) + "."
+        )
+    if contract.structure_anchor:
+        immutable.append(f"It still operates on a {contract.structure_anchor}.")
+    if contract.constraints and plan.strategy != "constraint":
+        immutable.append(
+            "It keeps the seed's stated constraints: " + "; ".join(contract.constraints) + "."
+        )
+    immutable_block = "\n".join(f"  - {line}" for line in immutable)
+    prohibited = plan.must_not_change or [
+        "the core learning objective", "the task the learner performs", "the domain",
+    ]
+    dimension = f" (it varies {plan.dimension})" if plan.dimension else ""
+    # The first words of the seed, quoted so the model can be told not to reuse them.
+    seed_opening = " ".join(seed.raw_seed.split()[:6])
+    opening = strategies.STRATEGIES[plan.strategy].opening if plan.strategy in strategies.STRATEGIES else ""
+
     return f"""Write ONE new exam question that is a controlled variation of the seed below.
 
-SEED QUESTION:
+ORIGINAL SEED:
 {seed.raw_seed}
 
-SEED ANALYSIS:
-  domain             : {seed.domain}
-  topic              : {seed.topic}
-  core concept       : {seed.core_concept}
-  question type      : {seed.question_type}
-  difficulty         : {seed.difficulty}
-  learning objective : {seed.learning_objective}
+SEED CONTRACT - what the seed assesses:
+  domain                  : {contract.domain}
+  topic                   : {seed.topic}
+  core concept            : {contract.core_concept}
+  task type               : {contract.task_type}
+  difficulty              : {seed.difficulty}
+  core learning objective : {contract.learning_objective}
 
-VARIATION STRATEGY - {plan.strategy_label}:
+IMMUTABLE - all of this must still be true of your question:
+{immutable_block}
+
+CURRENT VARIATION STRATEGY - {plan.strategy_label}{dimension}:
 {plan.instruction}
 
-YOU MUST PRESERVE: {', '.join(plan.preserve)}
-YOU MUST CHANGE:   {', '.join(plan.change)}
+YOU MAY CHANGE:      {', '.join(plan.change)}
+YOU MUST PRESERVE:   {', '.join(plan.preserve)}
+YOU MUST NOT CHANGE: {'; '.join(prohibited)}
 {method_block}
+HOW TO WRITE IT - a question that repeats the seed's sentence and adds to it is rejected:
+  - {opening}
+  - Do not begin with "{seed_opening}" and do not reuse the seed's sentence anywhere.
+  - Give the question specifics of its own: named things, example values or inputs.
+    Wording, names and example values are always free to change.
+  - Write at least two sentences, and put the request to the learner last.
+
 RULES:
   1. {difficulty_clause}
-  2. The new question must assess the SAME core concept: {seed.core_concept}.
-  3. It must NOT be a paraphrase or reworded copy of the seed. Change the surface
-     content substantially - new scenario, new entities, new numbers where relevant.
+  2. The new question must assess the SAME core concept: {contract.core_concept}.
+     Do NOT replace the seed's subject with a different topic, algorithm, data
+     structure, technology or task. A question about something else is wrong
+     however well it is written.
+  3. It must NOT be a paraphrase or reworded copy of the seed. Make the change this
+     strategy asks for clearly visible, and change nothing the contract forbids.
   4. The question must be fully self-contained and solvable on its own.
   5. The answer_key must be correct for YOUR question, not for the seed.
   6. {_answer_key_clause(seed)}
@@ -141,6 +199,93 @@ RULES:
 {avoid_block}
 Return ONLY this JSON object:
 {_json_shape_for(seed, target_difficulty)}"""
+
+
+def failure_instructions(
+    seed: SeedMetadata,
+    plan: VariationPlanItem,
+    structural_reasons: list[str],
+    reliability_reasons: list[str],
+    *,
+    difficulty_shift: str | None = None,
+) -> list[str]:
+    """One targeted instruction per kind of failure - never a generic "try again".
+
+    Each validator's reason starts with a fixed phrase naming the check that failed,
+    so the failure is identified by that phrase rather than by loose keyword search
+    (a concept-drift reason mentions "similarity" too, and must not be answered with
+    "change more").
+    """
+    contract = get_contract(seed)
+    structural = [r.lower() for r in structural_reasons]
+    reliability = " ".join(reliability_reasons).lower()
+
+    def failed(*prefixes: str) -> bool:
+        return any(r.startswith(p) for r in structural for p in prefixes)
+
+    subject = ", ".join(contract.required_elements + contract.named_elements) or contract.core_concept
+    opening = strategies.STRATEGIES[plan.strategy].opening if plan.strategy in strategies.STRATEGIES else ""
+    keep = (
+        f"Preserve the original learning objective ({contract.learning_objective}) and keep "
+        f"the question explicitly about {subject}."
+    )
+    fixes: list[str] = []
+
+    if failed("learning objective changed", "concept not preserved", "domain drifted"):
+        fixes.append(
+            "The previous candidate changed the underlying task - it was about something "
+            f"other than what the seed assesses. {keep} Then apply the requested "
+            f"strategy ({plan.strategy_label}) to THAT task, not to a different one."
+        )
+    if failed("variation drifted too far"):
+        fixes.append(
+            f"The previous candidate moved too far from the seed. {keep} Vary only "
+            f"{plan.dimension or 'the dimension this strategy names'}."
+        )
+    if failed("semantic similarity too high", "lexical similarity too high",
+              "not a meaningful variation"):
+        fixes.append(
+            "The previous candidate was too close to an existing question - it repeated "
+            "that question's sentence and only added to it. Preserve the core learning "
+            "objective, but produce a more meaningfully different variation using the "
+            f"requested strategy: change {', '.join(plan.change)} much more visibly. "
+            f"{opening} Do not start the way the seed or the rejected question starts; "
+            "restate the task in entirely different words, with new concrete specifics, "
+            f"while keeping it explicitly about {subject}."
+        )
+    if failed("strategy not followed"):
+        fixes.append(
+            f"The previous candidate did not apply the requested strategy. {plan.instruction}"
+        )
+    if failed("difficulty mismatch"):
+        target = difficulty_shift or seed.difficulty
+        direction = ""
+        joined = " ".join(structural)
+        if "harder than" in joined:
+            direction = " The previous candidate was too hard: remove steps, conditions or constraints."
+        elif "easier than" in joined:
+            direction = " The previous candidate was too easy: add steps, conditions or constraints."
+        fixes.append(
+            "Preserve the learning objective and the concept while adjusting the complexity "
+            f"to the requested difficulty, '{target}'.{direction}"
+        )
+    if failed("answer key describes a solution", "answer key is too short", "missing answer key"):
+        fixes.append(_answer_key_clause(seed))
+    if failed("solution method") and plan.method:
+        fixes.append(plan.method_instruction)
+
+    if "unsupported" in reliability or "hallucinat" in reliability or "fabricat" in reliability \
+            or "could not be grounded" in reliability:
+        fixes.append(
+            "Remove every claim you cannot be certain is true. Do not cite sources, "
+            "statistics, standards or named results. Keep the question self-contained."
+        )
+    if "contradict" in reliability:
+        fixes.append(
+            "Make the question and the answer key mutually consistent - the rejected "
+            "attempt contradicted itself or an established fact."
+        )
+    return fixes
 
 
 def build_regeneration_prompt(
@@ -171,40 +316,9 @@ def build_regeneration_prompt(
 
     problem_block = "\n".join(problems) if problems else "  (no specific reason recorded)"
 
-    # Targeted, check-specific instructions beat a generic "do better".
-    fixes: list[str] = []
-    joined = " ".join(structural_reasons + reliability_reasons).lower()
-    if "duplicate" in joined or "similar" in joined or "paraphrase" in joined:
-        fixes.append(
-            "Change the scenario, entities and numbers far more aggressively. The new "
-            "question should share almost no wording with the rejected one."
-        )
-    if "difficulty" in joined:
-        fixes.append(
-            f"Recalibrate the difficulty to '{difficulty_shift or seed.difficulty}' - adjust "
-            "the number of steps and constraints required to solve it."
-        )
-    if "concept" in joined:
-        fixes.append(
-            f"Stay on the seed's core concept: {seed.core_concept}. The rejected attempt "
-            "drifted to a different topic."
-        )
-    if "unsupported" in joined or "hallucinat" in joined or "fabricat" in joined:
-        fixes.append(
-            "Remove every claim you cannot be certain is true. Do not cite sources, "
-            "statistics, standards or named results. Keep the question self-contained."
-        )
-    if "contradict" in joined:
-        fixes.append(
-            "Make the question and the answer key mutually consistent - the rejected "
-            "attempt contradicted itself."
-        )
-    if "answer" in joined and "incomplete" in joined:
-        fixes.append("Write a complete answer key that fully solves the question.")
-    if "describes a solution" in joined or "answer key is too short" in joined:
-        fixes.append(_answer_key_clause(seed))
-    if "solution method" in joined and plan.method:
-        fixes.append(plan.method_instruction)
+    fixes = failure_instructions(
+        seed, plan, structural_reasons, reliability_reasons, difficulty_shift=difficulty_shift
+    )
 
     fix_block = "\n".join(f"  - {f}" for f in fixes) or "  - Address every problem listed above."
 

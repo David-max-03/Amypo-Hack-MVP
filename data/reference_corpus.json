@@ -1,7 +1,7 @@
 {
-  "description": "Trusted local reference corpus for the PS2 Source Verification Layer. Every entry is a short, verifiable statement with a named source. This file is the ONLY grounding evidence PS2 uses - no external knowledge API is called. The corpus is deliberately incomplete: a claim with no matching entry is reported as unsupported/unverifiable and routed to REVIEW, never auto-failed.",
-  "version": "1.0",
-  "entry_count": 36,
+  "description": "Trusted local reference corpus for the PS2 Source Verification Layer. Every entry is a short, verifiable statement with a named source. This file is the ONLY grounding evidence PS2 uses - no external knowledge API is called. Version 2.0 extends the original linked-list-centred corpus to the fundamentals of each supported computer-science area and to basic mathematics. Every sentence names its own subject (no pronouns), because contradiction checks compare clause with clause. The corpus is still incomplete by nature: a claim with no matching entry is reported as unsupported/unverifiable and routed to REVIEW, never auto-failed.",
+  "version": "2.0",
+  "entry_count": 150,
   "entries": [
     {
       "id": "prog-001",
@@ -445,6 +445,1364 @@
         "united nations",
         "security council",
         "veto"
+      ]
+    },
+    {
+      "id": "alg-001",
+      "title": "Binary search",
+      "text": "Binary search finds a target in a sorted array by repeatedly comparing it with the middle element and continuing in the half that can still contain it. Iterative binary search runs in O(log n) time and uses O(1) extra space.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "binary search",
+        "sorted array",
+        "o(log n)"
+      ]
+    },
+    {
+      "id": "alg-002",
+      "title": "Recursive binary search",
+      "text": "A recursive binary search calls itself on the left or right half of the range. Recursive binary search runs in O(log n) time and uses O(log n) stack space for the recursive calls.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "binary search",
+        "recursion"
+      ]
+    },
+    {
+      "id": "alg-003",
+      "title": "Linear search",
+      "text": "Linear search checks each element in turn until it finds the target or reaches the end. Linear search works on unsorted data and runs in O(n) time in the worst case.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "linear search",
+        "o(n)"
+      ]
+    },
+    {
+      "id": "alg-004",
+      "title": "Merge sort",
+      "text": "Merge sort divides the array into two halves, sorts each half recursively and merges the two sorted halves. Merge sort runs in O(n log n) time in the best, average and worst case. Merge sort needs O(n) extra space for merging and is a stable sort.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "merge sort",
+        "divide and conquer",
+        "stable"
+      ]
+    },
+    {
+      "id": "alg-005",
+      "title": "Quicksort",
+      "text": "Quicksort picks a pivot, partitions the array into elements smaller and larger than the pivot, and sorts the two parts recursively. Quicksort runs in O(n log n) time on average. Quicksort runs in O(n^2) time in the worst case, which happens when the pivots are badly unbalanced.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "quicksort",
+        "pivot",
+        "partition"
+      ]
+    },
+    {
+      "id": "alg-006",
+      "title": "Bubble sort and insertion sort",
+      "text": "Bubble sort repeatedly swaps adjacent elements that are out of order, and insertion sort inserts each element into its place in the sorted part before it. Bubble sort runs in O(n^2) time in the worst case. Insertion sort runs in O(n^2) time in the worst case and in O(n) time on an array that is already sorted.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "bubble sort",
+        "insertion sort",
+        "o(n^2)"
+      ]
+    },
+    {
+      "id": "alg-007",
+      "title": "Primality testing by trial division",
+      "text": "A prime number is a natural number greater than 1 whose only positive divisors are 1 and itself. Trial division tests whether n is prime by trying divisors from 2 up to the square root of n, and runs in O(sqrt(n)) time. The numbers 0 and 1 are not prime, and 2 is the only even prime number.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "prime",
+        "trial division",
+        "square root"
+      ]
+    },
+    {
+      "id": "alg-008",
+      "title": "Factorial",
+      "text": "The factorial of a non-negative integer n, written n!, is the product of all positive integers up to n, and 0! is defined as 1. The factorial can be computed with a loop or recursively using n! = n * (n-1)!, and either way takes O(n) time.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "factorial",
+        "recursion"
+      ]
+    },
+    {
+      "id": "alg-009",
+      "title": "Recursion and the call stack",
+      "text": "A recursive function calls itself on a smaller input and needs a base case to stop. Each recursive call adds a frame to the call stack, so a recursion of depth n uses O(n) stack space and can overflow the stack if the recursion is too deep.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "recursion",
+        "base case",
+        "call stack"
+      ]
+    },
+    {
+      "id": "alg-010",
+      "title": "Big-O notation",
+      "text": "Big-O notation describes an upper bound on how an algorithm's running time or memory grows with the input size n, ignoring constant factors and lower-order terms.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "big-o",
+        "asymptotic",
+        "complexity"
+      ]
+    },
+    {
+      "id": "alg-011",
+      "title": "Dynamic programming",
+      "text": "Dynamic programming solves a problem by combining solutions to overlapping subproblems and storing each result so that it is computed only once, either top-down with memoisation or bottom-up with a table.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "dynamic programming",
+        "memoisation"
+      ]
+    },
+    {
+      "id": "alg-012",
+      "title": "Greedy algorithms",
+      "text": "A greedy algorithm builds a solution step by step, always taking the choice that looks best at that moment. A greedy algorithm is correct only for problems where locally optimal choices lead to a global optimum.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "greedy"
+      ]
+    },
+    {
+      "id": "alg-013",
+      "title": "Euclid's algorithm",
+      "text": "Euclid's algorithm computes the greatest common divisor of two integers by repeatedly replacing the pair (a, b) with (b, a mod b) until b is zero; the remaining a is the greatest common divisor.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "gcd",
+        "euclid"
+      ]
+    },
+    {
+      "id": "ds-001",
+      "title": "Stack",
+      "text": "A stack is a last-in, first-out data structure. Push adds an element to the top of the stack and pop removes the element from the top of the stack. Stack push and pop each take O(1) time.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "stack",
+        "lifo",
+        "push",
+        "pop"
+      ]
+    },
+    {
+      "id": "ds-002",
+      "title": "Stack with minimum retrieval",
+      "text": "A stack can return its minimum element in O(1) time by keeping a second stack of minimums: each push records the smaller of the new value and the current minimum, and each pop removes from both stacks.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "min stack",
+        "minimum",
+        "o(1)"
+      ]
+    },
+    {
+      "id": "ds-003",
+      "title": "Queue",
+      "text": "A queue is a first-in, first-out data structure. Enqueue adds an element at the back of the queue and dequeue removes the element at the front of the queue. Queue enqueue and dequeue each take O(1) time.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "queue",
+        "fifo",
+        "enqueue",
+        "dequeue"
+      ]
+    },
+    {
+      "id": "ds-004",
+      "title": "Queue built from two stacks",
+      "text": "A queue can be implemented with two stacks: enqueue pushes onto the first stack, and dequeue pops from the second stack, moving every element across from the first stack only when the second stack is empty. Each operation of a queue built from two stacks takes amortised O(1) time.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "queue",
+        "two stacks",
+        "amortised"
+      ]
+    },
+    {
+      "id": "ds-005",
+      "title": "Arrays and linked lists",
+      "text": "An array stores elements in contiguous memory and gives O(1) access by index, but inserting or deleting in the middle takes O(n) time. A linked list gives O(1) insertion and deletion at a known node but O(n) access by position.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "array",
+        "linked list",
+        "random access"
+      ]
+    },
+    {
+      "id": "ds-006",
+      "title": "Binary heap and priority queue",
+      "text": "A binary heap is a complete binary tree in which every parent is ordered with respect to its children. A binary heap supports inserting an element and removing the minimum or maximum in O(log n) time, and is the usual implementation of a priority queue.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "heap",
+        "priority queue"
+      ]
+    },
+    {
+      "id": "ds-007",
+      "title": "Graph representations",
+      "text": "A graph can be stored as an adjacency list, which uses O(V + E) space, or as an adjacency matrix, which uses O(V^2) space and answers whether an edge exists in O(1) time.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "graph",
+        "adjacency list",
+        "adjacency matrix"
+      ]
+    },
+    {
+      "id": "ds-008",
+      "title": "Balanced binary search trees",
+      "text": "A balanced binary search tree, such as an AVL tree or a red-black tree, keeps its height at O(log n), so search, insertion and deletion all take O(log n) time in the worst case.",
+      "domain": "programming",
+      "source": "Cormen, Leiserson, Rivest and Stein, Introduction to Algorithms",
+      "tags": [
+        "balanced tree",
+        "avl",
+        "red-black"
+      ]
+    },
+    {
+      "id": "db-001",
+      "title": "GROUP BY and aggregate functions",
+      "text": "In SQL, GROUP BY collects rows that share the same values in the listed columns into groups, and aggregate functions such as COUNT, SUM, AVG, MIN and MAX compute one value for each group.",
+      "domain": "programming",
+      "source": "Elmasri and Navathe, Fundamentals of Database Systems",
+      "tags": [
+        "sql",
+        "group by",
+        "aggregate",
+        "count"
+      ]
+    },
+    {
+      "id": "db-002",
+      "title": "WHERE and HAVING",
+      "text": "In SQL, WHERE filters individual rows before they are grouped, while HAVING filters groups after GROUP BY and can use aggregate functions such as COUNT.",
+      "domain": "programming",
+      "source": "Elmasri and Navathe, Fundamentals of Database Systems",
+      "tags": [
+        "sql",
+        "where",
+        "having"
+      ]
+    },
+    {
+      "id": "db-003",
+      "title": "Finding duplicate values in SQL",
+      "text": "Duplicate values in a column can be found by grouping on that column and keeping the groups with more than one row: SELECT email, COUNT(*) FROM users GROUP BY email HAVING COUNT(*) > 1.",
+      "domain": "programming",
+      "source": "Elmasri and Navathe, Fundamentals of Database Systems",
+      "tags": [
+        "sql",
+        "duplicate",
+        "group by",
+        "having"
+      ]
+    },
+    {
+      "id": "db-004",
+      "title": "Second highest value in SQL",
+      "text": "The second highest value in a column can be found with a subquery that takes the maximum of the values below the overall maximum: SELECT MAX(salary) FROM employees WHERE salary < (SELECT MAX(salary) FROM employees). It can also be found by ordering the distinct values in descending order and skipping the first with LIMIT 1 OFFSET 1.",
+      "domain": "programming",
+      "source": "Elmasri and Navathe, Fundamentals of Database Systems",
+      "tags": [
+        "sql",
+        "second highest",
+        "subquery",
+        "max"
+      ]
+    },
+    {
+      "id": "db-005",
+      "title": "Primary and foreign keys",
+      "text": "A primary key uniquely identifies each row of a table and cannot be NULL. A foreign key is a column that refers to the primary key of another table and enforces referential integrity between the two tables.",
+      "domain": "programming",
+      "source": "Elmasri and Navathe, Fundamentals of Database Systems",
+      "tags": [
+        "primary key",
+        "foreign key"
+      ]
+    },
+    {
+      "id": "db-006",
+      "title": "SQL joins",
+      "text": "An INNER JOIN returns only the rows that have a match in both tables. A LEFT JOIN returns every row of the left table, with NULLs in the right table's columns where there is no match.",
+      "domain": "programming",
+      "source": "Elmasri and Navathe, Fundamentals of Database Systems",
+      "tags": [
+        "sql",
+        "join",
+        "inner join",
+        "left join"
+      ]
+    },
+    {
+      "id": "db-007",
+      "title": "Database indexes",
+      "text": "A database index, commonly a B-tree, lets the database find rows by the indexed column without scanning the whole table. A database index speeds up reads but takes extra storage and slows down inserts, updates and deletes.",
+      "domain": "programming",
+      "source": "Elmasri and Navathe, Fundamentals of Database Systems",
+      "tags": [
+        "index",
+        "b-tree"
+      ]
+    },
+    {
+      "id": "db-008",
+      "title": "Normalisation",
+      "text": "Normalisation organises a relational schema to reduce redundancy. First normal form requires atomic column values, second normal form removes partial dependencies on a composite key, and third normal form removes transitive dependencies.",
+      "domain": "programming",
+      "source": "Elmasri and Navathe, Fundamentals of Database Systems",
+      "tags": [
+        "normalisation",
+        "normal forms"
+      ]
+    },
+    {
+      "id": "db-009",
+      "title": "ACID transactions",
+      "text": "A database transaction is ACID: atomic (all of it happens or none of it), consistent (it preserves the database's rules), isolated (concurrent transactions do not interfere) and durable (committed changes survive a crash).",
+      "domain": "programming",
+      "source": "Elmasri and Navathe, Fundamentals of Database Systems",
+      "tags": [
+        "transaction",
+        "acid"
+      ]
+    },
+    {
+      "id": "os-001",
+      "title": "Round-robin scheduling",
+      "text": "Round-robin CPU scheduling gives each process in the ready queue a fixed time slice called a time quantum, in turn. In round-robin scheduling a process that does not finish within its time quantum is preempted and moved to the back of the ready queue, and the scheduler runs the process at the front of the ready queue next. Round-robin scheduling is preemptive.",
+      "domain": "programming",
+      "source": "Silberschatz, Galvin and Gagne, Operating System Concepts",
+      "tags": [
+        "round-robin",
+        "time quantum",
+        "ready queue",
+        "preemptive"
+      ]
+    },
+    {
+      "id": "os-002",
+      "title": "Choosing the time quantum",
+      "text": "In round-robin scheduling a very small time quantum causes many context switches and high overhead, while a very large quantum makes round-robin behave like first-come, first-served scheduling.",
+      "domain": "programming",
+      "source": "Silberschatz, Galvin and Gagne, Operating System Concepts",
+      "tags": [
+        "round-robin",
+        "time quantum",
+        "context switch"
+      ]
+    },
+    {
+      "id": "os-003",
+      "title": "First-come, first-served and shortest-job-first",
+      "text": "First-come, first-served scheduling runs processes in the order they arrive and is non-preemptive. Shortest-job-first scheduling runs the process with the shortest next CPU burst. Shortest-job-first scheduling gives the minimum average waiting time but can starve long processes.",
+      "domain": "programming",
+      "source": "Silberschatz, Galvin and Gagne, Operating System Concepts",
+      "tags": [
+        "fcfs",
+        "sjf",
+        "scheduling"
+      ]
+    },
+    {
+      "id": "os-004",
+      "title": "Processes and threads",
+      "text": "A process is a running program with its own address space. A thread is a unit of execution inside a process; threads of the same process share its memory and resources but each has its own stack and program counter.",
+      "domain": "programming",
+      "source": "Silberschatz, Galvin and Gagne, Operating System Concepts",
+      "tags": [
+        "process",
+        "thread"
+      ]
+    },
+    {
+      "id": "os-005",
+      "title": "Context switch",
+      "text": "A context switch saves the state of the running process or thread and restores the state of another so that it can run. Context switches are pure overhead because no user work is done during the switch.",
+      "domain": "programming",
+      "source": "Silberschatz, Galvin and Gagne, Operating System Concepts",
+      "tags": [
+        "context switch"
+      ]
+    },
+    {
+      "id": "os-006",
+      "title": "Deadlock and its four conditions",
+      "text": "A deadlock is a state in which a set of processes are each waiting for a resource held by another process in the set, so none can proceed. A deadlock can occur only if four conditions hold at the same time: mutual exclusion, hold and wait, no preemption, and circular wait.",
+      "domain": "programming",
+      "source": "Silberschatz, Galvin and Gagne, Operating System Concepts",
+      "tags": [
+        "deadlock",
+        "mutual exclusion",
+        "hold and wait",
+        "no preemption",
+        "circular wait"
+      ]
+    },
+    {
+      "id": "os-007",
+      "title": "Handling deadlock",
+      "text": "Deadlock can be prevented by ensuring at least one of the four necessary conditions cannot hold, avoided by granting resources only when the system stays in a safe state, or detected and then recovered from by terminating or rolling back processes.",
+      "domain": "programming",
+      "source": "Silberschatz, Galvin and Gagne, Operating System Concepts",
+      "tags": [
+        "deadlock",
+        "prevention",
+        "avoidance",
+        "detection"
+      ]
+    },
+    {
+      "id": "os-008",
+      "title": "Virtual memory and paging",
+      "text": "Virtual memory gives each process its own address space, which the operating system maps onto physical memory in fixed-size pages. A page fault occurs when a process accesses a page that is not in physical memory, and the operating system then loads it from disk.",
+      "domain": "programming",
+      "source": "Silberschatz, Galvin and Gagne, Operating System Concepts",
+      "tags": [
+        "virtual memory",
+        "paging",
+        "page fault"
+      ]
+    },
+    {
+      "id": "os-009",
+      "title": "Race conditions and mutual exclusion",
+      "text": "A race condition occurs when the result depends on the timing of threads that access shared data. A mutex or semaphore protects a critical section so that only one thread executes it at a time.",
+      "domain": "programming",
+      "source": "Silberschatz, Galvin and Gagne, Operating System Concepts",
+      "tags": [
+        "race condition",
+        "mutex",
+        "semaphore",
+        "critical section"
+      ]
+    },
+    {
+      "id": "net-001",
+      "title": "TCP and UDP",
+      "text": "TCP is a connection-oriented transport protocol that provides reliable, in-order delivery with flow control and congestion control. UDP is a connectionless transport protocol that provides unreliable delivery with no ordering or congestion control, but UDP has lower overhead than TCP.",
+      "domain": "programming",
+      "source": "Kurose and Ross, Computer Networking: A Top-Down Approach",
+      "tags": [
+        "tcp",
+        "udp",
+        "transport"
+      ]
+    },
+    {
+      "id": "net-002",
+      "title": "TCP three-way handshake",
+      "text": "A TCP connection is established with a three-way handshake: the client sends SYN, the server replies with SYN-ACK, and the client answers with ACK.",
+      "domain": "programming",
+      "source": "Kurose and Ross, Computer Networking: A Top-Down Approach",
+      "tags": [
+        "tcp",
+        "handshake",
+        "syn",
+        "ack"
+      ]
+    },
+    {
+      "id": "net-003",
+      "title": "TCP slow start",
+      "text": "In TCP slow start the congestion window starts at a small value, typically one maximum segment size, and the congestion window increases by one segment for every acknowledgement received, which doubles the congestion window every round-trip time, so the growth in slow start is exponential. Slow start continues until the window reaches the slow start threshold (ssthresh) or a loss is detected.",
+      "domain": "programming",
+      "source": "Kurose and Ross, Computer Networking: A Top-Down Approach",
+      "tags": [
+        "tcp",
+        "slow start",
+        "congestion window",
+        "ssthresh"
+      ]
+    },
+    {
+      "id": "net-004",
+      "title": "TCP congestion avoidance",
+      "text": "In TCP congestion avoidance, which begins once the congestion window reaches the slow start threshold, the congestion window increases linearly by about one maximum segment size per round-trip time. Congestion avoidance is the additive-increase part of additive increase, multiplicative decrease (AIMD).",
+      "domain": "programming",
+      "source": "Kurose and Ross, Computer Networking: A Top-Down Approach",
+      "tags": [
+        "tcp",
+        "congestion avoidance",
+        "aimd",
+        "congestion window"
+      ]
+    },
+    {
+      "id": "net-005",
+      "title": "TCP reaction to loss",
+      "text": "When TCP detects loss by a timeout, it sets the slow start threshold to half the current congestion window, resets the congestion window to one segment and re-enters slow start. When loss is detected by three duplicate acknowledgements, TCP Reno halves the congestion window and continues in congestion avoidance (fast recovery).",
+      "domain": "programming",
+      "source": "Kurose and Ross, Computer Networking: A Top-Down Approach",
+      "tags": [
+        "tcp",
+        "packet loss",
+        "timeout",
+        "fast recovery",
+        "ssthresh"
+      ]
+    },
+    {
+      "id": "net-006",
+      "title": "TCP congestion control overview",
+      "text": "TCP congestion control limits the sending rate with a congestion window, so that a sender does not overwhelm the network. The sender probes for available capacity with slow start and congestion avoidance and reduces the window when it detects packet loss.",
+      "domain": "programming",
+      "source": "Kurose and Ross, Computer Networking: A Top-Down Approach",
+      "tags": [
+        "tcp",
+        "congestion control"
+      ]
+    },
+    {
+      "id": "net-007",
+      "title": "DNS resolution",
+      "text": "DNS translates a domain name into an IP address. A DNS client asks a recursive resolver, which, if the answer is not cached, queries a root name server, then the top-level domain name server, then the authoritative name server for the domain, and returns the IP address to the client. DNS answers are cached for the time-to-live of the record.",
+      "domain": "programming",
+      "source": "Kurose and Ross, Computer Networking: A Top-Down Approach",
+      "tags": [
+        "dns",
+        "resolver",
+        "root server",
+        "authoritative",
+        "ttl"
+      ]
+    },
+    {
+      "id": "net-008",
+      "title": "HTTP methods and status codes",
+      "text": "HTTP is a stateless request-response protocol. GET retrieves a resource and POST submits data to the server. Status codes in the 200s indicate success, 300s redirection, 400s a client error and 500s a server error.",
+      "domain": "programming",
+      "source": "Kurose and Ross, Computer Networking: A Top-Down Approach",
+      "tags": [
+        "http",
+        "get",
+        "post",
+        "status code"
+      ]
+    },
+    {
+      "id": "net-009",
+      "title": "IP addresses",
+      "text": "An IPv4 address is 32 bits long and is usually written as four decimal numbers separated by dots. An IPv6 address is 128 bits long. A subnet mask separates the network part of an address from the host part.",
+      "domain": "programming",
+      "source": "Kurose and Ross, Computer Networking: A Top-Down Approach",
+      "tags": [
+        "ipv4",
+        "ipv6",
+        "subnet"
+      ]
+    },
+    {
+      "id": "net-010",
+      "title": "HTTPS and TLS",
+      "text": "HTTPS is HTTP sent over TLS. TLS encrypts the connection and authenticates the server with a certificate, using asymmetric cryptography to agree a shared key and symmetric encryption for the data.",
+      "domain": "programming",
+      "source": "Kurose and Ross, Computer Networking: A Top-Down Approach",
+      "tags": [
+        "https",
+        "tls",
+        "certificate"
+      ]
+    },
+    {
+      "id": "ml-001",
+      "title": "k-nearest neighbours classification",
+      "text": "The k-nearest neighbours algorithm classifies a new data point by finding the k training points closest to it, usually by Euclidean distance, and assigning the class that is most common among those k neighbours (a majority vote). The k-nearest neighbours algorithm has no training phase beyond storing the training data.",
+      "domain": "programming",
+      "source": "James, Witten, Hastie and Tibshirani, An Introduction to Statistical Learning",
+      "tags": [
+        "knn",
+        "nearest neighbours",
+        "classification",
+        "majority vote"
+      ]
+    },
+    {
+      "id": "ml-002",
+      "title": "Choosing k in k-nearest neighbours",
+      "text": "In k-nearest neighbours a small k makes the model sensitive to noise and prone to overfitting, while a large k smooths the decision boundary and can underfit. Features should be scaled, because the distance is dominated by features with large ranges.",
+      "domain": "programming",
+      "source": "James, Witten, Hastie and Tibshirani, An Introduction to Statistical Learning",
+      "tags": [
+        "knn",
+        "k",
+        "overfitting",
+        "feature scaling"
+      ]
+    },
+    {
+      "id": "ml-003",
+      "title": "Classification and regression",
+      "text": "In supervised learning, classification predicts a discrete class label and regression predicts a continuous numeric value. Both are trained on labelled examples.",
+      "domain": "programming",
+      "source": "James, Witten, Hastie and Tibshirani, An Introduction to Statistical Learning",
+      "tags": [
+        "classification",
+        "regression",
+        "supervised learning"
+      ]
+    },
+    {
+      "id": "ml-004",
+      "title": "Supervised and unsupervised learning",
+      "text": "Supervised learning trains on examples that include the correct output label. Unsupervised learning, such as clustering, finds structure in data that has no labels.",
+      "domain": "programming",
+      "source": "James, Witten, Hastie and Tibshirani, An Introduction to Statistical Learning",
+      "tags": [
+        "supervised",
+        "unsupervised",
+        "clustering"
+      ]
+    },
+    {
+      "id": "ml-005",
+      "title": "Overfitting",
+      "text": "Overfitting occurs when a model fits the noise in its training data rather than the underlying pattern, so an overfitted model performs well on the training data but poorly on new, unseen data. Overfitting is more likely with a complex model and little training data.",
+      "domain": "programming",
+      "source": "James, Witten, Hastie and Tibshirani, An Introduction to Statistical Learning",
+      "tags": [
+        "overfitting",
+        "generalisation"
+      ]
+    },
+    {
+      "id": "ml-006",
+      "title": "Regularisation",
+      "text": "Regularisation reduces overfitting by adding a penalty on the size of the model's weights to the loss function, which discourages overly complex models. L2 (ridge) regularisation penalises the squared weights and shrinks them towards zero; L1 (lasso) penalises their absolute values and can set some weights exactly to zero.",
+      "domain": "programming",
+      "source": "James, Witten, Hastie and Tibshirani, An Introduction to Statistical Learning",
+      "tags": [
+        "regularisation",
+        "l1",
+        "l2",
+        "ridge",
+        "lasso"
+      ]
+    },
+    {
+      "id": "ml-007",
+      "title": "Training, validation and test sets",
+      "text": "A model is fitted on the training set, tuned on a validation set and finally evaluated on a test set that was not used for fitting or tuning. Cross-validation repeats this by rotating which part of the data is held out.",
+      "domain": "programming",
+      "source": "James, Witten, Hastie and Tibshirani, An Introduction to Statistical Learning",
+      "tags": [
+        "training set",
+        "validation",
+        "test set",
+        "cross-validation"
+      ]
+    },
+    {
+      "id": "ml-008",
+      "title": "Bias-variance trade-off",
+      "text": "A model that is too simple has high bias and underfits; a model that is too complex has high variance and overfits. The bias-variance trade-off is the balance between the two.",
+      "domain": "programming",
+      "source": "James, Witten, Hastie and Tibshirani, An Introduction to Statistical Learning",
+      "tags": [
+        "bias",
+        "variance",
+        "underfitting"
+      ]
+    },
+    {
+      "id": "ml-009",
+      "title": "k-means clustering",
+      "text": "k-means is an unsupervised clustering algorithm. k-means assigns each point to the nearest of k centroids, recomputes each centroid as the mean of its points, and repeats until the assignments stop changing.",
+      "domain": "programming",
+      "source": "James, Witten, Hastie and Tibshirani, An Introduction to Statistical Learning",
+      "tags": [
+        "k-means",
+        "clustering",
+        "centroid"
+      ]
+    },
+    {
+      "id": "ml-010",
+      "title": "Gradient descent",
+      "text": "Gradient descent minimises a loss function by repeatedly moving the parameters a small step in the direction of the negative gradient. The step size is set by the learning rate.",
+      "domain": "programming",
+      "source": "James, Witten, Hastie and Tibshirani, An Introduction to Statistical Learning",
+      "tags": [
+        "gradient descent",
+        "learning rate"
+      ]
+    },
+    {
+      "id": "ml-011",
+      "title": "Precision and recall",
+      "text": "Precision is the fraction of predicted positives that are actually positive. Recall is the fraction of actual positives that the model finds. A confusion matrix counts true and false positives and negatives.",
+      "domain": "programming",
+      "source": "James, Witten, Hastie and Tibshirani, An Introduction to Statistical Learning",
+      "tags": [
+        "precision",
+        "recall",
+        "confusion matrix"
+      ]
+    },
+    {
+      "id": "se-001",
+      "title": "Unit testing",
+      "text": "Unit testing checks the smallest testable parts of a program, such as a single function or class, in isolation from the rest of the system. Dependencies are often replaced by mocks or stubs, so unit tests are fast and pinpoint the faulty unit.",
+      "domain": "programming",
+      "source": "Sommerville, Software Engineering",
+      "tags": [
+        "unit testing",
+        "isolation",
+        "mock"
+      ]
+    },
+    {
+      "id": "se-002",
+      "title": "Integration testing",
+      "text": "Integration testing checks that separately developed units or modules work correctly together, and finds defects in the interfaces and interactions between them, such as calls to a database or another service.",
+      "domain": "programming",
+      "source": "Sommerville, Software Engineering",
+      "tags": [
+        "integration testing",
+        "modules",
+        "interfaces"
+      ]
+    },
+    {
+      "id": "se-003",
+      "title": "Unit testing versus integration testing",
+      "text": "Unit tests verify one component in isolation and are fast and narrow in scope; integration tests verify the interaction between several components and are slower and broader. Integration testing is normally carried out after unit testing.",
+      "domain": "programming",
+      "source": "Sommerville, Software Engineering",
+      "tags": [
+        "unit testing",
+        "integration testing",
+        "scope"
+      ]
+    },
+    {
+      "id": "se-004",
+      "title": "Other levels of testing",
+      "text": "System testing checks the complete, integrated system against its requirements. Acceptance testing checks that it meets the user's needs. Regression testing re-runs existing tests after a change to confirm that nothing that used to work has broken.",
+      "domain": "programming",
+      "source": "Sommerville, Software Engineering",
+      "tags": [
+        "system testing",
+        "acceptance testing",
+        "regression testing"
+      ]
+    },
+    {
+      "id": "se-005",
+      "title": "Test-driven development",
+      "text": "In test-driven development a failing test is written first, then the minimum code to make it pass, and then the code is refactored while the tests are kept passing.",
+      "domain": "programming",
+      "source": "Sommerville, Software Engineering",
+      "tags": [
+        "tdd",
+        "refactor"
+      ]
+    },
+    {
+      "id": "se-006",
+      "title": "Refactoring",
+      "text": "Refactoring changes the internal structure of code to make it easier to understand and modify without changing its external behaviour.",
+      "domain": "programming",
+      "source": "Sommerville, Software Engineering",
+      "tags": [
+        "refactoring"
+      ]
+    },
+    {
+      "id": "se-007",
+      "title": "Continuous integration",
+      "text": "In continuous integration developers merge their changes into a shared branch frequently, and each merge triggers an automated build and test run so that integration problems are found early.",
+      "domain": "programming",
+      "source": "Sommerville, Software Engineering",
+      "tags": [
+        "continuous integration",
+        "ci"
+      ]
+    },
+    {
+      "id": "se-008",
+      "title": "Waterfall and agile",
+      "text": "The waterfall model carries out requirements, design, implementation, testing and maintenance as sequential phases. Agile methods deliver software in short iterations and adapt the plan to feedback after each one.",
+      "domain": "programming",
+      "source": "Sommerville, Software Engineering",
+      "tags": [
+        "waterfall",
+        "agile",
+        "iteration"
+      ]
+    },
+    {
+      "id": "git-001",
+      "title": "Git merge",
+      "text": "git merge combines two branches by creating a new merge commit that has both branch tips as parents. A git merge preserves the existing commits and the full history of both branches. If the target branch has not moved, Git performs a fast-forward instead of creating a merge commit.",
+      "domain": "programming",
+      "source": "Chacon and Straub, Pro Git",
+      "tags": [
+        "git",
+        "merge",
+        "merge commit"
+      ]
+    },
+    {
+      "id": "git-002",
+      "title": "Git rebase",
+      "text": "git rebase moves the commits of one branch so that they start from the tip of another branch, re-applying each commit and creating new commits with new hashes. The result of a git rebase is a linear history without a merge commit.",
+      "domain": "programming",
+      "source": "Chacon and Straub, Pro Git",
+      "tags": [
+        "git",
+        "rebase",
+        "linear history"
+      ]
+    },
+    {
+      "id": "git-003",
+      "title": "Merge versus rebase",
+      "text": "Merging preserves history exactly as it happened and is safe on shared branches. Rebasing rewrites history, so commits that have already been pushed and shared with others should not be rebased.",
+      "domain": "programming",
+      "source": "Chacon and Straub, Pro Git",
+      "tags": [
+        "git",
+        "merge",
+        "rebase",
+        "rewrite history"
+      ]
+    },
+    {
+      "id": "web-001",
+      "title": "The HTML form element",
+      "text": "The HTML form element groups input controls that collect data from a user. The form's action attribute gives the URL the data is sent to and the form's method attribute chooses the HTTP method, GET or POST.",
+      "domain": "programming",
+      "source": "MDN Web Docs",
+      "tags": [
+        "html",
+        "form",
+        "action",
+        "method"
+      ]
+    },
+    {
+      "id": "web-002",
+      "title": "Form inputs and labels",
+      "text": "An HTML input element's type attribute sets the kind of control, for example text, email or password, and its name attribute is the key under which the value is submitted. A label element is associated with an input through its for attribute, which must match the input's id.",
+      "domain": "programming",
+      "source": "MDN Web Docs",
+      "tags": [
+        "html",
+        "input",
+        "label",
+        "name"
+      ]
+    },
+    {
+      "id": "web-003",
+      "title": "HTML form validation",
+      "text": "The required attribute makes the browser refuse to submit a form while that field is empty. An input of type email is checked by the browser to contain a correctly formatted email address.",
+      "domain": "programming",
+      "source": "MDN Web Docs",
+      "tags": [
+        "html",
+        "required",
+        "validation",
+        "email"
+      ]
+    },
+    {
+      "id": "web-004",
+      "title": "GET and POST form submission",
+      "text": "A form submitted with GET appends the field values to the URL as a query string. A form submitted with POST sends them in the body of the request, which is appropriate for sensitive or large data.",
+      "domain": "programming",
+      "source": "MDN Web Docs",
+      "tags": [
+        "form",
+        "get",
+        "post",
+        "query string"
+      ]
+    },
+    {
+      "id": "web-005",
+      "title": "Centring with flexbox",
+      "text": "A flex container centres its child horizontally and vertically with display: flex, justify-content: center and align-items: center. justify-content aligns items along the main axis and align-items along the cross axis.",
+      "domain": "programming",
+      "source": "MDN Web Docs",
+      "tags": [
+        "css",
+        "flexbox",
+        "justify-content",
+        "align-items",
+        "center"
+      ]
+    },
+    {
+      "id": "web-006",
+      "title": "The CSS box model",
+      "text": "In the CSS box model every element is a box made of its content, padding, border and margin. With box-sizing: border-box the width and height include the padding and border.",
+      "domain": "programming",
+      "source": "MDN Web Docs",
+      "tags": [
+        "css",
+        "box model",
+        "padding",
+        "margin"
+      ]
+    },
+    {
+      "id": "web-007",
+      "title": "CSS selectors and specificity",
+      "text": "A CSS class selector starts with a dot and an id selector with a hash sign. When rules conflict, an id selector is more specific than a class selector, which is more specific than an element selector.",
+      "domain": "programming",
+      "source": "MDN Web Docs",
+      "tags": [
+        "css",
+        "selector",
+        "specificity"
+      ]
+    },
+    {
+      "id": "web-008",
+      "title": "Semantic HTML",
+      "text": "Semantic HTML elements such as header, nav, main, article and footer describe the meaning of their content, which improves accessibility and helps search engines.",
+      "domain": "programming",
+      "source": "MDN Web Docs",
+      "tags": [
+        "html",
+        "semantic",
+        "accessibility"
+      ]
+    },
+    {
+      "id": "web-009",
+      "title": "Responsive design",
+      "text": "Responsive web design adapts a page's layout to the size of the screen, using flexible layouts and CSS media queries that apply rules only at certain viewport widths.",
+      "domain": "programming",
+      "source": "MDN Web Docs",
+      "tags": [
+        "responsive",
+        "media query"
+      ]
+    },
+    {
+      "id": "oop-001",
+      "title": "Encapsulation",
+      "text": "Encapsulation bundles an object's data with the methods that operate on it and hides the internal state behind a public interface.",
+      "domain": "programming",
+      "source": "Booch et al., Object-Oriented Analysis and Design with Applications",
+      "tags": [
+        "encapsulation"
+      ]
+    },
+    {
+      "id": "oop-002",
+      "title": "Inheritance",
+      "text": "Inheritance lets a subclass reuse and extend the attributes and methods of a superclass, and models an is-a relationship.",
+      "domain": "programming",
+      "source": "Booch et al., Object-Oriented Analysis and Design with Applications",
+      "tags": [
+        "inheritance",
+        "subclass"
+      ]
+    },
+    {
+      "id": "oop-003",
+      "title": "Polymorphism",
+      "text": "Polymorphism lets code call the same method on objects of different classes, with each class providing its own implementation, typically by overriding a method of a shared superclass or interface.",
+      "domain": "programming",
+      "source": "Booch et al., Object-Oriented Analysis and Design with Applications",
+      "tags": [
+        "polymorphism",
+        "override"
+      ]
+    },
+    {
+      "id": "oop-004",
+      "title": "Abstraction and interfaces",
+      "text": "An interface declares methods without implementing them, and an abstract class can provide some implementation but cannot be instantiated. Both let code depend on what an object does rather than how.",
+      "domain": "programming",
+      "source": "Booch et al., Object-Oriented Analysis and Design with Applications",
+      "tags": [
+        "abstraction",
+        "interface",
+        "abstract class"
+      ]
+    },
+    {
+      "id": "oopc-001",
+      "title": "Composition over inheritance",
+      "text": "Composition builds a class from other objects it holds as fields, modelling a has-a relationship. Composition is often preferred to inheritance because composition couples classes less tightly.",
+      "domain": "programming",
+      "source": "Gamma, Helm, Johnson and Vlissides, Design Patterns",
+      "tags": [
+        "composition"
+      ]
+    },
+    {
+      "id": "arch-001",
+      "title": "CPU cache",
+      "text": "A CPU cache is a small, fast memory that holds copies of recently used data from main memory. A CPU cache works because programs show locality of reference. A cache miss occurs when the requested data is not in the cache.",
+      "domain": "programming",
+      "source": "Patterson and Hennessy, Computer Organization and Design",
+      "tags": [
+        "cache",
+        "locality"
+      ]
+    },
+    {
+      "id": "arch-002",
+      "title": "Instruction pipelining",
+      "text": "Pipelining splits instruction execution into stages such as fetch, decode, execute, memory access and write-back, so that several instructions are processed at once, which raises throughput.",
+      "domain": "programming",
+      "source": "Patterson and Hennessy, Computer Organization and Design",
+      "tags": [
+        "pipeline",
+        "fetch",
+        "decode"
+      ]
+    },
+    {
+      "id": "arch-003",
+      "title": "Von Neumann architecture",
+      "text": "In the von Neumann architecture, program instructions and data are stored in the same memory, and the processor repeats a fetch-decode-execute cycle.",
+      "domain": "programming",
+      "source": "Patterson and Hennessy, Computer Organization and Design",
+      "tags": [
+        "von neumann",
+        "stored program"
+      ]
+    },
+    {
+      "id": "arch-004",
+      "title": "RISC and CISC",
+      "text": "A RISC processor uses a small set of simple, fixed-length instructions, while a CISC processor has many complex instructions of varying length.",
+      "domain": "programming",
+      "source": "Patterson and Hennessy, Computer Organization and Design",
+      "tags": [
+        "risc",
+        "cisc"
+      ]
+    },
+    {
+      "id": "pl-001",
+      "title": "Compiled and interpreted languages",
+      "text": "A compiler translates the whole source program into machine code before it runs. An interpreter executes the program statement by statement without producing a separate machine-code file.",
+      "domain": "programming",
+      "source": "Sebesta, Concepts of Programming Languages",
+      "tags": [
+        "compiler",
+        "interpreter"
+      ]
+    },
+    {
+      "id": "pl-002",
+      "title": "Static and dynamic typing",
+      "text": "In a statically typed language the type of every variable is checked at compile time. In a dynamically typed language types are checked at run time and a variable can hold values of different types.",
+      "domain": "programming",
+      "source": "Sebesta, Concepts of Programming Languages",
+      "tags": [
+        "static typing",
+        "dynamic typing"
+      ]
+    },
+    {
+      "id": "pl-003",
+      "title": "Garbage collection",
+      "text": "Garbage collection automatically reclaims memory that the program can no longer reach, so the programmer does not free it manually.",
+      "domain": "programming",
+      "source": "Sebesta, Concepts of Programming Languages",
+      "tags": [
+        "garbage collection",
+        "memory"
+      ]
+    },
+    {
+      "id": "pl-004",
+      "title": "Pass by value and pass by reference",
+      "text": "With pass by value a function receives a copy of the argument, so changes inside the function do not affect the caller's variable. With pass by reference the function works on the caller's variable itself.",
+      "domain": "programming",
+      "source": "Sebesta, Concepts of Programming Languages",
+      "tags": [
+        "pass by value",
+        "pass by reference"
+      ]
+    },
+    {
+      "id": "cloud-001",
+      "title": "Cloud service models",
+      "text": "Infrastructure as a Service provides virtual machines, storage and networks; Platform as a Service provides a managed platform for deploying applications; Software as a Service delivers a complete application over the internet.",
+      "domain": "programming",
+      "source": "NIST SP 800-145, The NIST Definition of Cloud Computing",
+      "tags": [
+        "iaas",
+        "paas",
+        "saas"
+      ]
+    },
+    {
+      "id": "cloudx-001",
+      "title": "Horizontal and vertical scaling",
+      "text": "Vertical scaling adds more CPU or memory to an existing machine. Horizontal scaling adds more machines and spreads the load across them, usually behind a load balancer.",
+      "domain": "programming",
+      "source": "General reference: widely documented cloud computing fundamentals",
+      "tags": [
+        "scaling",
+        "load balancer"
+      ]
+    },
+    {
+      "id": "cloudx-002",
+      "title": "Containers and virtual machines",
+      "text": "A virtual machine runs a full guest operating system on a hypervisor. A container shares the host's operating system kernel and isolates only the application and its dependencies, so it is lighter and starts faster.",
+      "domain": "programming",
+      "source": "General reference: widely documented cloud computing fundamentals",
+      "tags": [
+        "container",
+        "virtual machine",
+        "hypervisor"
+      ]
+    },
+    {
+      "id": "cloudx-003",
+      "title": "Serverless computing",
+      "text": "In serverless computing the provider runs code in response to events and manages the servers; the customer is billed for the execution time actually used rather than for running servers.",
+      "domain": "programming",
+      "source": "General reference: widely documented cloud computing fundamentals",
+      "tags": [
+        "serverless",
+        "functions"
+      ]
+    },
+    {
+      "id": "sec-001",
+      "title": "Symmetric and asymmetric encryption",
+      "text": "Symmetric encryption uses the same secret key to encrypt and decrypt. Asymmetric encryption uses a key pair: data encrypted with the public key can be decrypted only with the matching private key.",
+      "domain": "programming",
+      "source": "OWASP Top Ten and OWASP Cheat Sheet Series",
+      "tags": [
+        "encryption",
+        "symmetric",
+        "asymmetric",
+        "public key"
+      ]
+    },
+    {
+      "id": "sec-002",
+      "title": "Hashing and password storage",
+      "text": "A cryptographic hash function is one-way: the input cannot be recovered from the hash. Passwords should be stored as salted hashes produced by a slow algorithm such as bcrypt or Argon2, never in plain text.",
+      "domain": "programming",
+      "source": "OWASP Top Ten and OWASP Cheat Sheet Series",
+      "tags": [
+        "hash",
+        "salt",
+        "password"
+      ]
+    },
+    {
+      "id": "sec-003",
+      "title": "SQL injection",
+      "text": "SQL injection occurs when user input is concatenated into a SQL statement, letting an attacker change the query. SQL injection is prevented by using parameterised queries (prepared statements) rather than building queries from strings.",
+      "domain": "programming",
+      "source": "OWASP Top Ten and OWASP Cheat Sheet Series",
+      "tags": [
+        "sql injection",
+        "parameterised query"
+      ]
+    },
+    {
+      "id": "sec-004",
+      "title": "Cross-site scripting",
+      "text": "Cross-site scripting (XSS) occurs when an application includes untrusted input in a page without escaping it, so an attacker's script runs in another user's browser. Cross-site scripting is prevented by escaping output and validating input.",
+      "domain": "programming",
+      "source": "OWASP Top Ten and OWASP Cheat Sheet Series",
+      "tags": [
+        "xss",
+        "escaping"
+      ]
+    },
+    {
+      "id": "sec-005",
+      "title": "Authentication and authorisation",
+      "text": "Authentication verifies who a user is. Authorisation determines what an authenticated user is allowed to do. Multi-factor authentication requires two or more independent kinds of evidence.",
+      "domain": "programming",
+      "source": "OWASP Top Ten and OWASP Cheat Sheet Series",
+      "tags": [
+        "authentication",
+        "authorisation",
+        "mfa"
+      ]
+    },
+    {
+      "id": "rest-001",
+      "title": "REST",
+      "text": "A REST API exposes resources at URLs and manipulates them with HTTP methods. A REST API is stateless: each request carries all the information needed to process it.",
+      "domain": "programming",
+      "source": "Fielding, Architectural Styles and the Design of Network-based Software Architectures",
+      "tags": [
+        "rest",
+        "stateless",
+        "api"
+      ]
+    },
+    {
+      "id": "sd-001",
+      "title": "Caching",
+      "text": "A cache stores the results of expensive operations so that later requests can be served faster. Cached data can become stale, so it needs an invalidation or expiry policy.",
+      "domain": "programming",
+      "source": "Kleppmann, Designing Data-Intensive Applications",
+      "tags": [
+        "cache",
+        "invalidation"
+      ]
+    },
+    {
+      "id": "sd-002",
+      "title": "The CAP theorem",
+      "text": "The CAP theorem states that when a network partition occurs a distributed data store must choose between consistency and availability; it cannot guarantee both.",
+      "domain": "programming",
+      "source": "Kleppmann, Designing Data-Intensive Applications",
+      "tags": [
+        "cap theorem",
+        "consistency",
+        "availability",
+        "partition"
+      ]
+    },
+    {
+      "id": "sd-003",
+      "title": "Replication and sharding",
+      "text": "Replication keeps copies of the same data on several machines for availability and read throughput. Sharding (partitioning) splits the data across machines so that each holds a part of it.",
+      "domain": "programming",
+      "source": "Kleppmann, Designing Data-Intensive Applications",
+      "tags": [
+        "replication",
+        "sharding",
+        "partitioning"
+      ]
+    },
+    {
+      "id": "sd-004",
+      "title": "Message queues",
+      "text": "A message queue lets one service send work to another asynchronously: the producer adds messages and consumers process them later, which decouples the services and absorbs bursts of load.",
+      "domain": "programming",
+      "source": "Kleppmann, Designing Data-Intensive Applications",
+      "tags": [
+        "message queue",
+        "asynchronous"
+      ]
+    },
+    {
+      "id": "mathx-001",
+      "title": "Derivative of a polynomial",
+      "text": "The derivative of a sum is the sum of the derivatives, and a constant factor can be taken outside the derivative. Together with the power rule, the derivative of a*x^n is a*n*x^(n-1) and the derivative of a constant is 0, so the derivative of a*x^2 + b*x + c is 2*a*x + b.",
+      "domain": "mathematics",
+      "source": "Stewart, Calculus: Early Transcendentals",
+      "tags": [
+        "derivative",
+        "polynomial",
+        "power rule",
+        "differentiate"
+      ]
+    },
+    {
+      "id": "mathx-002",
+      "title": "Derivative as a rate of change",
+      "text": "The derivative of a function at a point is its instantaneous rate of change there, and equals the slope of the tangent line. The derivative of position with respect to time is velocity.",
+      "domain": "mathematics",
+      "source": "Stewart, Calculus: Early Transcendentals",
+      "tags": [
+        "derivative",
+        "rate of change",
+        "velocity",
+        "slope"
+      ]
+    },
+    {
+      "id": "mathx-003",
+      "title": "Integral of a power",
+      "text": "The integral of x^n is x^(n+1)/(n+1) plus a constant of integration, for n not equal to -1. Integration is the reverse of differentiation.",
+      "domain": "mathematics",
+      "source": "Stewart, Calculus: Early Transcendentals",
+      "tags": [
+        "integral",
+        "antiderivative"
+      ]
+    },
+    {
+      "id": "mathx-004",
+      "title": "Solving a quadratic by factoring",
+      "text": "A quadratic equation x^2 + b*x + c = 0 can be solved by factoring it as (x - p)(x - q) = 0, where p + q = -b and p*q = c; its solutions are x = p and x = q. A quadratic equation has at most two real solutions.",
+      "domain": "mathematics",
+      "source": "Stewart, Calculus: Early Transcendentals",
+      "tags": [
+        "quadratic",
+        "factoring",
+        "roots",
+        "solutions"
+      ]
+    },
+    {
+      "id": "mathd-001",
+      "title": "Prime numbers",
+      "text": "A prime number is an integer greater than 1 that has no positive divisors other than 1 and itself. An integer greater than 1 that is not prime is called composite.",
+      "domain": "mathematics",
+      "source": "Rosen, Discrete Mathematics and Its Applications",
+      "tags": [
+        "prime",
+        "composite",
+        "divisor"
+      ]
+    },
+    {
+      "id": "mathd-002",
+      "title": "Factorial definition",
+      "text": "For a non-negative integer n, n factorial is the product of the integers from 1 to n, and 0 factorial equals 1.",
+      "domain": "mathematics",
+      "source": "Rosen, Discrete Mathematics and Its Applications",
+      "tags": [
+        "factorial"
+      ]
+    },
+    {
+      "id": "mathd-003",
+      "title": "Logarithms",
+      "text": "The logarithm of x to base b is the power to which b must be raised to give x. The logarithm of a product is the sum of the logarithms.",
+      "domain": "mathematics",
+      "source": "Rosen, Discrete Mathematics and Its Applications",
+      "tags": [
+        "logarithm"
       ]
     }
   ]

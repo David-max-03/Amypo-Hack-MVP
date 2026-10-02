@@ -16,6 +16,7 @@ from .api import routes_health, routes_jobs, routes_pipeline, routes_ps2, routes
 from .config import settings
 from .core import storage
 from .core.embeddings import embeddings
+from .core.entailment import entailment
 
 logging.basicConfig(
     level=logging.INFO,
@@ -53,6 +54,8 @@ async def lifespan(app: FastAPI):
         try:
             embeddings.warm_up()
             logger.info("Embedding backend ready: %s", embeddings.backend)
+            entailment.warm_up()
+            logger.info("Entailment backend: %s", entailment.backend)
         except Exception as exc:  # pragma: no cover - defensive
             logger.warning("Embedding warm-up failed: %s", exc)
 

@@ -89,9 +89,10 @@ macOS loses GPU (Metal) acceleration. The backend reaches it at `host.docker.int
 
 **Verified** on macOS (Apple M5) with Colima + Docker Engine 29.5 + Compose 5.5:
 
-- Both images build: backend 2.07 GB (CPU-only PyTorch, MiniLM baked in) and frontend 76 MB
-  (nginx).
-- `/api/v1/health` reports `"status": "ok"`, with the corpus loaded (36 entries), MiniLM active,
+- Both images build: backend 2.72 GB (CPU-only PyTorch, with MiniLM and the entailment model
+  baked in) and frontend 76 MB (nginx).
+- `/api/v1/health` reports `"status": "ok"`, with the corpus loaded (150 entries), MiniLM and the
+  entailment model active,
   and host Ollama reachable.
 - The UI is served on `:5173`, and nginx proxies `/api` to the backend.
 - `POST /api/v1/verify` through the proxy returns `misleading` for a false O(1)-space claim,
@@ -135,22 +136,22 @@ pipeline**:
 What the real validators compute for it (identical on every run):
 
 ```
-GENERATING (attempt 1) → STRUCTURAL VALIDATION: passed → PS2: reliability 0.699, verdict misleading
+GENERATING (attempt 1) → STRUCTURAL VALIDATION: passed → PS2: reliability 0.54, verdict misleading
 → REJECT — "contradicts the reference corpus entry 'Recursive linked list reversal space cost'
   (CLRS …): complexity O(1) versus O(n)"
 → REGENERATION (attempt 2, rejection reasons written into the prompt)
-→ STRUCTURAL VALIDATION: passed → PS2: reliability 0.824, verdict trustworthy → PASS
+→ STRUCTURAL VALIDATION: passed → PS2: reliability 0.99, verdict trustworthy → PASS
 ```
 
 ### Demo steps (3–5 min)
 1. **Start:** `OLLAMA_NUM_PARALLEL=4 ollama serve`, then
    `AMYPO_GENERATION_CONCURRENCY=4 docker compose up -d --build`. Open
-   **http://localhost:5173** and check the header pills (ok · Ollama · MiniLM · corpus 36).
-2. **Generate & Verify (sidebar) → DEMO scenario → Run DEMO scenario.** Point out the DEMO
+   **http://localhost:5173** and check the header pills (ok · Ollama · MiniLM · corpus 150).
+2. **Generate → Demo scenario → Run demo scenario.** Point out the DEMO
    banner. The job runs on the backend: you can switch to another section and come back.
 3. **Walk the stage trace** on the card: attempt 1 passes PS8, PS2 flags the O(1)-space
    claim with the corpus source → REJECT → regeneration → attempt 2 passes PS8 and PS2
-   (0.699 → 0.824) → PASS.
+   (0.54 → 0.99) → PASS.
 4. **Scroll through the validation report:** 6 PS8 checks, 6 PS2 checks, decision.
 5. **Normal mode** (optional, live model): a small real run (1–3 variations) shows real
    generation. Expect about 1–2 min per variation on a laptop, and real outcomes will often be
@@ -179,7 +180,9 @@ The full spec is in [`openapi.yaml`](openapi.yaml), generated from the code with
 | GET | `/api/v1/progress/{job_id}` | Live progress of a `generate-and-verify` run that sent a `job_id` |
 | POST | `/api/v1/jobs` | **Background job** (202): runs the integrated pipeline in a backend thread. Takes `subject_area` and target difficulty; the UI uses this |
 | POST | `/api/v1/jobs/demo` | Demo Mode as a background job (same scripted candidates, never persisted) |
-| GET | `/api/v1/jobs` · `/jobs/{job_id}` | Recent jobs; one job's status, stage, counts, live results, errors, timings |
+| GET | `/api/v1/jobs` · `/jobs/{job_id}` | Recent jobs; one job's status, stage, counts, live results, errors, timings and measured metrics |
+| POST | `/api/v1/jobs/{job_id}/cancel` | Stop a job before its next candidate (decided candidates are kept) |
+| GET | `/api/v1/validation-reports/stats` | PASS / REVIEW / REJECT counts and percentages, and the runs on record; accepts `job_id`, `since_hours` |
 | GET | `/api/v1/taxonomy` | The one shared config: 14 CS subject areas (+ other domains) and Easy/Medium/Hard/Expert |
 | POST | `/api/v1/review-queue/{id}/approve` · `/reject` | Reviewer decision: approve moves the item into the bank; reject records it as resolved |
 
@@ -236,7 +239,8 @@ be overridden with an `AMYPO_*` environment variable. See [`.env.example`](.env.
 ## Tests
 
 ```bash
-.venv/bin/python -m pytest        # 218 tests, ~10 s, no model needed (generation is faked)
+.venv/bin/python -m pytest        # 509 backend tests, no generation model needed (generation is faked)
+cd frontend && npm test           # 18 UI tests (vitest + Testing Library, backend mocked)
 ```
 
 Validation tests use the real MiniLM model. Several regression tests are built from real Qwen
@@ -244,6 +248,54 @@ outputs that exposed bugs: prose answer keys, "rebuild" answers that actually re
 in place, a linked-list seed that drifted to arrays, and correct questions that PS2 wrongly
 called `misleading`. Other tests prove genuine contradictions are still caught after the PS2
 rules were narrowed.
+
+---
+
+## Keeping variations on the seed's objective
+
+A variation may change the dimension its strategy names and nothing else. Three pieces
+enforce that, none of them specific to a topic:
+
+- **Seed Contract** (`backend/app/ps8/contract.py`): built locally for every seed. It
+  records the learning objective, the task, the terms measured to carry the seed's
+  concept, any technology the seed names, and its stated constraints.
+- **Strategy contracts** (`backend/app/ps8/strategies.py`): each strategy states the one
+  dimension it varies, what it may change, and what no strategy may change. A solution
+  method is only planned for seeds it applies to.
+- **PS8 checks** (`backend/app/ps8/validation/validators.py`): a candidate that no longer
+  contains the contract's required elements fails as "learning objective changed" and is
+  regenerated with that reason. It can end in REVIEW, never in PASS.
+
+Measured on 10 seeds across 10 domains with the real model: questions about a different
+task went from 8 of 50 to 0 of 50. Details, costs and what is still wrong are in
+[`docs/drift_eval/RESULTS.md`](docs/drift_eval/RESULTS.md).
+
+---
+
+## How PS2 decides a generated question
+
+PS2 used to hold every sentence of a generated question to source grounding, which sent
+almost every candidate to REVIEW. It now separates what a question says into:
+
+- **instructions, premises, examples and descriptions of the candidate's own solution**,
+  which assert nothing about the world and are not fact-checked (a stated complexity is
+  still compared with the corpus wherever it appears);
+- **general factual statements**, which are checked against the reference corpus by a local
+  entailment model: a corpus sentence about the same subject must entail the claim for it
+  to count as supported, and a contradicting one makes it contradicted.
+
+Measured on real generations, PASS went from 1 of 50 to 22 of 50 on the main seeds and from
+5 of 50 to 19 of 50 on held-out seeds. On a labelled set, 1 of 22 wrong statements passes.
+Details and limits: [`docs/drift_eval/REVIEW_FIX_RESULTS.md`](docs/drift_eval/REVIEW_FIX_RESULTS.md).
+
+---
+
+## Model benchmark
+
+`scripts/benchmark_models.py` runs two or more Ollama models through the identical pipeline
+(same seed, count, temperature, PS8 and PS2) and records timings and quality. The measured
+Qwen2.5-Coder 7B vs Mistral 7B comparison, with its conditions and limits, is in
+[`docs/benchmark/RESULTS.md`](docs/benchmark/RESULTS.md). Qwen remains the default.
 
 ---
 
@@ -257,9 +309,16 @@ rules were narrowed.
   were accepted.
 - **Solution methods exist for coding questions only.** Other domains vary by framing strategy
   alone.
-- **The reference corpus is small (36 entries).** It is strong for programming and thin
-  elsewhere, so many correct non-programming claims come back as `unverifiable` and go to
-  REVIEW.
+- **PASS is not a check that the answer is correct.** Code is not executed and arithmetic is
+  not recomputed. PASS means PS8 passed and PS2 found no contradiction, no fabrication marker
+  and no general factual statement the corpus failed to confirm. A question with no such
+  statement passes PS2 with nothing verified, and the result says so.
+- **Explanation-type questions still mostly end in REVIEW.** Their answer keys are paragraphs
+  of factual prose, and a paragraph passes only if the 150-entry corpus confirms every
+  checkable sentence in it. A topic the corpus does not cover always goes to REVIEW.
+- **The entailment model is small.** It does not see attributes swapped between two concepts
+  ("classification predicts a continuous value…"), which is 1 of the 22 wrong statements in
+  the test set that still passes.
 - **Hallucination detection is heuristic**, an explainable signals-based proxy rather than a
   trained classifier. It has not been measured against a labelled benchmark yet.
 - **Difficulty** is estimated from linguistic and structural cues, not learned from human
@@ -281,9 +340,12 @@ rules were narrowed.
   before this rule.
 - **PS2 can miss a logically impossible question.** For example, it did not flag "no local
   variables *and* constant recursion depth" for recursive reversal.
-- **Few integrated PASSes with the current corpus.** In the two browser runs (13 candidates),
-  2 passed and 11 went to REVIEW. Most passed PS8 but scored 0.56–0.69 reliability, just
-  under the 0.70 PASS bar, because the 36-entry corpus cannot ground their scenario details.
+- **A few variations of short seeds are still rejected as too similar.** The prompt now
+  says how each strategy's question must open, which took final PS8 passes from 38 to 44
+  of 50 and halved regenerations (41 to 21). Six finals still score above the similarity
+  limit against the seed even though they are not copies of it.
+- **A concept described but never named is sent back for regeneration.** "Email addresses
+  that appear more than once" is flagged for a seed about "duplicate" addresses.
 - **Jobs are held in memory.** A backend restart loses job records (the last 50 are kept).
   Candidates themselves are persisted as before. Records created before the shared
   taxonomy have no `subject_area`, so they only appear under the "All" filter.
@@ -291,7 +353,7 @@ rules were narrowed.
   the area is recorded and filtered on, but PS2's corpus is not area-specific.
 - **Browser UI validation is partial.** The full workflow was exercised in Chrome (see the
   development log). A regeneration ending in **PASS** was not observed in the browser runs:
-  the ones seen ended in REVIEW. The frontend has no automated tests.
+  the ones seen ended in REVIEW.
 
 ---
 

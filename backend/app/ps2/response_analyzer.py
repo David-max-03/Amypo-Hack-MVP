@@ -80,6 +80,174 @@ _FACTUAL_HINT_RE = re.compile(
     re.I,
 )
 
+# ---------------------------------------------------------------------------
+# Generated questions: what is a claim and what is not
+# ---------------------------------------------------------------------------
+# A generated exam question is mostly not assertion. "Check if the number 37 is
+# prime." is an instruction; "Each member has an email address." is a premise the
+# problem sets up; "is_prime(2) should return True" is a specification; "This query
+# groups the rows by email" describes the candidate's own solution. None of them can
+# be true or false against a reference corpus, and holding them to source grounding
+# marked nearly every generated question "unverifiable". These patterns are purely
+# about sentence form - there is no topic vocabulary in them - and they are applied
+# only when PS2 verifies a generated candidate, never to free text sent to /verify.
+
+_LEAD_IN = (
+    r"^\s*(?:(?:then|next|finally|first|second|third|also|now|additionally|however|instead|"
+    r"please|lastly|afterwards?|task|question|problem|part\s+\w+|step\s+\w+|\(?[a-z0-9]{1,2}[.)])"
+    r"\s*[:,.)-]?\s*)*"
+)
+# Verbs that open an imperative addressed to the learner.
+_IMPERATIVE_VERBS = (
+    "write|implement|create|design|develop|build|define|find|determine|check|calculate|"
+    "compute|evaluate|solve|explain|describe|discuss|compare|contrast|identify|list|name|"
+    "state|show|prove|derive|give|provide|return|use|consider|ensure|make sure|complete|"
+    "fix|debug|correct|trace|predict|modify|rewrite|refactor|optimi[sz]e|test|validate|"
+    "include|add|handle|print|output|sort|reverse|convert|classify|differentiate|simplify|"
+    "express|justify|analy[sz]e|summari[sz]e|outline|illustrate|draw|select|choose|note|"
+    "do not|don't|avoid|represent|arrange|count|remove|insert|delete|search|group|apply|"
+    "demonstrate|construct|generate|produce|verify|label|match|order|rank|estimate|"
+    "translate|draft|formulate|specify|locate|extend|adapt|rework|answer|decide|suggest|"
+    "propose|recommend|refer|read|look|run|call|pass|assign|store|keep|leave|submit"
+)
+_IMPERATIVE_RE = re.compile(_LEAD_IN + rf"(?:{_IMPERATIVE_VERBS})\b(?!\s+of\b)", re.I)
+# "You must ...", "Your function should ..." - addressed to the learner.
+_SECOND_PERSON_RE = re.compile(_LEAD_IN + r"(?:you|your)\b", re.I)
+# A requirement on the thing being built: a definite subject plus an obligation.
+# "The function should return -1" is a requirement; "A recursive solution must use
+# O(n) stack space" has a generic subject and stays a factual claim.
+_REQUIREMENT_RE = re.compile(
+    _LEAD_IN + r"(?:the|this|that|these|those|each|every|all|any|its|it|both)\b[^.?!]*?\b"
+    r"(?:should|must|shall|needs? to|ha(?:s|ve) to|(?:is|are) (?:required|expected|supposed) to|"
+    r"(?:is|are) not allowed|may not|cannot|can not|will be)\b",
+    re.I,
+)
+# Examples, formats and givens.
+_GIVEN_RE = re.compile(
+    _LEAD_IN + r"(?:for example|example(?: usage)?|e\.g\.|for instance|input|output|"
+    r"expected (?:output|result)|sample|test cases?|constraints?|note|hint|usage|given|"
+    r"where)\b",
+    re.I,
+)
+# A statement that would be true or false whatever this question is: a complexity, a
+# definition, a general law, a comparison between concepts. These stay factual claims
+# wherever they appear, including inside a question.
+_GENERAL_CLAIM_RE = re.compile(
+    r"\bO\(\s*[^)]{1,24}\)|\b(?:time|space) complexity\b"
+    r"|\b(?:linear|constant|logarithmic|quadratic|exponential|polynomial)[- ](?:time|space)\b"
+    r"|\b(?:worst|best|average)[- ]case\b"
+    r"|\bis defined as\b|\brefers to\b|\b(?:is|are) (?:called|known as)\b"
+    r"|\b(?:is|are) a (?:type|kind|form) of\b|\bby definition\b"
+    r"|\b(?:in general|generally|typically|always|never|guarantee[sd]?)\b"
+    r"|\b(?:faster|slower|cheaper|larger|smaller|better|worse|more \w+|less \w+) than\b",
+    re.I,
+)
+# "A prime number is a natural number ...", "Binary search is an algorithm ...": a
+# generic subject (no "the / this / each / your") defined with "is a".
+_DEFINITION_RE = re.compile(
+    r"^\s*(?!(?:the|this|that|these|those|each|every|all|your|you|it|its|their|our|we|i|"
+    r"there|here|in|on|at|for|when|if|as|after|before|once|given)\b)"
+    r"(?:an?\s+)?[A-Za-z][\w'/-]*(?:\s+[\w'/-]+){0,4}\s+(?:is|are)\s+(?:an?|the)\s",
+    re.I,
+)
+# A sentence about the candidate's own solution: "This query groups ...", "The loop
+# checks ...", "The HAVING clause filters ...".
+_SOLUTION_NOUNS = (
+    "function|method|query|subquery|code|solution|implementation|approach|program|script|"
+    "snippet|class|loop|statement|expression|rule|selector|form|markup|routine|helper|"
+    "variable|condition|clause|line|block|test cases?|example|answer|output|result|"
+    "base case|recursive call|recursion|constructor|operation|step"
+)
+_SELF_REFERENCE_RE = re.compile(
+    rf"^\s*(?:this|the|these|our|my)\s+(?:\S+\s+){{0,2}}?(?:{_SOLUTION_NOUNS})\b"
+    r"|^\s*this\s+(?:algorithm|technique|version|variant)\b"
+    r"|^\s*(?:here|in (?:this|the) (?:solution|code|implementation|approach|query|example|"
+    r"function|answer))\b",
+    re.I,
+)
+# In the explanation that follows reference code, "It iterates ..." / "We keep ..."
+# are still about that code.
+_PRONOUN_LED_RE = re.compile(r"^\s*(?:it|we|they)\b", re.I)
+
+
+# Values and names a problem introduces: numbers, and identifiers that carry a digit
+# ("P3", "x2"). A sentence of the answer that uses one of them is working this
+# particular problem - "P3 runs from time 6 to time 10" - not stating a general fact.
+_INSTANCE_TOKEN_RE = re.compile(r"(?<![\w.])[A-Za-z]{0,6}\d+(?:\.\d+)?(?![\w])")
+
+
+def instance_tokens(text: str) -> frozenset[str]:
+    return frozenset(m.group(0).lower() for m in _INSTANCE_TOKEN_RE.finditer(text or ""))
+
+
+def _is_general_claim(sentence: str) -> bool:
+    return bool(_GENERAL_CLAIM_RE.search(sentence) or _DEFINITION_RE.match(sentence))
+
+
+def classify_question_sentence(sentence: str) -> str:
+    """Label one sentence of a generated question's text.
+
+    A question's declarative sentences are its givens. They are checked as facts
+    only when they state something general - a complexity, a definition, a law -
+    because that is the only kind of statement in a question that can be wrong
+    about the world rather than merely part of the problem.
+    """
+    if _CITATION_RE.search(sentence):
+        return "citation"
+    if _OPINION_RE.search(sentence):
+        return "opinion"
+    if sentence.rstrip().endswith("?"):
+        return "instruction"
+    if _SCENARIO_FRAME_RE.search(sentence) or _ASSUMPTION_RE.search(sentence):
+        return "assumption"
+    if _IMPERATIVE_RE.match(sentence) or _SECOND_PERSON_RE.match(sentence) \
+            or _REQUIREMENT_RE.match(sentence):
+        return "instruction"
+    if _GIVEN_RE.match(sentence):
+        return "setup"
+    if _is_general_claim(sentence):
+        return "factual"
+    return "setup"
+
+
+def classify_answer_sentence(
+    sentence: str, *, code_answer: bool, problem_tokens: frozenset[str] = frozenset()
+) -> str:
+    """Label one prose sentence of a generated answer key.
+
+    The answer's assertions are what must be right, so the default stays "factual".
+    Only sentences about the candidate's own solution, or working this problem's own
+    values, are set aside - and a general statement ("this runs in O(1) space") is
+    never set aside.
+    """
+    if _CITATION_RE.search(sentence):
+        return "citation"
+    if _OPINION_RE.search(sentence):
+        return "opinion"
+    if _is_general_claim(sentence):
+        return "answer" if _ANSWER_RE.search(sentence) else "factual"
+    if _GIVEN_RE.match(sentence):
+        return "setup"
+    if _SELF_REFERENCE_RE.match(sentence) or (code_answer and _PRONOUN_LED_RE.match(sentence)):
+        return "explanation"
+    if problem_tokens and instance_tokens(sentence) & problem_tokens:
+        return "explanation"
+    label = classify_claim(sentence)
+    # `classify_claim` files a sentence under "inference" when its verb is not on a
+    # short list, which leaves "HAVING filters rows before grouping." unchecked. In an
+    # answer key a complete declarative sentence is an assertion unless it is marked
+    # as a conclusion, so it is checked.
+    if (
+        label == "inference"
+        and not _INFERENCE_RE.search(sentence)
+        and sentence.rstrip().endswith(".")
+        and len(content_tokens(sentence)) >= 4
+        and not re.search(r"[`(){}\[\]=<>]", sentence)
+    ):
+        return "factual"
+    return label
+
+
 # Minimum content words for a fragment to be worth verifying on its own. Set to 2
 # rather than 3 because short assertions ("A stack is LIFO") are perfectly checkable
 # factual claims, and dropping them would let real errors through unverified. Genuine
@@ -112,6 +280,21 @@ _BRACE_OR_STATEMENT_RE = re.compile(r"^\s*[{}()\[\];]+\s*$|;\s*$|\{\s*$")
 # duplicates" / "# 2. ... with duplicates") were read as contradicting claims.
 _CODE_COMMENT_RE = re.compile(r"^\s*(?:#|//)")
 _FENCE_RE = re.compile(r"^\s*```")
+# Code that is not a statement in a programming language: a line of markup, and a
+# line of a SQL statement. SQL keywords are matched in upper case only (or as a full
+# `select ... from` on one line) so that prose such as "Select the best answer" or
+# "Where a claim is unsupported ..." is never mistaken for a query.
+_MARKUP_LINE_RE = re.compile(r"^\s*</?[A-Za-z][\w-]*(?:\s[^<>]*)?/?>")
+# A line of a query does not end in a full stop; "HAVING filters groups after GROUP
+# BY." is a sentence about SQL, not SQL.
+_SQL_LINE_RE = re.compile(
+    r"^\s*(?:SELECT|FROM|WHERE|GROUP BY|HAVING|ORDER BY|INSERT INTO|UPDATE|DELETE FROM|"
+    r"CREATE (?:TABLE|INDEX|VIEW)|(?:LEFT|RIGHT|INNER|OUTER|FULL|CROSS) JOIN|JOIN|ON|LIMIT|"
+    r"OFFSET|UNION|WITH|VALUES|SET|AND|OR)\b(?!.*\.\s*$)"
+)
+_SQL_INLINE_RE = re.compile(
+    r"^\s*select\b.+\bfrom\s+\w+\s*(?:;|$|where\b|group\b|order\b|join\b|limit\b|having\b)"
+)
 
 
 def _is_code_line(line: str) -> bool:
@@ -121,6 +304,9 @@ def _is_code_line(line: str) -> bool:
         or _ASSIGNMENT_RE.match(line)
         or _BRACE_OR_STATEMENT_RE.search(line)
         or _CODE_COMMENT_RE.match(line)
+        or _MARKUP_LINE_RE.match(line)
+        or _SQL_LINE_RE.match(line)
+        or _SQL_INLINE_RE.match(line)
     )
 
 
@@ -181,15 +367,22 @@ def classify_claim(sentence: str) -> str:
     return "inference"
 
 
-def extract_claims(text: str) -> list[Claim]:
+def extract_claims(
+    text: str, *, question_end: int | None = None, code_answer: bool = False
+) -> list[Claim]:
     """Split a response into labelled, span-located claims.
 
     Each claim keeps its character offsets in the original text so the UI can
     highlight the exact words that triggered a flag.
+
+    `question_end` marks a generated candidate: characters before it are the question,
+    the rest is the answer key, and each part is classified by its own rules. Without
+    it (free text sent to /verify) every sentence is classified as before.
     """
     if not text or not text.strip():
         return []
 
+    problem_tokens = instance_tokens(text[:question_end]) if question_end is not None else frozenset()
     claims: list[Claim] = []
     cursor = 0
     for sentence in split_sentences(text):
@@ -208,7 +401,13 @@ def extract_claims(text: str) -> list[Claim]:
         claims.append(
             Claim(
                 text=sentence,
-                claim_type=classify_claim(sentence),  # type: ignore[arg-type]
+                claim_type=(  # type: ignore[arg-type]
+                    classify_claim(sentence) if question_end is None
+                    else classify_question_sentence(sentence) if start < question_end
+                    else classify_answer_sentence(
+                        sentence, code_answer=code_answer, problem_tokens=problem_tokens
+                    )
+                ),
                 start=start,
                 end=end,
             )

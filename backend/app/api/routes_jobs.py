@@ -45,3 +45,11 @@ def get_job(job_id: str) -> dict:
     if job is None:
         raise HTTPException(status_code=404, detail=f"No job {job_id!r} (jobs live until the backend restarts)")
     return job
+
+
+@router.post("/jobs/{job_id}/cancel", summary="Stop a running job before its next candidate")
+def cancel_job(job_id: str) -> dict:
+    job = jobs.cancel(job_id)
+    if job is None:
+        raise HTTPException(status_code=404, detail=f"No job {job_id!r} (jobs live until the backend restarts)")
+    return job

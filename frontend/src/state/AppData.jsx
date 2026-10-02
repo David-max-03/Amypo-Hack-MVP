@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { api } from '../api.js';
+import { useToast } from '../components/Toast.jsx';
 
 /**
  * App-level state that must outlive any single page:
@@ -13,7 +14,7 @@ import { api } from '../api.js';
  */
 const AppDataContext = createContext(null);
 const JOB_KEY = 'amypo.activeJobId';
-const TERMINAL = new Set(['completed', 'failed']);
+const TERMINAL = new Set(['completed', 'failed', 'cancelled']);
 
 function readStoredJobId() {
   try { return window.localStorage.getItem(JOB_KEY); } catch { return null; }
@@ -25,7 +26,8 @@ function storeJobId(id) {
   } catch { /* storage unavailable (private mode): the job still runs, only reload-resume is lost */ }
 }
 
-export function AppDataProvider({ children }) {
+export function AppDataProvider({ children, pollMs = 1500 }) {
+  const toast = useToast();
   const [taxonomy, setTaxonomy] = useState(null);
   const [taxonomyError, setTaxonomyError] = useState(null);
   const [health, setHealth] = useState(null);
@@ -34,6 +36,7 @@ export function AppDataProvider({ children }) {
   const [job, setJob] = useState(null);
   const [jobError, setJobError] = useState(null);
   const pollRef = useRef(null);
+  const sawRunning = useRef(null);
 
   const refreshHealth = useCallback(() => {
     api.health().then((h) => { setHealth(h); setHealthError(null); }).catch((e) => setHealthError(e.message));
@@ -60,19 +63,29 @@ export function AppDataProvider({ children }) {
           if (TERMINAL.has(j.status)) {
             clearInterval(pollRef.current);
             refreshHealth();
+            // Announce the end once, wherever the user is - not on a reload of an old job.
+            if (sawRunning.current === j.job_id) {
+              sawRunning.current = null;
+              const counts = `${j.accepted_count} PASS · ${j.review_count} REVIEW · ${j.rejected_count} REJECT`;
+              if (j.status === 'completed') toast(`${j.demo ? 'Demo' : 'Generation'} finished — ${counts}`, 'success');
+              else if (j.status === 'cancelled') toast(`Generation cancelled — ${j.generated_count} of ${j.requested_count} decided`, 'warn');
+              else toast(`Generation failed — ${j.errors?.[0] || 'see the Generate page'}`, 'error', 10000);
+            }
+          } else {
+            sawRunning.current = j.job_id;
           }
         })
         .catch((e) => {
           if (cancelled) return;
           // 404: the backend restarted and forgot the job - stop tracking it.
-          if (/No job/.test(e.message)) { setJobId(null); storeJobId(null); }
+          if (/No job/.test(e.message)) { setJobId(null); storeJobId(null); setJobError(null); return; }
           setJobError(e.message);
         });
     };
     tick();
-    pollRef.current = setInterval(tick, 1500);
+    pollRef.current = setInterval(tick, pollMs);
     return () => { cancelled = true; clearInterval(pollRef.current); };
-  }, [jobId, refreshHealth]);
+  }, [jobId, refreshHealth, pollMs, toast]);
 
   const track = useCallback((started) => {
     setJob(started);
@@ -84,11 +97,12 @@ export function AppDataProvider({ children }) {
   const startJob = useCallback((payload) => api.startJob(payload).then(track), [track]);
   const startDemoJob = useCallback(() => api.startDemoJob().then(track), [track]);
   const clearJob = useCallback(() => { setJobId(null); storeJobId(null); setJob(null); }, []);
+  const cancelJob = useCallback(() => (jobId ? api.cancelJob(jobId).then((j) => { setJob((cur) => ({ ...cur, ...j })); return j; }) : Promise.resolve(null)), [jobId]);
 
   const value = {
     taxonomy, taxonomyError, health, healthError, refreshHealth,
     job, jobError, jobRunning: !!job && !TERMINAL.has(job.status),
-    startJob, startDemoJob, clearJob,
+    startJob, startDemoJob, clearJob, cancelJob,
   };
   return <AppDataContext.Provider value={value}>{children}</AppDataContext.Provider>;
 }

@@ -5166,6 +5166,2979 @@
       "structural_reasons": [
         "semantic similarity too high: 0.91 against the previously accepted question (threshold 0.86)"
       ]
+    },
+    {
+      "id": "q_cc8a7cad17",
+      "question": "In a logistics company's delivery system, each delivery is represented as a node in a singly linked list. Each node has a `delivery_id` and a pointer to the next delivery. The company wants to ensure that no deliveries are processed out of order. Your task is to implement an iterative function to check if there is a cycle in the delivery sequence. A cycle would mean that a delivery is processed before a previous one. Implement the function `detect_cycle(head)`, where `head` is the head of the linked list, and return `True` if a cycle is detected, otherwise return `False`.",
+      "answer_key": "def detect_cycle(head):\n    slow = fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n        if slow == fast:\n            return True\n    return False\nThis function uses Floyd's Tortoise and Hare algorithm to detect a cycle in the linked list. It iterates through the list with two pointers moving at different speeds. If a cycle exists, the slow pointer and fast pointer will eventually meet.",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "hard",
+      "difficulty_score": 0.85,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement an algorithm to detect a cycle in a singly linked list.",
+      "test_cases": [
+        {
+          "input": "delivery1 -> delivery2 -> delivery3 -> delivery1",
+          "expected_output": "True"
+        },
+        {
+          "input": "delivery1 -> delivery2 -> delivery3 -> delivery4",
+          "expected_output": "False"
+        }
+      ],
+      "variation_strategy": "scenario",
+      "subject_area": "data_structures",
+      "strategy_label": "Scenario Variation",
+      "solution_method": "iterative",
+      "seed_question": "Write a function to detect a cycle in a singly linked list.",
+      "job_id": "job_982bceb7ee93",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-10-01T07:09:26+00:00",
+      "reliability_score": 0.607,
+      "verdict": "partially_reliable",
+      "hallucination_probability": 0.2893,
+      "review_reasons": [
+        "REVIEW: reliability 0.61 sits between the review floor 0.45 and the pass threshold 0.70",
+        "5 flagged span(s) need a human check"
+      ],
+      "flagged_spans": [
+        {
+          "text": "In a logistics company's delivery system, each delivery is represented as a node in a singly linked list.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.34, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 0,
+          "end": 105,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.3398
+        },
+        {
+          "text": "Each node has a `delivery_id` and a pointer to the next delivery.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.26, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 106,
+          "end": 171,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.2557
+        },
+        {
+          "text": "The company wants to ensure that no deliveries are processed out of order.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.27, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 172,
+          "end": 246,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time.",
+          "best_similarity": 0.2691
+        },
+        {
+          "text": "A cycle would mean that a delivery is processed before a previous one.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.32, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 350,
+          "end": 420,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time.",
+          "best_similarity": 0.3166
+        },
+        {
+          "text": "If a cycle exists, the slow pointer and fast pointer will eventually meet.",
+          "reason": "only partially supported: only weakly related to 'Detecting a cycle in a linked list' (0.55 similarity, below the 0.55 support threshold)",
+          "start": 946,
+          "end": 1020,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space.",
+          "best_similarity": 0.5481
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "In a logistics company's delivery system, each delivery is represented as a node in a singly linked list.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3398,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Each node has a `delivery_id` and a pointer to the next delivery.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2557,
+          "keyword_grounding": 0.6667,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The company wants to ensure that no deliveries are processed out of order.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2691,
+          "keyword_grounding": 0.1429,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "Your task is to implement an iterative function to check if there is a cycle in the delivery sequence.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3673,
+          "keyword_grounding": 0.1429,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "A cycle would mean that a delivery is processed before a previous one.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3166,
+          "keyword_grounding": 0.125,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "Implement the function `detect_cycle(head)`, where `head` is the head of the linked list, and return `True` if a cycle is detected, otherwise return `False`.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.6916,
+          "keyword_grounding": 0.3,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "This function uses Floyd's Tortoise and Hare algorithm to detect a cycle in the linked list.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.8643,
+          "keyword_grounding": 0.7778,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "It iterates through the list with two pointers moving at different speeds.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5199,
+          "keyword_grounding": 0.75,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "If a cycle exists, the slow pointer and fast pointer will eventually meet.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5481,
+          "keyword_grounding": 0.1429,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        }
+      ],
+      "structural_reasons": []
+    },
+    {
+      "id": "q_510b367380",
+      "question": "Given a singly linked list representing a series of tasks, where each node contains a `task_id` and a pointer to the next node, write a recursive function to detect if there is a cycle in the task sequence. The function should return `True` if a cycle is detected, and `False` otherwise. You are not allowed to use any additional data structures, and you must traverse the list only once.",
+      "answer_key": "def detect_cycle(head):\n    def helper(node, visited):\n        if not node:\n            return False\n        if node in visited:\n            return True\n        visited.add(node)\n        return helper(node.next, visited)\n    return helper(head, set())\n\n# Test cases\ntest_cases = [\n    ({'task_id': 1, 'next': {'task_id': 2, 'next': {'task_id': 3, 'next': None}}}}, False),\n    ({'task_id': 1, 'next': {'task_id': 2, 'next': {'task_id': 3, 'next': {'task_id': 2, 'next': None}}}}, True)\n]",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "hard",
+      "difficulty_score": 0.85,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement an algorithm to detect a cycle in a singly linked list.",
+      "test_cases": [
+        {
+          "input": "{ 'task_id': 1, 'next': { 'task_id': 2, 'next': { 'task_id': 3, 'next': None } } }",
+          "expected_output": "False"
+        },
+        {
+          "input": "{ 'task_id': 1, 'next': { 'task_id': 2, 'next': { 'task_id': 3, 'next': { 'task_id': 2, 'next': None } } } }",
+          "expected_output": "True"
+        }
+      ],
+      "variation_strategy": "constraint",
+      "subject_area": "data_structures",
+      "strategy_label": "Constraint Variation",
+      "solution_method": "recursive",
+      "seed_question": "Write a function to detect a cycle in a singly linked list.",
+      "job_id": "job_982bceb7ee93",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": true,
+      "attempts": 2,
+      "regeneration_history": [
+        {
+          "attempt": 1,
+          "rejected_question": "Design a recursive function to detect a cycle in a singly linked list. The function should return `True` if a cycle is detected, and `False` otherwise. You are not allowed to use any additional data structures, and you must traverse the list only once.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "semantic similarity too high: 0.89 against the seed question (threshold 0.86)",
+            "not a meaningful variation: 0.89 semantic similarity to the seed reads as a paraphrase (max 0.80)",
+            "solution method mismatch: planned recursive solution, but the answer key does not use it"
+          ],
+          "reliability_reasons": [
+            "0 of 2 checkable claims were grounded in the local reference corpus (grounding score 0.50)",
+            "estimated hallucination probability 0.23",
+            "2 claim(s) matched the corpus topically but their specific details were not confirmed"
+          ],
+          "flagged_spans": [
+            {
+              "text": "The function should return `True` if a cycle is detected, and `False` otherwise.",
+              "reason": "only partially supported: only weakly related to 'Detecting a cycle in a linked list' (0.44 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            },
+            {
+              "text": "You are not allowed to use any additional data structures, and you must traverse the list only once.",
+              "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.38 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.6466,
+          "verdict": "unverifiable"
+        }
+      ],
+      "created_at": "2026-10-01T07:10:41+00:00",
+      "reliability_score": 0.6547,
+      "verdict": "unverifiable",
+      "hallucination_probability": 0.225,
+      "review_reasons": [
+        "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+      ],
+      "flagged_spans": [
+        {
+          "text": "Given a singly linked list representing a series of tasks, where each node contains a `task_id` and a pointer to the next node, write a recursive function to detect if there is a cycle in the task sequence.",
+          "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.49 similarity, below the 0.55 support threshold)",
+          "start": 0,
+          "end": 206,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.493
+        },
+        {
+          "text": "The function should return `True` if a cycle is detected, and `False` otherwise.",
+          "reason": "only partially supported: only weakly related to 'Detecting a cycle in a linked list' (0.44 similarity, below the 0.55 support threshold)",
+          "start": 207,
+          "end": 287,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space.",
+          "best_similarity": 0.4409
+        },
+        {
+          "text": "You are not allowed to use any additional data structures, and you must traverse the list only once.",
+          "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.38 similarity, below the 0.55 support threshold)",
+          "start": 288,
+          "end": 388,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.3822
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "Given a singly linked list representing a series of tasks, where each node contains a `task_id` and a pointer to the next node, write a recursive function to detect if there is a cycle in the task sequence.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.493,
+          "keyword_grounding": 0.3684,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The function should return `True` if a cycle is detected, and `False` otherwise.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4409,
+          "keyword_grounding": 0.1667,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "You are not allowed to use any additional data structures, and you must traverse the list only once.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.3822,
+          "keyword_grounding": 0.2,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        }
+      ],
+      "structural_reasons": []
+    },
+    {
+      "id": "q_fa48a971f0",
+      "question": "Given a singly linked list where each node contains an integer value, write a function to detect if there is a cycle in the list using an auxiliary stack. The function should return `True` if a cycle is detected, otherwise return `False`. Assume the linked list is not empty.",
+      "answer_key": "def has_cycle(head):\n    stack = []\n    current = head\n    while current:\n        if current in stack:\n            return True\n        stack.append(current)\n        current = current.next\n    return False\nThis solution uses an auxiliary stack to track visited nodes. If a node is encountered that is already in the stack, a cycle is detected.",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "hard",
+      "difficulty_score": 0.85,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement an algorithm to detect a cycle in a singly linked list.",
+      "test_cases": [
+        {
+          "input": "1 -> 2 -> 3 -> 4 -> 5 -> 2",
+          "expected_output": "True"
+        },
+        {
+          "input": "6 -> 7 -> 8 -> 9",
+          "expected_output": "False"
+        }
+      ],
+      "variation_strategy": "parameter",
+      "subject_area": "data_structures",
+      "strategy_label": "Parameter Variation",
+      "solution_method": "auxiliary",
+      "seed_question": "Write a function to detect a cycle in a singly linked list.",
+      "job_id": "job_982bceb7ee93",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-10-01T07:12:00+00:00",
+      "reliability_score": 0.6018,
+      "verdict": "unverifiable",
+      "hallucination_probability": 0.2812,
+      "review_reasons": [
+        "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+      ],
+      "flagged_spans": [
+        {
+          "text": "This solution uses an auxiliary stack to track visited nodes.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.23, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 482,
+          "end": 543,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory.",
+          "best_similarity": 0.2332
+        },
+        {
+          "text": "Given a singly linked list where each node contains an integer value, write a function to detect if there is a cycle in the list using an auxiliary stack.",
+          "reason": "only partially supported: the corpus discusses this topic ('Detecting a cycle in a linked list') at 0.60 similarity, but only 0.21 of the claim's specific terms appear in that evidence (need 0.25), so the specific details are not confirmed",
+          "start": 0,
+          "end": 154,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space.",
+          "best_similarity": 0.6013
+        },
+        {
+          "text": "The function should return `True` if a cycle is detected, otherwise return `False`.",
+          "reason": "only partially supported: only weakly related to 'Detecting a cycle in a linked list' (0.43 similarity, below the 0.55 support threshold)",
+          "start": 155,
+          "end": 238,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space.",
+          "best_similarity": 0.4289
+        },
+        {
+          "text": "If a node is encountered that is already in the stack, a cycle is detected.",
+          "reason": "only partially supported: only weakly related to 'Detecting a cycle in a linked list' (0.54 similarity, below the 0.55 support threshold)",
+          "start": 544,
+          "end": 619,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space.",
+          "best_similarity": 0.5403
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "Given a singly linked list where each node contains an integer value, write a function to detect if there is a cycle in the list using an auxiliary stack.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.6013,
+          "keyword_grounding": 0.2143,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "The function should return `True` if a cycle is detected, otherwise return `False`.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4289,
+          "keyword_grounding": 0.1667,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "Assume the linked list is not empty.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5227,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-004",
+          "source_title": "Linked list traversal is sequential",
+          "source_text": "A singly linked list does not support random access. Reaching the i-th element requires traversing i nodes from the head, so indexed access costs O(n), unlike an array which costs O(1)."
+        },
+        {
+          "claim": "This solution uses an auxiliary stack to track visited nodes.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2332,
+          "keyword_grounding": 0.4286,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "If a node is encountered that is already in the stack, a cycle is detected.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5403,
+          "keyword_grounding": 0.1667,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        }
+      ],
+      "structural_reasons": []
+    },
+    {
+      "id": "q_fe27996336",
+      "question": "You are given a singly linked list of integers. Your task is to implement a function that reverses the list using a non-destructive rebuild method. You must not modify the original linked list. Return the new head of the reversed list.",
+      "answer_key": "def reverse(head):\n    new_head = None\n    node = head\n    while node:\n        new_head = ListNode(node.val, new_head)\n        node = node.next\n    return new_head",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "hard",
+      "difficulty_score": 0.85,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement an algorithm to detect a cycle in a singly linked list.",
+      "test_cases": [
+        {
+          "input": "1 -> 2 -> 3 -> 4 -> 5",
+          "expected_output": "5 -> 4 -> 3 -> 2 -> 1"
+        },
+        {
+          "input": "10 -> 20 -> 30",
+          "expected_output": "30 -> 20 -> 10"
+        }
+      ],
+      "variation_strategy": "structure",
+      "subject_area": "data_structures",
+      "strategy_label": "Structure Variation",
+      "solution_method": "rebuild",
+      "seed_question": "Write a function to detect a cycle in a singly linked list.",
+      "job_id": "job_982bceb7ee93",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": true,
+      "attempts": 3,
+      "regeneration_history": [
+        {
+          "attempt": 1,
+          "rejected_question": "You are given a singly linked list of integers. Your task is to reverse the list using a non-destructive rebuild method, returning a new head of the reversed list. You must not modify the original linked list. Assume the linked list is not empty.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "semantic similarity too high: 0.87 against the previously accepted question (threshold 0.86)",
+            "answer key describes a solution instead of giving one: a coding question needs a complete reference implementation in code"
+          ],
+          "reliability_reasons": [
+            "0 of 1 checkable claims were grounded in the local reference corpus (grounding score 0.50)",
+            "estimated hallucination probability 0.23",
+            "1 claim(s) matched the corpus topically but their specific details were not confirmed"
+          ],
+          "flagged_spans": [
+            {
+              "text": "You must not modify the original linked list.",
+              "reason": "only partially supported: only weakly related to 'Python list is a dynamic array' (0.43 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.6822,
+          "verdict": "unverifiable"
+        },
+        {
+          "attempt": 2,
+          "rejected_question": "You are given a singly linked list of integers. Your task is to implement a function that detects a cycle in the list using a non-destructive rebuild method. You must not modify the original linked list. Return a boolean value indicating whether a cycle exists. Assume the linked list is not empty.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "not a meaningful variation: 0.85 semantic similarity to the seed reads as a paraphrase (max 0.80)",
+            "solution method mismatch: planned non-destructive rebuild, but the answer key does not use it"
+          ],
+          "reliability_reasons": [
+            "2 of 5 checkable claims were grounded in the local reference corpus (grounding score 0.70)",
+            "estimated hallucination probability 0.14",
+            "3 claim(s) matched the corpus topically but their specific details were not confirmed"
+          ],
+          "flagged_spans": [
+            {
+              "text": "You must not modify the original linked list.",
+              "reason": "only partially supported: only weakly related to 'Python list is a dynamic array' (0.43 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            },
+            {
+              "text": "Return a boolean value indicating whether a cycle exists.",
+              "reason": "only partially supported: only weakly related to 'Detecting a cycle in a linked list' (0.45 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            },
+            {
+              "text": "If there is a cycle, the `fast` pointer will eventually meet the `slow` pointer inside the cycle.",
+              "reason": "only partially supported: only weakly related to 'Detecting a cycle in a linked list' (0.55 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.7698,
+          "verdict": "trustworthy"
+        }
+      ],
+      "created_at": "2026-10-01T07:13:18+00:00",
+      "reliability_score": 0.6833,
+      "verdict": "unverifiable",
+      "hallucination_probability": 0.225,
+      "review_reasons": [
+        "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+      ],
+      "flagged_spans": [
+        {
+          "text": "You must not modify the original linked list.",
+          "reason": "only partially supported: only weakly related to 'Python list is a dynamic array' (0.43 similarity, below the 0.55 support threshold)",
+          "start": 148,
+          "end": 193,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "A Python list is implemented as a dynamic array, not a linked list. Appending is amortised O(1), indexing is O(1), and inserting or deleting at the front is O(n) because later elements must shift.",
+          "best_similarity": 0.4306
+        },
+        {
+          "text": "Return the new head of the reversed list.",
+          "reason": "only partially supported: only weakly related to 'In-place algorithms and auxiliary space' (0.47 similarity, below the 0.55 support threshold)",
+          "start": 194,
+          "end": 235,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory.",
+          "best_similarity": 0.4747
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "You are given a singly linked list of integers.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4566,
+          "keyword_grounding": 0.75,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Your task is to implement a function that reverses the list using a non-destructive rebuild method.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.6348,
+          "keyword_grounding": 0.1667,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "You must not modify the original linked list.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4306,
+          "keyword_grounding": 0.6,
+          "source_id": "prog-013",
+          "source_title": "Python list is a dynamic array",
+          "source_text": "A Python list is implemented as a dynamic array, not a linked list. Appending is amortised O(1), indexing is O(1), and inserting or deleting at the front is O(n) because later elements must shift."
+        },
+        {
+          "claim": "Return the new head of the reversed list.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4747,
+          "keyword_grounding": 0.75,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        }
+      ],
+      "structural_reasons": []
+    },
+    {
+      "id": "q_5cba10db1c",
+      "question": "Given a linked list of integers, implement an iterative function to detect if there is a cycle in the list. Return `True` if a cycle is detected, otherwise return `False`. Assume the list is not empty.",
+      "answer_key": "def has_cycle(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n        if slow == fast:\n            return True\n    return False\n\n# Test cases\nassert has_cycle(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(6, ListNode(7, ListNode(8, ListNode(9, ListNode(10))))))))))) == False\nassert has_cycle(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(6, ListNode(7, ListNode(8, ListNode(9, ListNode(10, ListNode(1))))))))))) == True",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "hard",
+      "difficulty_score": 0.85,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement an algorithm to detect a cycle in a singly linked list.",
+      "test_cases": [
+        {
+          "input": "ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(6, ListNode(7, ListNode(8, ListNode(9, ListNode(10)))))))))))",
+          "expected_output": "False"
+        },
+        {
+          "input": "ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(6, ListNode(7, ListNode(8, ListNode(9, ListNode(10, ListNode(1)))))))))))",
+          "expected_output": "True"
+        }
+      ],
+      "variation_strategy": "representation",
+      "subject_area": "data_structures",
+      "strategy_label": "Representation Variation",
+      "solution_method": "iterative",
+      "seed_question": "Write a function to detect a cycle in a singly linked list.",
+      "job_id": "job_982bceb7ee93",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": false,
+      "attempts": 3,
+      "regeneration_history": [
+        {
+          "attempt": 1,
+          "rejected_question": "Given a singly linked list, implement an iterative function to detect a cycle within the list. Each node in the list contains an integer value and a pointer to the next node. Return `True` if a cycle is detected, otherwise return `False`. Assume the list is not empty.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "semantic similarity too high: 0.87 against the seed question (threshold 0.86)",
+            "not a meaningful variation: 0.87 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "reliability_reasons": [
+            "1 of 3 checkable claims were grounded in the local reference corpus (grounding score 0.67)",
+            "estimated hallucination probability 0.15",
+            "2 claim(s) matched the corpus topically but their specific details were not confirmed"
+          ],
+          "flagged_spans": [
+            {
+              "text": "Return `True` if a cycle is detected, otherwise return `False`.",
+              "reason": "only partially supported: only weakly related to 'Detecting a cycle in a linked list' (0.46 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            },
+            {
+              "text": "A cycle is detected if the fast pointer and the slow pointer meet at some node within the list.",
+              "reason": "only partially supported: the corpus discusses this topic ('Detecting a cycle in a linked list') at 0.71 similarity, but only 0.20 of the claim's specific terms appear in that evidence (need 0.25), so the specific details are not confirmed",
+              "severity": "low"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.7523,
+          "verdict": "trustworthy"
+        },
+        {
+          "attempt": 2,
+          "rejected_question": "You are tasked with implementing an iterative function to detect a cycle in a singly linked list. Each node in the list contains an integer value and a pointer to the next node. Your function should return `True` if a cycle is detected, otherwise return `False`. Assume the list is not empty.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "not a meaningful variation: 0.85 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "reliability_reasons": [
+            "1 of 2 checkable claims were grounded in the local reference corpus (grounding score 0.75)",
+            "estimated hallucination probability 0.11",
+            "1 claim(s) matched the corpus topically but their specific details were not confirmed"
+          ],
+          "flagged_spans": [
+            {
+              "text": "Your function should return `True` if a cycle is detected, otherwise return `False`.",
+              "reason": "only partially supported: only weakly related to 'Detecting a cycle in a linked list' (0.39 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.7808,
+          "verdict": "trustworthy"
+        }
+      ],
+      "created_at": "2026-10-01T07:14:42+00:00",
+      "reliability_score": 0.7865,
+      "verdict": "trustworthy",
+      "hallucination_probability": 0.1125,
+      "review_reasons": [
+        "PS8 structural failure: not a meaningful variation: 0.86 semantic similarity to the seed reads as a paraphrase (max 0.80)",
+        "REVIEW: reached the maximum of 2 regeneration attempts without passing both gates - routed to human review instead of being discarded"
+      ],
+      "flagged_spans": [
+        {
+          "text": "Return `True` if a cycle is detected, otherwise return `False`.",
+          "reason": "only partially supported: only weakly related to 'Detecting a cycle in a linked list' (0.46 similarity, below the 0.55 support threshold)",
+          "start": 108,
+          "end": 171,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space.",
+          "best_similarity": 0.4628
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "Given a linked list of integers, implement an iterative function to detect if there is a cycle in the list.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.7052,
+          "keyword_grounding": 0.4286,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "Return `True` if a cycle is detected, otherwise return `False`.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4628,
+          "keyword_grounding": 0.2,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "Assume the list is not empty.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.402,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-013",
+          "source_title": "Python list is a dynamic array",
+          "source_text": "A Python list is implemented as a dynamic array, not a linked list. Appending is amortised O(1), indexing is O(1), and inserting or deleting at the front is O(n) because later elements must shift."
+        }
+      ],
+      "structural_reasons": [
+        "not a meaningful variation: 0.86 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+      ]
+    },
+    {
+      "id": "q_5bded45910",
+      "question": "You are developing a new algorithm to detect fraudulent transactions in a financial system. The transactions are stored as a singly linked list, where each node represents a transaction with an `amount` attribute and a `next` attribute pointing to the next node. Your task is to write a recursive function to detect if there are any duplicate transaction amounts in the list, which could indicate fraudulent activity. The function should return `True` if a duplicate is found and `False` otherwise.",
+      "answer_key": "def detect_duplicate_transactions(head):\n    seen = set()\n\n    def helper(node):\n        if not node:\n            return False\n        if node.amount in seen:\n            return True\n        seen.add(node.amount)\n        return helper(node.next)\n\n    return helper(head)\n\n# Test cases\nassert detect_duplicate_transactions(None) == False\nassert detect_duplicate_transactions(ListNode(100, ListNode(200, ListNode(300, ListNode(200))))) == True",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "hard",
+      "difficulty_score": 0.85,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement an algorithm to detect a cycle in a singly linked list.",
+      "test_cases": [
+        {
+          "input": "None",
+          "expected_output": "False"
+        },
+        {
+          "input": "ListNode(100, ListNode(200, ListNode(300, ListNode(200))))",
+          "expected_output": "True"
+        }
+      ],
+      "variation_strategy": "scenario",
+      "subject_area": "data_structures",
+      "strategy_label": "Scenario Variation",
+      "solution_method": "recursive",
+      "seed_question": "Write a function to detect a cycle in a singly linked list.",
+      "job_id": "job_982bceb7ee93",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-10-01T07:15:11+00:00",
+      "reliability_score": 0.5269,
+      "verdict": "unverifiable",
+      "hallucination_probability": 0.3375,
+      "review_reasons": [
+        "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+      ],
+      "flagged_spans": [
+        {
+          "text": "The function should return `True` if a duplicate is found and `False` otherwise.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.18, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 418,
+          "end": 498,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Binary search runs in O(log n) time but only works on a sorted sequence with random access. On an unsorted array it gives incorrect results, and on a linked list it loses its advantage because seeking the midpoint costs ",
+          "best_similarity": 0.184
+        },
+        {
+          "text": "The transactions are stored as a singly linked list, where each node represents a transaction with an `amount` attribute and a `next` attribute pointing to the next node.",
+          "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.42 similarity, below the 0.55 support threshold)",
+          "start": 92,
+          "end": 262,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.4159
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "You are developing a new algorithm to detect fraudulent transactions in a financial system.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2219,
+          "keyword_grounding": 0.125,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "The transactions are stored as a singly linked list, where each node represents a transaction with an `amount` attribute and a `next` attribute pointing to the next node.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4159,
+          "keyword_grounding": 0.4286,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Your task is to write a recursive function to detect if there are any duplicate transaction amounts in the list, which could indicate fraudulent activity.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.271,
+          "keyword_grounding": 0.0714,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "The function should return `True` if a duplicate is found and `False` otherwise.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.184,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-005",
+          "source_title": "Binary search requires a sorted array",
+          "source_text": "Binary search runs in O(log n) time but only works on a sorted sequence with random access. On an unsorted array it gives incorrect results, and on a linked list it loses its advantage because seeking the midpoint costs O(n)."
+        }
+      ],
+      "structural_reasons": []
+    },
+    {
+      "id": "q_6d1c8a0aab",
+      "question": "Given a singly linked list, write a function to detect if it contains a cycle using an auxiliary stack. The function should return `True` if a cycle is detected, and `False` otherwise. You are not allowed to use any additional memory other than the stack for cycle detection.",
+      "answer_key": "def has_cycle(head):\n    stack = []\n    current = head\n    while current:\n        if current in stack:\n            return True\n        stack.append(current)\n        current = current.next\n    return False\n\n# Test cases\nprint(has_cycle(ListNode(1, ListNode(2, ListNode(3, ListNode(2))))))  # True\nprint(has_cycle(ListNode(1, ListNode(2, ListNode(3, ListNode(4))))))  # False",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "hard",
+      "difficulty_score": 0.85,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement an algorithm to detect a cycle in a singly linked list.",
+      "test_cases": [
+        {
+          "input": "ListNode(1, ListNode(2, ListNode(3, ListNode(2))))",
+          "expected_output": "True"
+        },
+        {
+          "input": "ListNode(1, ListNode(2, ListNode(3, ListNode(4))))",
+          "expected_output": "False"
+        }
+      ],
+      "variation_strategy": "constraint",
+      "subject_area": "data_structures",
+      "strategy_label": "Constraint Variation",
+      "solution_method": "auxiliary",
+      "seed_question": "Write a function to detect a cycle in a singly linked list.",
+      "job_id": "job_982bceb7ee93",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-10-01T07:15:39+00:00",
+      "reliability_score": 0.656,
+      "verdict": "partially_reliable",
+      "hallucination_probability": 0.225,
+      "review_reasons": [
+        "REVIEW: reliability 0.66 sits between the review floor 0.45 and the pass threshold 0.70",
+        "2 flagged span(s) need a human check"
+      ],
+      "flagged_spans": [
+        {
+          "text": "You are not allowed to use any additional memory other than the stack for cycle detection.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.26, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 185,
+          "end": 275,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space.",
+          "best_similarity": 0.2611
+        },
+        {
+          "text": "The function should return `True` if a cycle is detected, and `False` otherwise.",
+          "reason": "only partially supported: only weakly related to 'Detecting a cycle in a linked list' (0.44 similarity, below the 0.55 support threshold)",
+          "start": 104,
+          "end": 184,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space.",
+          "best_similarity": 0.4409
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "Given a singly linked list, write a function to detect if it contains a cycle using an auxiliary stack.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.6069,
+          "keyword_grounding": 0.375,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "The function should return `True` if a cycle is detected, and `False` otherwise.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4409,
+          "keyword_grounding": 0.1667,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "You are not allowed to use any additional memory other than the stack for cycle detection.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2611,
+          "keyword_grounding": 0.25,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        }
+      ],
+      "structural_reasons": []
+    },
+    {
+      "id": "q_42b6bb79fd",
+      "question": "You are given a singly linked list representing a sequence of tasks. Each node in the list contains a `time` attribute representing the duration of a task and a `next` attribute pointing to the next node. Your task is to write a function to reverse the sequence of tasks, such that the task with the longest duration is executed first. The function should take the head of the original linked list as input and return the head of the new linked list. Each node in the linked list has an integer value representing the duration of a task and a pointer to the next node. Assume the linked list is not empty.",
+      "answer_key": "def reverse_tasks(head):\n    if not head or not head.next:\n        return head\n    new_head = reverse_tasks(head.next)\n    head.next.next = head\n    head.next = None\n    return new_head\n\n# Test cases\ntest_case_1 = ListNode(3, ListNode(1, ListNode(2)))\nexpected_output_1 = ListNode(2, ListNode(1, ListNode(3)))\nassert reverse_tasks(test_case_1) == expected_output_1\n\ntest_case_2 = ListNode(5, ListNode(4, ListNode(6, ListNode(3, ListNode(2, ListNode(1))))))\nexpected_output_2 = ListNode(1, ListNode(2, ListNode(3, ListNode(6, ListNode(4, ListNode(5))))))\nassert reverse_tasks(test_case_2) == expected_output_2",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "hard",
+      "difficulty_score": 0.85,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement an algorithm to detect a cycle in a singly linked list.",
+      "test_cases": [
+        {
+          "input": "3 -> 1 -> 2",
+          "expected_output": "2 -> 1 -> 3"
+        },
+        {
+          "input": "5 -> 4 -> 6 -> 3 -> 2 -> 1",
+          "expected_output": "1 -> 2 -> 3 -> 6 -> 4 -> 5"
+        }
+      ],
+      "variation_strategy": "parameter",
+      "subject_area": "data_structures",
+      "strategy_label": "Parameter Variation",
+      "solution_method": "rebuild",
+      "seed_question": "Write a function to detect a cycle in a singly linked list.",
+      "job_id": "job_982bceb7ee93",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": false,
+      "attempts": 3,
+      "regeneration_history": [
+        {
+          "attempt": 1,
+          "rejected_question": "You are given a linked list of positive integers. Your task is to reverse the list in a non-destructive manner, meaning you must not modify the original input nodes. Instead, create a new linked list with the same elements in reverse order. The function should take the head of the original linked list as input and return the head of the reversed linked list. Each node in the linked list has an integer value and a pointer to the next node. Assume the linked list is not empty.\n\nWrite the function to reverse the linked list.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "semantic similarity too high: 0.88 against the previously accepted question (threshold 0.86)"
+          ],
+          "reliability_reasons": [
+            "reliability capped at 0.54 because 1 contradiction(s) were detected - contradicted content cannot score as reliable",
+            "2 of 2 checkable claims were grounded in the local reference corpus (grounding score 1.00)",
+            "estimated hallucination probability 0.15",
+            "1 internal self-contradiction(s)",
+            "1 contradiction(s) detected"
+          ],
+          "flagged_spans": [
+            {
+              "text": "Your task is to reverse the list in a non-destructive manner, meaning you must not modify the original input nodes.",
+              "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.70 similar, so they are about the same thing)",
+              "severity": "high"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.54,
+          "verdict": "misleading"
+        },
+        {
+          "attempt": 2,
+          "rejected_question": "Given a list of integers representing the prices of different products in a store, write a function to find the maximum profit that can be achieved by buying and selling the products in a single transaction. The function should not modify the original list of prices. Instead, create a new list of prices that represents the prices after a single transaction (buying at the minimum price and selling at the maximum price). The function should take the head of the original linked list as input and return the head of the new linked list. Each node in the linked list has an integer value representing the price of a product and a pointer to the next node. Assume the linked list is not empty.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "solution method mismatch: planned non-destructive rebuild, but the answer key does not use it"
+          ],
+          "reliability_reasons": [
+            "0 of 4 checkable claims were grounded in the local reference corpus (grounding score 0.25)",
+            "estimated hallucination probability 0.34",
+            "2 of 4 checkable claims could not be grounded in the local reference corpus",
+            "2 claim(s) matched the corpus topically but their specific details were not confirmed"
+          ],
+          "flagged_spans": [
+            {
+              "text": "Given a list of integers representing the prices of different products in a store, write a function to find the maximum profit that can be achieved by buying and selling the products in a single transaction.",
+              "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.35, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+              "severity": "medium"
+            },
+            {
+              "text": "The function should not modify the original list of prices.",
+              "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.18, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+              "severity": "medium"
+            },
+            {
+              "text": "The function should take the head of the original linked list as input and return the head of the new linked list.",
+              "reason": "only partially supported: only weakly related to 'Linked list traversal is sequential' (0.49 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            },
+            {
+              "text": "Each node in the linked list has an integer value representing the price of a product and a pointer to the next node.",
+              "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.45 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.5457,
+          "verdict": "unverifiable"
+        }
+      ],
+      "created_at": "2026-10-01T07:31:00+00:00",
+      "reliability_score": 0.6722,
+      "verdict": "unverifiable",
+      "hallucination_probability": 0.225,
+      "review_reasons": [
+        "PS8 structural failure: solution method mismatch: planned non-destructive rebuild, but the answer key does not use it",
+        "REVIEW: reached the maximum of 2 regeneration attempts without passing both gates - routed to human review instead of being discarded"
+      ],
+      "flagged_spans": [
+        {
+          "text": "Each node in the list contains a `time` attribute representing the duration of a task and a `next` attribute pointing to the next node.",
+          "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.39 similarity, below the 0.55 support threshold)",
+          "start": 69,
+          "end": 204,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.3864
+        },
+        {
+          "text": "The function should take the head of the original linked list as input and return the head of the new linked list.",
+          "reason": "only partially supported: only weakly related to 'Linked list traversal is sequential' (0.49 similarity, below the 0.55 support threshold)",
+          "start": 336,
+          "end": 450,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "A singly linked list does not support random access. Reaching the i-th element requires traversing i nodes from the head, so indexed access costs O(n), unlike an array which costs O(1).",
+          "best_similarity": 0.4919
+        },
+        {
+          "text": "Each node in the linked list has an integer value representing the duration of a task and a pointer to the next node.",
+          "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.45 similarity, below the 0.55 support threshold)",
+          "start": 451,
+          "end": 568,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.4481
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "You are given a singly linked list representing a sequence of tasks.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.378,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Each node in the list contains a `time` attribute representing the duration of a task and a `next` attribute pointing to the next node.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.3864,
+          "keyword_grounding": 0.4545,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Your task is to write a function to reverse the sequence of tasks, such that the task with the longest duration is executed first.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3745,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The function should take the head of the original linked list as input and return the head of the new linked list.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4919,
+          "keyword_grounding": 0.375,
+          "source_id": "prog-004",
+          "source_title": "Linked list traversal is sequential",
+          "source_text": "A singly linked list does not support random access. Reaching the i-th element requires traversing i nodes from the head, so indexed access costs O(n), unlike an array which costs O(1)."
+        },
+        {
+          "claim": "Each node in the linked list has an integer value representing the duration of a task and a pointer to the next node.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4481,
+          "keyword_grounding": 0.5455,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Assume the linked list is not empty.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5227,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-004",
+          "source_title": "Linked list traversal is sequential",
+          "source_text": "A singly linked list does not support random access. Reaching the i-th element requires traversing i nodes from the head, so indexed access costs O(n), unlike an array which costs O(1)."
+        }
+      ],
+      "structural_reasons": [
+        "solution method mismatch: planned non-destructive rebuild, but the answer key does not use it"
+      ]
+    },
+    {
+      "id": "q_4fd90ca3a1",
+      "question": "Given a singly linked list of integers, implement an iterative function to detect a cycle in the list. The function should return True if a cycle is detected and False otherwise. Assume the list may or may not contain cycles. Each node in the list has attributes `value` (an integer) and `next` (a pointer to the next node). The function should run in O(n) time complexity and use O(1) extra space.",
+      "answer_key": "def detect_cycle(head):\n    slow = fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n        if slow == fast:\n            return True\n    return False\n\n# Test cases\nassert detect_cycle(ListNode(1, ListNode(2, ListNode(3, ListNode(4)))))) == False\nassert detect_cycle(ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(1))))))) == True",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "hard",
+      "difficulty_score": 0.85,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement an algorithm to detect a cycle in a singly linked list.",
+      "test_cases": [
+        {
+          "input": "ListNode(1, ListNode(2, ListNode(3, ListNode(4)))))",
+          "expected_output": "False"
+        },
+        {
+          "input": "ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5, ListNode(1)))))))",
+          "expected_output": "True"
+        }
+      ],
+      "variation_strategy": "structure",
+      "subject_area": "data_structures",
+      "strategy_label": "Structure Variation",
+      "solution_method": "iterative",
+      "seed_question": "Write a function to detect a cycle in a singly linked list.",
+      "job_id": "job_982bceb7ee93",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": false,
+      "attempts": 3,
+      "regeneration_history": [
+        {
+          "attempt": 1,
+          "rejected_question": "Given a singly linked list with integer values, implement a function to detect a cycle in the list using an iterative approach. The function should return `True` if a cycle is detected and `False` otherwise. Assume the list may or may not contain cycles. Each node in the list has attributes `value` (an integer) and `next` (a pointer to the next node). The function should run in O(n) time complexity and use O(1) extra space.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "not a meaningful variation: 0.84 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "reliability_reasons": [
+            "2 of 4 checkable claims were grounded in the local reference corpus (grounding score 0.62)",
+            "estimated hallucination probability 0.17",
+            "1 of 4 checkable claims could not be grounded in the local reference corpus",
+            "1 claim(s) matched the corpus topically but their specific details were not confirmed"
+          ],
+          "flagged_spans": [
+            {
+              "text": "The function should run in O(n) time complexity and use O(1) extra space.",
+              "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.21, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+              "severity": "medium"
+            },
+            {
+              "text": "The function should return `True` if a cycle is detected and `False` otherwise.",
+              "reason": "only partially supported: only weakly related to 'Detecting a cycle in a linked list' (0.44 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.7391,
+          "verdict": "partially_reliable"
+        },
+        {
+          "attempt": 2,
+          "rejected_question": "Given a singly linked list with integer values, implement a function to detect a cycle in the list using an iterative approach. The function should return `True` if a cycle is detected and `False` otherwise. Assume the list may or may not contain cycles. Each node in the list has attributes `value` (an integer) and `next` (a pointer to the next node). The function should run in O(n) time complexity and use O(1) extra space.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "not a meaningful variation: 0.84 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "reliability_reasons": [
+            "1 of 3 checkable claims were grounded in the local reference corpus (grounding score 0.50)",
+            "estimated hallucination probability 0.23",
+            "1 of 3 checkable claims could not be grounded in the local reference corpus",
+            "1 claim(s) matched the corpus topically but their specific details were not confirmed"
+          ],
+          "flagged_spans": [
+            {
+              "text": "The function should run in O(n) time complexity and use O(1) extra space.",
+              "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.21, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+              "severity": "medium"
+            },
+            {
+              "text": "The function should return `True` if a cycle is detected and `False` otherwise.",
+              "reason": "only partially supported: only weakly related to 'Detecting a cycle in a linked list' (0.44 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.6669,
+          "verdict": "partially_reliable"
+        }
+      ],
+      "created_at": "2026-10-01T07:58:45+00:00",
+      "reliability_score": 0.6675,
+      "verdict": "partially_reliable",
+      "hallucination_probability": 0.225,
+      "review_reasons": [
+        "PS8 structural failure: not a meaningful variation: 0.83 semantic similarity to the seed reads as a paraphrase (max 0.80)",
+        "REVIEW: reached the maximum of 2 regeneration attempts without passing both gates - routed to human review instead of being discarded"
+      ],
+      "flagged_spans": [
+        {
+          "text": "The function should run in O(n) time complexity and use O(1) extra space.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.21, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 325,
+          "end": 398,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.2122
+        },
+        {
+          "text": "The function should return True if a cycle is detected and False otherwise.",
+          "reason": "only partially supported: only weakly related to 'Detecting a cycle in a linked list' (0.45 similarity, below the 0.55 support threshold)",
+          "start": 103,
+          "end": 178,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space.",
+          "best_similarity": 0.4533
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "Given a singly linked list of integers, implement an iterative function to detect a cycle in the list.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.7116,
+          "keyword_grounding": 0.4286,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "The function should return True if a cycle is detected and False otherwise.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4533,
+          "keyword_grounding": 0.1667,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "Assume the list may or may not contain cycles.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5243,
+          "keyword_grounding": 0.2,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "Each node in the list has attributes `value` (an integer) and `next` (a pointer to the next node).",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5972,
+          "keyword_grounding": 0.625,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The function should run in O(n) time complexity and use O(1) extra space.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2122,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        }
+      ],
+      "structural_reasons": [
+        "not a meaningful variation: 0.83 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+      ]
+    },
+    {
+      "id": "q_274263ae44",
+      "question": "In a game of hide-and-seek, each player is represented as a node in a circularly linked list, where the `next` attribute points to the next player in the circle. The first player starts at position 0 and is hidden. Each player must then be searched in order until the hidden player is found. If the hidden player is not found, it indicates that the circle is not circular and there is a gap in the sequence. Write a recursive function to detect a gap in the sequence of players. The function should take the head of the circularly linked list as input and return `True` if a gap is found, and `False` otherwise. Assume that the linked list is not empty and that each node has a `next` attribute pointing to the next node in the circle, and a `hidden` attribute indicating whether the player is the hidden one.",
+      "answer_key": "def detect_gap(head):\n    def search(current, seen):\n        if current in seen:\n            return True\n        seen.add(current)\n        return search(current.next, seen)\n    return search(head, set())\nThe function uses a recursive helper function `search` to traverse the circularly linked list and keep track of the players seen so far. If a player is encountered that has already been seen, it means that the circle is not circular and a gap is found, so the function returns `True`. If the end of the list is reached without finding a duplicate player, the function returns `False`.",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "hard",
+      "difficulty_score": 0.85,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement an algorithm to detect a cycle in a singly linked list.",
+      "test_cases": [
+        {
+          "input": "head = PlayerNode(0, PlayerNode(1, PlayerNode(2, PlayerNode(3, head))))\ndetect_gap(head)",
+          "expected_output": "False"
+        },
+        {
+          "input": "head = PlayerNode(0, PlayerNode(1, PlayerNode(2, PlayerNode(3, None))))\ndetect_gap(head)",
+          "expected_output": "True"
+        }
+      ],
+      "variation_strategy": "representation",
+      "subject_area": "data_structures",
+      "strategy_label": "Representation Variation",
+      "solution_method": "recursive",
+      "seed_question": "Write a function to detect a cycle in a singly linked list.",
+      "job_id": "job_982bceb7ee93",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-10-01T07:59:29+00:00",
+      "reliability_score": 0.4991,
+      "verdict": "unverifiable",
+      "hallucination_probability": 0.3656,
+      "review_reasons": [
+        "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+      ],
+      "flagged_spans": [
+        {
+          "text": "The first player starts at position 0 and is hidden.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.22, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 162,
+          "end": 214,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time.",
+          "best_similarity": 0.2228
+        },
+        {
+          "text": "Each player must then be searched in order until the hidden player is found.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.10, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 215,
+          "end": 291,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left ",
+          "best_similarity": 0.1014
+        },
+        {
+          "text": "If the hidden player is not found, it indicates that the circle is not circular and there is a gap in the sequence.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.27, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 292,
+          "end": 407,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space.",
+          "best_similarity": 0.2677
+        },
+        {
+          "text": "If a player is encountered that has already been seen, it means that the circle is not circular and a gap is found, so the function returns `True`.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.30, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 1152,
+          "end": 1299,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space.",
+          "best_similarity": 0.3018
+        },
+        {
+          "text": "If the end of the list is reached without finding a duplicate player, the function returns `False`.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.35, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 1300,
+          "end": 1399,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.3487
+        },
+        {
+          "text": "In a game of hide-and-seek, each player is represented as a node in a circularly linked list, where the `next` attribute points to the next player in the circle.",
+          "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.43 similarity, below the 0.55 support threshold)",
+          "start": 0,
+          "end": 161,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.4254
+        },
+        {
+          "text": "The function should take the head of the circularly linked list as input and return `True` if a gap is found, and `False` otherwise.",
+          "reason": "only partially supported: only weakly related to 'Detecting a cycle in a linked list' (0.50 similarity, below the 0.55 support threshold)",
+          "start": 479,
+          "end": 611,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space.",
+          "best_similarity": 0.5012
+        },
+        {
+          "text": "The function uses a recursive helper function `search` to traverse the circularly linked list and keep track of the players seen so far.",
+          "reason": "only partially supported: only weakly related to 'Detecting a cycle in a linked list' (0.51 similarity, below the 0.55 support threshold)",
+          "start": 1015,
+          "end": 1151,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space.",
+          "best_similarity": 0.5141
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "In a game of hide-and-seek, each player is represented as a node in a circularly linked list, where the `next` attribute points to the next player in the circle.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4254,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The first player starts at position 0 and is hidden.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2228,
+          "keyword_grounding": 0.2,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "Each player must then be searched in order until the hidden player is found.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1014,
+          "keyword_grounding": 0.25,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "If the hidden player is not found, it indicates that the circle is not circular and there is a gap in the sequence.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2677,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "Write a recursive function to detect a gap in the sequence of players.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2964,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "The function should take the head of the circularly linked list as input and return `True` if a gap is found, and `False` otherwise.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5012,
+          "keyword_grounding": 0.1667,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "Assume that the linked list is not empty and that each node has a `next` attribute pointing to the next node in the circle, and a `hidden` attribute indicating whether the player is the hidden one.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4559,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-015",
+          "source_title": "Doubly linked list trade-offs",
+          "source_text": "A doubly linked list stores both next and previous pointers, allowing O(1) deletion given a node reference and bidirectional traversal, at the cost of one extra pointer of memory per node."
+        },
+        {
+          "claim": "The function uses a recursive helper function `search` to traverse the circularly linked list and keep track of the players seen so far.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5141,
+          "keyword_grounding": 0.1538,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "If a player is encountered that has already been seen, it means that the circle is not circular and a gap is found, so the function returns `True`.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3018,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-012",
+          "source_title": "Detecting a cycle in a linked list",
+          "source_text": "Floyd's cycle detection algorithm, also called the tortoise and hare, detects a loop in a linked list using two pointers moving at different speeds. It runs in O(n) time and O(1) space."
+        },
+        {
+          "claim": "If the end of the list is reached without finding a duplicate player, the function returns `False`.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3487,
+          "keyword_grounding": 0.125,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        }
+      ],
+      "structural_reasons": []
+    },
+    {
+      "id": "q_4d193623a2",
+      "question": "A local library is organizing a new system to manage the order of books checked out by members. Each book is represented as a node with a `title` attribute and a `next` attribute. Write an iterative function to reverse the order of books so that the most recently checked out books are processed first. The function should take the head of the list and return the new head. Assume the list is not empty.",
+      "answer_key": "def reverse_book_list(head):\n    prev = None\n    current = head\n    while current is not None:\n        next_node = current.next\n        current.next = prev\n        prev = current\n        current = next_node\n    return prev\n\n# Test cases\nprint(reverse_book_list(Book('Python Programming')) == Book('Python Programming'))\nprint(reverse_book_list(Book('Data Structures', next=Book('Python Programming'))))",
+      "domain": "programming",
+      "topic": "Python Programming",
+      "subtopic": "Number Theory",
+      "difficulty": "easy",
+      "difficulty_score": 0.25,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to write a Python program to determine if a given number is prime.",
+      "test_cases": [
+        {
+          "input": "Book('Python Programming')",
+          "expected_output": "True"
+        },
+        {
+          "input": "Book('Data Structures', next=Book('Python Programming'))",
+          "expected_output": "True"
+        }
+      ],
+      "variation_strategy": "scenario",
+      "subject_area": "programming_languages",
+      "strategy_label": "Scenario Variation",
+      "solution_method": "iterative",
+      "seed_question": "write a python program to find whether the given number is prime or not?",
+      "job_id": "job_4f4ffbcd4916",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": false,
+      "attempts": 3,
+      "regeneration_history": [
+        {
+          "attempt": 1,
+          "rejected_question": "You are designing a system for a parking garage that uses a singly linked list to manage the sequence of parked cars. Each node in the list contains a `license_plate` attribute representing the car's license plate number and a `next` attribute pointing to the next node in the list. Your task is to write an iterative function to reverse the sequence of cars such that the car at the end of the garage is first and the car at the beginning is last. The function should take the head of the linked list as input and return the new head of the reversed list. Assume that each node in the linked list contains a `license_plate` attribute representing the car's license plate number and a `next` attribute pointing to the next node in the list.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "variation drifted too far: only 0.04 semantic similarity to the seed (min 0.10) - the learning objective may have been lost"
+          ],
+          "reliability_reasons": [
+            "1 of 3 checkable claims were grounded in the local reference corpus (grounding score 0.50)",
+            "estimated hallucination probability 0.23",
+            "1 of 3 checkable claims could not be grounded in the local reference corpus",
+            "1 claim(s) matched the corpus topically but their specific details were not confirmed"
+          ],
+          "flagged_spans": [
+            {
+              "text": "Each node in the list contains a `license_plate` attribute representing the car's license plate number and a `next` attribute pointing to the next node in the list.",
+              "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.34, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+              "severity": "medium"
+            },
+            {
+              "text": "The new head of the reversed list is then returned.",
+              "reason": "only partially supported: only weakly related to 'In-place algorithms and auxiliary space' (0.51 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.6801,
+          "verdict": "partially_reliable"
+        },
+        {
+          "attempt": 2,
+          "rejected_question": "A bakery is organizing a new delivery system using a stack to manage the order of deliveries. Each delivery is represented as a node with an `item` attribute and a `next` attribute. Write an iterative function to reverse the order of deliveries so that the most recent delivery is processed first. The function should take the head of the stack and return the new head. Assume the stack is not empty.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "variation drifted too far: only 0.01 semantic similarity to the seed (min 0.10) - the learning objective may have been lost"
+          ],
+          "reliability_reasons": [
+            "0 of 4 checkable claims were grounded in the local reference corpus (grounding score 0.25)",
+            "estimated hallucination probability 0.34",
+            "2 of 4 checkable claims could not be grounded in the local reference corpus",
+            "2 claim(s) matched the corpus topically but their specific details were not confirmed"
+          ],
+          "flagged_spans": [
+            {
+              "text": "A bakery is organizing a new delivery system using a stack to manage the order of deliveries.",
+              "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.38, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+              "severity": "medium"
+            },
+            {
+              "text": "Each delivery is represented as a node with an `item` attribute and a `next` attribute.",
+              "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.25, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+              "severity": "medium"
+            },
+            {
+              "text": "Write an iterative function to reverse the order of deliveries so that the most recent delivery is processed first.",
+              "reason": "only partially supported: only weakly related to 'Stack and queue ordering' (0.39 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            },
+            {
+              "text": "The function should take the head of the stack and return the new head.",
+              "reason": "only partially supported: only weakly related to 'Stack and queue ordering' (0.39 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.5331,
+          "verdict": "unverifiable"
+        }
+      ],
+      "created_at": "2026-10-01T09:43:58+00:00",
+      "reliability_score": 0.4785,
+      "verdict": "unverifiable",
+      "hallucination_probability": 0.3937,
+      "review_reasons": [
+        "PS8 structural failure: semantic similarity too high: 0.90 against the previously accepted question (threshold 0.86)",
+        "PS8 structural failure: variation drifted too far: only 0.02 semantic similarity to the seed (min 0.10) - the learning objective may have been lost",
+        "REVIEW: reached the maximum of 2 regeneration attempts without passing both gates - routed to human review instead of being discarded"
+      ],
+      "flagged_spans": [
+        {
+          "text": "A local library is organizing a new system to manage the order of books checked out by members.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.28, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 0,
+          "end": 95,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time.",
+          "best_similarity": 0.2771
+        },
+        {
+          "text": "Each book is represented as a node with a `title` attribute and a `next` attribute.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.27, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 96,
+          "end": 179,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.265
+        },
+        {
+          "text": "The function should take the head of the list and return the new head.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.34, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 303,
+          "end": 373,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory.",
+          "best_similarity": 0.3437
+        },
+        {
+          "text": "Write an iterative function to reverse the order of books so that the most recently checked out books are processed first.",
+          "reason": "only partially supported: only weakly related to 'Reversing a linked list in groups of k' (0.41 similarity, below the 0.55 support threshold)",
+          "start": 180,
+          "end": 302,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left ",
+          "best_similarity": 0.4055
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "A local library is organizing a new system to manage the order of books checked out by members.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2771,
+          "keyword_grounding": 0.0909,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "Each book is represented as a node with a `title` attribute and a `next` attribute.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.265,
+          "keyword_grounding": 0.4286,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Write an iterative function to reverse the order of books so that the most recently checked out books are processed first.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4055,
+          "keyword_grounding": 0.1,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "The function should take the head of the list and return the new head.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3437,
+          "keyword_grounding": 0.4,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "Assume the list is not empty.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.402,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-013",
+          "source_title": "Python list is a dynamic array",
+          "source_text": "A Python list is implemented as a dynamic array, not a linked list. Appending is amortised O(1), indexing is O(1), and inserting or deleting at the front is O(n) because later elements must shift."
+        }
+      ],
+      "structural_reasons": [
+        "semantic similarity too high: 0.90 against the previously accepted question (threshold 0.86)",
+        "variation drifted too far: only 0.02 semantic similarity to the seed (min 0.10) - the learning objective may have been lost"
+      ]
+    },
+    {
+      "id": "q_23d4ad9715",
+      "question": "Write a recursive Python function to check if a given number is a prime number. The function must not use any loops and must be efficient. The input number will be an integer greater than 1.",
+      "answer_key": "def is_prime(n, divisor=2):\n    if n <= 2:\n        return n == 2\n    if n % divisor == 0:\n        return False\n    if divisor * divisor > n:\n        return True\n    return is_prime(n, divisor + 1)\n\n# Test cases\nassert is_prime(2) == True\nassert is_prime(17) == True\nassert is_prime(15) == False",
+      "domain": "programming",
+      "topic": "Python Programming",
+      "subtopic": "Number Theory",
+      "difficulty": "easy",
+      "difficulty_score": 0.25,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to write a Python program to determine if a given number is prime.",
+      "test_cases": [
+        {
+          "input": "2",
+          "expected_output": "True"
+        },
+        {
+          "input": "17",
+          "expected_output": "True"
+        }
+      ],
+      "variation_strategy": "constraint",
+      "subject_area": "programming_languages",
+      "strategy_label": "Constraint Variation",
+      "solution_method": "recursive",
+      "seed_question": "write a python program to find whether the given number is prime or not?",
+      "job_id": "job_4f4ffbcd4916",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-10-01T09:44:21+00:00",
+      "reliability_score": 0.4097,
+      "verdict": "unverifiable",
+      "hallucination_probability": 0.45,
+      "review_reasons": [
+        "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+      ],
+      "flagged_spans": [
+        {
+          "text": "Write a recursive Python function to check if a given number is a prime number.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.22, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 0,
+          "end": 79,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "A Python list is implemented as a dynamic array, not a linked list. Appending is amortised O(1), indexing is O(1), and inserting or deleting at the front is O(n) because later elements must shift.",
+          "best_similarity": 0.2163
+        },
+        {
+          "text": "The function must not use any loops and must be efficient.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.22, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 80,
+          "end": 138,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "A Python list is implemented as a dynamic array, not a linked list. Appending is amortised O(1), indexing is O(1), and inserting or deleting at the front is O(n) because later elements must shift.",
+          "best_similarity": 0.2227
+        },
+        {
+          "text": "The input number will be an integer greater than 1.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.21, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 139,
+          "end": 190,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "A probability is a real number between 0 and 1 inclusive. The probabilities of all mutually exclusive outcomes in a sample space sum to 1. For independent events A and B, P(A and B) = P(A) * P(B).",
+          "best_similarity": 0.2106
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "Write a recursive Python function to check if a given number is a prime number.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2163,
+          "keyword_grounding": 0.2,
+          "source_id": "prog-013",
+          "source_title": "Python list is a dynamic array",
+          "source_text": "A Python list is implemented as a dynamic array, not a linked list. Appending is amortised O(1), indexing is O(1), and inserting or deleting at the front is O(n) because later elements must shift."
+        },
+        {
+          "claim": "The function must not use any loops and must be efficient.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2227,
+          "keyword_grounding": 0.25,
+          "source_id": "prog-013",
+          "source_title": "Python list is a dynamic array",
+          "source_text": "A Python list is implemented as a dynamic array, not a linked list. Appending is amortised O(1), indexing is O(1), and inserting or deleting at the front is O(n) because later elements must shift."
+        },
+        {
+          "claim": "The input number will be an integer greater than 1.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2106,
+          "keyword_grounding": 0.25,
+          "source_id": "math-005",
+          "source_title": "Probability axioms",
+          "source_text": "A probability is a real number between 0 and 1 inclusive. The probabilities of all mutually exclusive outcomes in a sample space sum to 1. For independent events A and B, P(A and B) = P(A) * P(B)."
+        }
+      ],
+      "structural_reasons": []
+    },
+    {
+      "id": "q_7f42a918ef",
+      "question": "You are managing a library's book queue system. Each book is represented as a node in a singly linked list, with each node containing the book's title and a pointer to the next book in the queue. Your task is to implement a recursive function to reverse the order of books in the queue, so that the most recently added books are processed first. The function should take the head of the linked list as input and return the new head of the reversed list. Assume that each node in the linked list contains a `title` attribute representing the book's title and a `next` attribute pointing to the next book in the queue. However, you are not allowed to use any additional data structures to store nodes during the reversal process. Implement the function using only the linked list nodes and the function's call stack.",
+      "answer_key": "def reverse_book_queue(head):\n    if head is None or head.next is None:\n        return head\n    new_head = reverse_book_queue(head.next)\n    head.next.next = head\n    head.next = None\n    return new_head\n\n# Test cases\ntest_cases = [\n    {\"input\": Node('Book1', Node('Book2', Node('Book3', None))), \"expected_output\": Node('Book3', Node('Book2', Node('Book1', None)))},\n    {\"input\": Node('BookA', Node('BookB', None)), \"expected_output\": Node('BookB', Node('BookA', None))}\n]",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "Node('Book1', Node('Book2', Node('Book3', None)))",
+          "expected_output": "Node('Book3', Node('Book2', Node('Book1', None)))"
+        },
+        {
+          "input": "Node('BookA', Node('BookB', None))",
+          "expected_output": "Node('BookB', Node('BookA', None))"
+        }
+      ],
+      "variation_strategy": "constraint",
+      "subject_area": "data_structures",
+      "strategy_label": "Constraint Variation",
+      "solution_method": "recursive",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "job_id": "job_4393b8f0038d",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": false,
+      "attempts": 3,
+      "regeneration_history": [
+        {
+          "attempt": 1,
+          "rejected_question": "You are working on a project to develop a new version control system for a software development team. The system uses a singly linked list to manage the history of commits, where each node represents a commit with a `hash` attribute and a pointer to the next node. Your task is to implement a recursive function to reverse the sequence of commits, so that the most recent commit is first and the oldest commit is last. The function should take the head of the linked list as input and return the new head of the reversed list. Assume that each node in the linked list contains a `hash` attribute representing the commit's hash and a `next` attribute pointing to the next node in the list. However, you are not allowed to use any temporary variables or additional data structures to store nodes during the reversal process. Implement the function using only the linked list nodes and the function's call stack.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "semantic similarity too high: 0.96 against the previously accepted question (threshold 0.86)"
+          ],
+          "reliability_reasons": [
+            "1 of 3 checkable claims were grounded in the local reference corpus (grounding score 0.67)",
+            "estimated hallucination probability 0.15",
+            "2 claim(s) matched the corpus topically but their specific details were not confirmed"
+          ],
+          "flagged_spans": [
+            {
+              "text": "The system uses a singly linked list to manage the history of commits, where each node represents a commit with a `hash` attribute and a pointer to the next node.",
+              "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.42 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            },
+            {
+              "text": "However, you are not allowed to use any temporary variables or additional data structures to store nodes during the reversal process.",
+              "reason": "only partially supported: only weakly related to 'In-place algorithms and auxiliary space' (0.44 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.7462,
+          "verdict": "partially_reliable"
+        },
+        {
+          "attempt": 2,
+          "rejected_question": "You are tasked with managing a queue of incoming emails in a company's email system. Each email is represented as a node in a singly linked list, with each node containing the email's subject and a pointer to the next email in the queue. Your goal is to implement a recursive function that reverses the order of emails in the queue, so that the most recent emails are processed first. The function should take the head of the linked list as input and return the new head of the reversed list. Assume that each node in the linked list contains a `subject` attribute representing the email's subject and a `next` attribute pointing to the next email in the queue. However, you are not allowed to use any temporary variables or additional data structures to store nodes during the reversal process. Implement the function using only the linked list nodes and the function's call stack.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "semantic similarity too high: 0.93 against the previously accepted question (threshold 0.86)"
+          ],
+          "reliability_reasons": [
+            "1 of 3 checkable claims were grounded in the local reference corpus (grounding score 0.67)",
+            "estimated hallucination probability 0.15",
+            "2 claim(s) matched the corpus topically but their specific details were not confirmed"
+          ],
+          "flagged_spans": [
+            {
+              "text": "Each email is represented as a node in a singly linked list, with each node containing the email's subject and a pointer to the next email in the queue.",
+              "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.39 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            },
+            {
+              "text": "However, you are not allowed to use any temporary variables or additional data structures to store nodes during the reversal process.",
+              "reason": "only partially supported: only weakly related to 'In-place algorithms and auxiliary space' (0.44 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.7494,
+          "verdict": "partially_reliable"
+        }
+      ],
+      "created_at": "2026-10-02T13:06:19+00:00",
+      "reliability_score": 0.7532,
+      "verdict": "trustworthy",
+      "hallucination_probability": 0.15,
+      "review_reasons": [
+        "PS8 structural failure: semantic similarity too high: 0.94 against the previously accepted question (threshold 0.86)",
+        "REVIEW: reached the maximum of 2 regeneration attempts without passing both gates - routed to human review instead of being discarded"
+      ],
+      "flagged_spans": [
+        {
+          "text": "Each book is represented as a node in a singly linked list, with each node containing the book's title and a pointer to the next book in the queue.",
+          "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.41 similarity, below the 0.55 support threshold)",
+          "start": 48,
+          "end": 195,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.4107
+        },
+        {
+          "text": "However, you are not allowed to use any additional data structures to store nodes during the reversal process.",
+          "reason": "only partially supported: only weakly related to 'In-place algorithms and auxiliary space' (0.49 similarity, below the 0.55 support threshold)",
+          "start": 617,
+          "end": 727,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory.",
+          "best_similarity": 0.4923
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "You are managing a library's book queue system.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.3844,
+          "keyword_grounding": 0.2,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "Each book is represented as a node in a singly linked list, with each node containing the book's title and a pointer to the next book in the queue.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4107,
+          "keyword_grounding": 0.5833,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Your task is to implement a recursive function to reverse the order of books in the queue, so that the most recently added books are processed first.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4705,
+          "keyword_grounding": 0.1818,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "The function should take the head of the linked list as input and return the new head of the reversed list.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5659,
+          "keyword_grounding": 0.625,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "Assume that each node in the linked list contains a `title` attribute representing the book's title and a `next` attribute pointing to the next book in the queue.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4379,
+          "keyword_grounding": 0.3846,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "However, you are not allowed to use any additional data structures to store nodes during the reversal process.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4923,
+          "keyword_grounding": 0.2727,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "Implement the function using only the linked list nodes and the function's call stack.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4682,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        }
+      ],
+      "structural_reasons": [
+        "semantic similarity too high: 0.94 against the previously accepted question (threshold 0.86)"
+      ]
+    },
+    {
+      "id": "q_486bff7cec",
+      "question": "You are organizing a series of events for a community festival. Each event is represented as a node in a singly linked list, where each node contains the event's name and a pointer to the next event in the sequence. Your task is to write an iterative function that reverses the order of events in the sequence, so that the most recent event is first and the oldest event is last. The function should take the head of the linked list as input and return the new head of the reversed list. Assume that each node in the linked list contains a `name` attribute representing the event's name and a `next` attribute pointing to the next event in the list. Additionally, you are required to use an auxiliary stack to achieve this. Do not modify the original list nodes; only use the stack to store the event names temporarily.",
+      "answer_key": "def reverse_linked_list(head):\n    stack = []\n    current = head\n    while current:\n        stack.append(current.name)\n        current = current.next\n    new_head = ListNode(stack.pop())\n    current = new_head\n    while stack:\n        current.next = ListNode(stack.pop())\n        current = current.next\n    return new_head",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "head = ListNode('Event A', ListNode('Event B', ListNode('Event C')))",
+          "expected_output": "head = ListNode('Event C', ListNode('Event B', ListNode('Event A')))"
+        },
+        {
+          "input": "head = ListNode('Launch', ListNode('Meeting', ListNode('Workshop', ListNode('Conference'))))",
+          "expected_output": "head = ListNode('Conference', ListNode('Workshop', ListNode('Meeting', ListNode('Launch'))))"
+        }
+      ],
+      "variation_strategy": "parameter",
+      "subject_area": "data_structures",
+      "strategy_label": "Parameter Variation",
+      "solution_method": "auxiliary",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "job_id": "job_4393b8f0038d",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": false,
+      "attempts": 3,
+      "regeneration_history": [
+        {
+          "attempt": 1,
+          "rejected_question": "Given a singly linked list of integers, reverse the list using an auxiliary array and return the new head of the reversed list. Assume the linked list is not empty.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "semantic similarity too high: 0.93 against the previously accepted question (threshold 0.86)",
+            "lexical similarity too high: 0.85 against the previously accepted question (threshold 0.75)"
+          ],
+          "reliability_reasons": [
+            "2 of 3 checkable claims were grounded in the local reference corpus (grounding score 0.83)",
+            "estimated hallucination probability 0.07",
+            "1 claim(s) matched the corpus topically but their specific details were not confirmed"
+          ],
+          "flagged_spans": [
+            {
+              "text": "It returns the new head of the reversed list.",
+              "reason": "only partially supported: only weakly related to 'In-place algorithms and auxiliary space' (0.53 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.8436,
+          "verdict": "trustworthy"
+        },
+        {
+          "attempt": 2,
+          "rejected_question": "You are managing a library's book queue system. Each book is represented as a node in a singly linked list, with each node containing the book's title and a pointer to the next book in the queue. Your task is to implement an iterative function that reverses the order of books in the queue, so that the most recently added books are processed first. The function should take the head of the linked list as input and return the new head of the reversed list. Assume that each node in the linked list contains a `title` attribute representing the book's title and a `next` attribute pointing to the next book in the queue. Additionally, you are required to use an auxiliary stack to achieve this. Do not modify the original list nodes; only use the stack to store the book titles temporarily.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "semantic similarity too high: 0.95 against the previously accepted question (threshold 0.86)",
+            "lexical similarity too high: 0.75 against the previously accepted question (threshold 0.75)"
+          ],
+          "reliability_reasons": [
+            "1 of 4 checkable claims were grounded in the local reference corpus (grounding score 0.38)",
+            "estimated hallucination probability 0.28",
+            "2 of 4 checkable claims could not be grounded in the local reference corpus",
+            "1 claim(s) matched the corpus topically but their specific details were not confirmed"
+          ],
+          "flagged_spans": [
+            {
+              "text": "Additionally, you are required to use an auxiliary stack to achieve this.",
+              "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.23, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+              "severity": "medium"
+            },
+            {
+              "text": "Do not modify the original list nodes; only use the stack to store the book titles temporarily.",
+              "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.34, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+              "severity": "medium"
+            },
+            {
+              "text": "Each book is represented as a node in a singly linked list, with each node containing the book's title and a pointer to the next book in the queue.",
+              "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.41 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.6085,
+          "verdict": "partially_reliable"
+        }
+      ],
+      "created_at": "2026-10-02T13:07:31+00:00",
+      "reliability_score": 0.6071,
+      "verdict": "partially_reliable",
+      "hallucination_probability": 0.2812,
+      "review_reasons": [
+        "PS8 structural failure: semantic similarity too high: 0.89 against the earlier variation in this run (threshold 0.86)",
+        "REVIEW: reached the maximum of 2 regeneration attempts without passing both gates - routed to human review instead of being discarded"
+      ],
+      "flagged_spans": [
+        {
+          "text": "Additionally, you are required to use an auxiliary stack to achieve this.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.23, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 650,
+          "end": 723,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time.",
+          "best_similarity": 0.2268
+        },
+        {
+          "text": "Do not modify the original list nodes; only use the stack to store the event names temporarily.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.30, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 724,
+          "end": 819,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left ",
+          "best_similarity": 0.2961
+        },
+        {
+          "text": "Each event is represented as a node in a singly linked list, where each node contains the event's name and a pointer to the next event in the sequence.",
+          "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.43 similarity, below the 0.55 support threshold)",
+          "start": 64,
+          "end": 215,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.4337
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "You are organizing a series of events for a community festival.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1069,
+          "keyword_grounding": 0.2,
+          "source_id": "math-005",
+          "source_title": "Probability axioms",
+          "source_text": "A probability is a real number between 0 and 1 inclusive. The probabilities of all mutually exclusive outcomes in a sample space sum to 1. For independent events A and B, P(A and B) = P(A) * P(B)."
+        },
+        {
+          "claim": "Each event is represented as a node in a singly linked list, where each node contains the event's name and a pointer to the next event in the sequence.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4337,
+          "keyword_grounding": 0.5385,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Your task is to write an iterative function that reverses the order of events in the sequence, so that the most recent event is first and the oldest event is last.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4365,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The function should take the head of the linked list as input and return the new head of the reversed list.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5659,
+          "keyword_grounding": 0.625,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "Assume that each node in the linked list contains a `name` attribute representing the event's name and a `next` attribute pointing to the next event in the list.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4696,
+          "keyword_grounding": 0.4167,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Additionally, you are required to use an auxiliary stack to achieve this.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2268,
+          "keyword_grounding": 0.2,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "Do not modify the original list nodes; only use the stack to store the event names temporarily.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.2961,
+          "keyword_grounding": 0.3,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        }
+      ],
+      "structural_reasons": [
+        "semantic similarity too high: 0.89 against the earlier variation in this run (threshold 0.86)"
+      ]
+    },
+    {
+      "id": "q_a5ce0fe2a7",
+      "question": "You are given a singly linked list where each node contains an integer value. Your task is to implement an iterative function to reverse the linked list and return the new head of the reversed list. Assume the linked list is not empty. For example, if the input list is `1 -> 2 -> 3 -> 4`, the function should return a new list `4 -> 3 -> 2 -> 1`.",
+      "answer_key": "def reverse_linked_list(head):\n    prev = None\n    current = head\n    while current:\n        next_node = current.next\n        current.next = prev\n        prev = current\n        current = next_node\n    return prev\n\n# Test cases\ntest_cases = [\n    {'input': ListNode(1, ListNode(2, ListNode(3, ListNode(4)))), 'expected_output': ListNode(4, ListNode(3, ListNode(2, ListNode(1))))},\n    {'input': ListNode(5), 'expected_output': ListNode(5)}\n]",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "ListNode(1, ListNode(2, ListNode(3, ListNode(4))))",
+          "expected_output": "ListNode(4, ListNode(3, ListNode(2, ListNode(1))))"
+        },
+        {
+          "input": "ListNode(5)",
+          "expected_output": "ListNode(5)"
+        }
+      ],
+      "variation_strategy": "representation",
+      "subject_area": "data_structures",
+      "strategy_label": "Representation Variation",
+      "solution_method": "iterative",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "job_id": "job_4393b8f0038d",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": false,
+      "attempts": 3,
+      "regeneration_history": [
+        {
+          "attempt": 1,
+          "rejected_question": "Given a singly linked list represented as a sequence of integers, reverse the list iteratively and return the new head of the reversed list. Assume the linked list is not empty. For example, if the input list is `1 -> 2 -> 3 -> 4`, the function should return a new list `4 -> 3 -> 2 -> 1`.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "semantic similarity too high: 0.88 against the previously accepted question (threshold 0.86)",
+            "not a meaningful variation: 0.83 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "reliability_reasons": [
+            "1 of 2 checkable claims were grounded in the local reference corpus (grounding score 0.50)",
+            "estimated hallucination probability 0.23",
+            "1 of 2 checkable claims could not be grounded in the local reference corpus"
+          ],
+          "flagged_spans": [
+            {
+              "text": "For example, if the input list is `1 -> 2 -> 3 -> 4`, the function should return a new list `4 -> 3 -> 2 -> 1`.",
+              "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.33, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+              "severity": "medium"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.6891,
+          "verdict": "partially_reliable"
+        },
+        {
+          "attempt": 2,
+          "rejected_question": "You are given a singly linked list where each node contains an integer value. Your task is to implement an iterative function to reverse the linked list and return the new head of the reversed list. Assume the linked list is not empty. For example, if the input list is `1 -> 2 -> 3 -> 4`, the function should return a new list `4 -> 3 -> 2 -> 1`.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "semantic similarity too high: 0.87 against the previously accepted question (threshold 0.86)",
+            "not a meaningful variation: 0.82 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+          ],
+          "reliability_reasons": [
+            "0 of 1 checkable claims were grounded in the local reference corpus (grounding score 0.00)",
+            "estimated hallucination probability 0.45",
+            "1 of 1 checkable claims could not be grounded in the local reference corpus"
+          ],
+          "flagged_spans": [
+            {
+              "text": "For example, if the input list is `1 -> 2 -> 3 -> 4`, the function should return a new list `4 -> 3 -> 2 -> 1`.",
+              "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.33, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+              "severity": "medium"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.4524,
+          "verdict": "unverifiable"
+        }
+      ],
+      "created_at": "2026-10-02T13:09:51+00:00",
+      "reliability_score": 0.4524,
+      "verdict": "unverifiable",
+      "hallucination_probability": 0.45,
+      "review_reasons": [
+        "PS8 structural failure: semantic similarity too high: 0.87 against the previously accepted question (threshold 0.86)",
+        "PS8 structural failure: not a meaningful variation: 0.82 semantic similarity to the seed reads as a paraphrase (max 0.80)",
+        "REVIEW: reached the maximum of 2 regeneration attempts without passing both gates - routed to human review instead of being discarded"
+      ],
+      "flagged_spans": [
+        {
+          "text": "For example, if the input list is `1 -> 2 -> 3 -> 4`, the function should return a new list `4 -> 3 -> 2 -> 1`.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.33, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 236,
+          "end": 347,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory.",
+          "best_similarity": 0.3285
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "You are given a singly linked list where each node contains an integer value.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4602,
+          "keyword_grounding": 0.5556,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Your task is to implement an iterative function to reverse the linked list and return the new head of the reversed list.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5927,
+          "keyword_grounding": 0.625,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "Assume the linked list is not empty.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5227,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-004",
+          "source_title": "Linked list traversal is sequential",
+          "source_text": "A singly linked list does not support random access. Reaching the i-th element requires traversing i nodes from the head, so indexed access costs O(n), unlike an array which costs O(1)."
+        },
+        {
+          "claim": "For example, if the input list is `1 -> 2 -> 3 -> 4`, the function should return a new list `4 -> 3 -> 2 -> 1`.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3285,
+          "keyword_grounding": 0.6,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        }
+      ],
+      "structural_reasons": [
+        "semantic similarity too high: 0.87 against the previously accepted question (threshold 0.86)",
+        "not a meaningful variation: 0.82 semantic similarity to the seed reads as a paraphrase (max 0.80)"
+      ]
+    },
+    {
+      "id": "q_ff612e142f",
+      "question": "You are a software engineer tasked with implementing a feature to reverse the order of customer reviews on a product page. Each review is stored as a node in a singly linked list, with each node containing the review text and a pointer to the next review. Your task is to write an iterative function to reverse the order of reviews in the list, so that the most recent reviews appear first. You must use an auxiliary stack to reverse the list and must not modify the original linked list. The function should take the head of the linked list as input and return the new head of the reversed list. Assume each node contains a `text` attribute representing the review text and a `next` attribute pointing to the next review in the list.",
+      "answer_key": "def reverse_reviews(head):\n    stack = []\n    current = head\n    while current:\n        stack.append(current)\n        current = current.next\n    new_head = None\n    while stack:\n        node = stack.pop()\n        node.next = new_head\n        new_head = node\n    return new_head\nThe function iterates through the linked list and pushes each node onto a stack. It then pops nodes from the stack to create a new reversed linked list, which it returns.",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "head = ListNode('Review 1', ListNode('Review 2', ListNode('Review 3', None)))",
+          "expected_output": "head = ListNode('Review 3', ListNode('Review 2', ListNode('Review 1', None)))"
+        },
+        {
+          "input": "head = ListNode('Review A', ListNode('Review B', None))",
+          "expected_output": "head = ListNode('Review B', ListNode('Review A', None))"
+        }
+      ],
+      "variation_strategy": "constraint",
+      "subject_area": "data_structures",
+      "strategy_label": "Constraint Variation",
+      "solution_method": "auxiliary",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "job_id": "job_4393b8f0038d",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": false,
+      "attempts": 3,
+      "regeneration_history": [
+        {
+          "attempt": 1,
+          "rejected_question": "You are working on a system for managing a series of tasks in a project. Each task is represented as a node in a singly linked list, where each node contains the task's description and a pointer to the next task in the sequence. Your task is to implement an iterative function to reverse the order of tasks in the sequence, so that the most recent task is first and the oldest task is last. The function should take the head of the linked list as input and return the new head of the reversed list. Assume that each node in the linked list contains a `description` attribute representing the task's description and a `next` attribute pointing to the next task in the list. You must use an auxiliary stack to reverse the list and must not modify the original linked list.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "semantic similarity too high: 0.89 against the previously accepted question (threshold 0.86)"
+          ],
+          "reliability_reasons": [
+            "2 of 3 checkable claims were grounded in the local reference corpus (grounding score 0.83)",
+            "estimated hallucination probability 0.07",
+            "1 claim(s) matched the corpus topically but their specific details were not confirmed"
+          ],
+          "flagged_spans": [
+            {
+              "text": "Each task is represented as a node in a singly linked list, where each node contains the task's description and a pointer to the next task in the sequence.",
+              "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.44 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.8341,
+          "verdict": "trustworthy"
+        },
+        {
+          "attempt": 2,
+          "rejected_question": "You are a librarian managing a collection of books. Each book is stored as a node in a singly linked list, with each node containing the book's title and a pointer to the next book in the collection. Your task is to write an iterative function to reverse the order of books in the collection, so that the most recently added books are processed first. You must use an auxiliary stack to reverse the list and must not modify the original linked list. The function should take the head of the linked list as input and return the new head of the reversed list. Assume each node contains a `title` attribute representing the book's title and a `next` attribute pointing to the next book in the list.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "semantic similarity too high: 0.95 against the previously accepted question (threshold 0.86)"
+          ],
+          "reliability_reasons": [
+            "2 of 3 checkable claims were grounded in the local reference corpus (grounding score 0.67)",
+            "estimated hallucination probability 0.15",
+            "1 of 3 checkable claims could not be grounded in the local reference corpus"
+          ],
+          "flagged_spans": [
+            {
+              "text": "Each book is stored as a node in a singly linked list, with each node containing the book's title and a pointer to the next book in the collection.",
+              "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.36, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+              "severity": "medium"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.7595,
+          "verdict": "trustworthy"
+        }
+      ],
+      "created_at": "2026-10-02T13:13:15+00:00",
+      "reliability_score": 0.858,
+      "verdict": "trustworthy",
+      "hallucination_probability": 0.0563,
+      "review_reasons": [
+        "PS8 structural failure: semantic similarity too high: 0.90 against the earlier variation in this run (threshold 0.86)",
+        "REVIEW: reached the maximum of 2 regeneration attempts without passing both gates - routed to human review instead of being discarded"
+      ],
+      "flagged_spans": [
+        {
+          "text": "Each review is stored as a node in a singly linked list, with each node containing the review text and a pointer to the next review.",
+          "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.44 similarity, below the 0.55 support threshold)",
+          "start": 123,
+          "end": 255,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.4419
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "You are a software engineer tasked with implementing a feature to reverse the order of customer reviews on a product page.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.353,
+          "keyword_grounding": 0.0,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "Each review is stored as a node in a singly linked list, with each node containing the review text and a pointer to the next review.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4419,
+          "keyword_grounding": 0.6364,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Your task is to write an iterative function to reverse the order of reviews in the list, so that the most recent reviews appear first.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4552,
+          "keyword_grounding": 0.2,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "You must use an auxiliary stack to reverse the list and must not modify the original linked list.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.7112,
+          "keyword_grounding": 0.25,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The function should take the head of the linked list as input and return the new head of the reversed list.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5659,
+          "keyword_grounding": 0.625,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "Assume each node contains a `text` attribute representing the review text and a `next` attribute pointing to the next review in the list.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4274,
+          "keyword_grounding": 0.3636,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The function iterates through the linked list and pushes each node onto a stack.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5712,
+          "keyword_grounding": 0.4444,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "It then pops nodes from the stack to create a new reversed linked list, which it returns.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.6031,
+          "keyword_grounding": 0.625,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        }
+      ],
+      "structural_reasons": [
+        "semantic similarity too high: 0.90 against the earlier variation in this run (threshold 0.86)"
+      ]
+    },
+    {
+      "id": "q_524a755fe9",
+      "question": "Given a singly linked list of integers representing the steps in a wizard's journey through a forest, reverse the list to simulate the wizard retracing their steps. Each step is represented as a node containing the step number and a pointer to the next step in the journey. The function should return the new head of the reversed list, ensuring that the original list remains unchanged. Assume the linked list is not empty.",
+      "answer_key": "def reverse_journey(head):\n    new_head = None\n    node = head\n    while node:\n        new_head = ListNode(node.val, new_head)\n        node = node.next\n    return new_head\n\n# Example usage:\n# Assuming ListNode is defined and a function to create a linked list is available\nhead = create_linked_list([1, 2, 3, 4, 5])\nreversed_head = reverse_journey(head)\n# reversed_head now points to the new head of the reversed list\n# original list remains unchanged",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "create_linked_list([1, 2, 3, 4, 5])",
+          "expected_output": "5 -> 4 -> 3 -> 2 -> 1"
+        },
+        {
+          "input": "create_linked_list([10, 20, 30])",
+          "expected_output": "30 -> 20 -> 10"
+        }
+      ],
+      "variation_strategy": "parameter",
+      "subject_area": "data_structures",
+      "strategy_label": "Parameter Variation",
+      "solution_method": "rebuild",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "job_id": "job_4393b8f0038d",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-10-02T13:13:55+00:00",
+      "reliability_score": 0.6667,
+      "verdict": "partially_reliable",
+      "hallucination_probability": 0.225,
+      "review_reasons": [
+        "REVIEW: reliability 0.67 sits between the review floor 0.45 and the pass threshold 0.70",
+        "1 flagged span(s) need a human check"
+      ],
+      "flagged_spans": [
+        {
+          "text": "Each step is represented as a node containing the step number and a pointer to the next step in the journey.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.33, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 165,
+          "end": 273,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.3305
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "Given a singly linked list of integers representing the steps in a wizard's journey through a forest, reverse the list to simulate the wizard retracing their steps.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5,
+          "keyword_grounding": 0.2308,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Each step is represented as a node containing the step number and a pointer to the next step in the journey.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3305,
+          "keyword_grounding": 0.4444,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "The function should return the new head of the reversed list, ensuring that the original list remains unchanged.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5548,
+          "keyword_grounding": 0.3333,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "Assume the linked list is not empty.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5227,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-004",
+          "source_title": "Linked list traversal is sequential",
+          "source_text": "A singly linked list does not support random access. Reaching the i-th element requires traversing i nodes from the head, so indexed access costs O(n), unlike an array which costs O(1)."
+        }
+      ],
+      "structural_reasons": []
+    },
+    {
+      "id": "q_d26eb18a0b",
+      "question": "You are tasked with reversing a singly linked list of employee names. Each employee is represented as a node in the list, where each node contains the employee's name and a pointer to the next node in the list. Your goal is to implement an iterative function that reverses the order of employee names in the list. The function should take the head of the linked list as input and return the new head of the reversed list. Assume that each node in the linked list contains a `name` attribute representing the employee's name and a `next` attribute pointing to the next node in the list.",
+      "answer_key": "def reverse_employee_list(head):\n    prev = None\n    current = head\n    while current is not None:\n        next_temp = current.next\n        current.next = prev\n        prev = current\n        current = next_temp\n    return prev",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "head = EmployeeNode('Alice')\nhead.next = EmployeeNode('Bob')\nhead.next.next = EmployeeNode('Charlie')\nnew_head = reverse_employee_list(head)",
+          "expected_output": "Charlie -> Bob -> Alice"
+        },
+        {
+          "input": "head = None\nnew_head = reverse_employee_list(head)",
+          "expected_output": "None"
+        }
+      ],
+      "variation_strategy": "structure",
+      "subject_area": "data_structures",
+      "strategy_label": "Structure Variation",
+      "solution_method": "iterative",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "job_id": "job_4393b8f0038d",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": true,
+      "attempts": 1,
+      "regeneration_history": [],
+      "created_at": "2026-10-02T13:14:36+00:00",
+      "reliability_score": 0.6841,
+      "verdict": "partially_reliable",
+      "hallucination_probability": 0.225,
+      "review_reasons": [
+        "REVIEW: reliability 0.68 sits between the review floor 0.45 and the pass threshold 0.70",
+        "1 flagged span(s) need a human check"
+      ],
+      "flagged_spans": [
+        {
+          "text": "Each employee is represented as a node in the list, where each node contains the employee's name and a pointer to the next node in the list.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.38, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 70,
+          "end": 210,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.3767
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "You are tasked with reversing a singly linked list of employee names.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4129,
+          "keyword_grounding": 0.5714,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "Each employee is represented as a node in the list, where each node contains the employee's name and a pointer to the next node in the list.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3767,
+          "keyword_grounding": 0.5,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Your goal is to implement an iterative function that reverses the order of employee names in the list.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.5167,
+          "keyword_grounding": 0.2857,
+          "source_id": "prog-003",
+          "source_title": "Reversing a linked list in groups of k",
+          "source_text": "Reversing a singly linked list in groups of k nodes runs in O(n) time. Each group of k nodes is reversed independently and the group boundaries are re-linked. When fewer than k nodes remain, they are conventionally left in their original order."
+        },
+        {
+          "claim": "The function should take the head of the linked list as input and return the new head of the reversed list.",
+          "supported": true,
+          "status": "supported",
+          "similarity": 0.5659,
+          "keyword_grounding": 0.625,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "Assume that each node in the linked list contains a `name` attribute representing the employee's name and a `next` attribute pointing to the next node in the list.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4349,
+          "keyword_grounding": 0.4167,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        }
+      ],
+      "structural_reasons": []
+    },
+    {
+      "id": "q_35faf690a7",
+      "question": "You are tasked with organizing a stack of pancakes in a restaurant. Each pancake is represented as a node in a singly linked list, with each node containing the pancake's size and a pointer to the next pancake in the stack. Your goal is to implement a recursive function that reverses the order of pancakes in the stack, so that the largest pancake is at the bottom and the smallest pancake is at the top. The function should take the head of the linked list as input and return the new head of the reversed stack. Assume that each node in the linked list contains a `size` attribute representing the pancake's size and a `next` attribute pointing to the next pancake in the stack.",
+      "answer_key": "def reverse_stack(head):\n    if head is None or head.next is None:\n        return head\n    new_head = reverse_stack(head.next)\n    head.next.next = head\n    head.next = None\n    return new_head\n\n# Test cases\ntest_cases = [\n    ({\"input\": \"1 -> 2 -> 3 -> 4 -> 5\", \"expected_output\": \"5 -> 4 -> 3 -> 2 -> 1\"}),\n    ({\"input\": \"3 -> 1 -> 4\", \"expected_output\": \"4 -> 1 -> 3\"})\n]",
+      "domain": "programming",
+      "topic": "Data Structures",
+      "subtopic": "Linked Lists",
+      "difficulty": "medium",
+      "difficulty_score": 0.55,
+      "question_type": "coding",
+      "learning_objective": "The learner should be able to implement a function to reverse a singly linked list.",
+      "test_cases": [
+        {
+          "input": "1 -> 2 -> 3 -> 4 -> 5",
+          "expected_output": "5 -> 4 -> 3 -> 2 -> 1"
+        },
+        {
+          "input": "3 -> 1 -> 4",
+          "expected_output": "4 -> 1 -> 3"
+        }
+      ],
+      "variation_strategy": "representation",
+      "subject_area": "data_structures",
+      "strategy_label": "Representation Variation",
+      "solution_method": "recursive",
+      "seed_question": "Write a function to reverse a singly linked list.",
+      "job_id": "job_4393b8f0038d",
+      "decision": "REVIEW",
+      "validation_status": "awaiting human review",
+      "structural_passed": true,
+      "attempts": 2,
+      "regeneration_history": [
+        {
+          "attempt": 1,
+          "rejected_question": "Given a singly linked list where each node represents a student with an ID and a name, write a recursive function to reverse the order of the list. The function should take the head of the linked list as input and return the new head of the reversed list. Each node in the linked list contains an `id` attribute representing the student's ID, a `name` attribute representing the student's name, and a `next` attribute pointing to the next node in the list. The function should not modify the original linked list. Assume the linked list is not empty.",
+          "decision": "REJECT",
+          "structural_reasons": [
+            "semantic similarity too high: 0.88 against the previously accepted question (threshold 0.86)"
+          ],
+          "reliability_reasons": [
+            "reliability capped at 0.54 because 1 contradiction(s) were detected - contradicted content cannot score as reliable",
+            "1 of 3 checkable claims were grounded in the local reference corpus (grounding score 0.67)",
+            "estimated hallucination probability 0.30",
+            "1 internal self-contradiction(s)",
+            "2 claim(s) matched the corpus topically but their specific details were not confirmed",
+            "1 contradiction(s) detected"
+          ],
+          "flagged_spans": [
+            {
+              "text": "The function should take the head of the linked list as input and return the new head of the reversed list.",
+              "reason": "the response contradicts itself: one statement asserts what the other denies (the two statements are 0.67 similar, so they are about the same thing)",
+              "severity": "high"
+            },
+            {
+              "text": "Each node in the linked list contains an `id` attribute representing the student's ID, a `name` attribute representing the student's name, and a `next` attribute pointing to the next node in the list.",
+              "reason": "only partially supported: only weakly related to 'Singly linked list reversal' (0.44 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            },
+            {
+              "text": "The function should not modify the original linked list.",
+              "reason": "only partially supported: only weakly related to 'Reversing a linked list in groups of k' (0.42 similarity, below the 0.55 support threshold)",
+              "severity": "low"
+            }
+          ],
+          "structural_passed": false,
+          "reliability_score": 0.54,
+          "verdict": "misleading"
+        }
+      ],
+      "created_at": "2026-10-02T13:16:08+00:00",
+      "reliability_score": 0.5732,
+      "verdict": "unverifiable",
+      "hallucination_probability": 0.3375,
+      "review_reasons": [
+        "PS2 verdict 'unverifiable': the local reference corpus holds no evidence either way, so this needs human review rather than automatic rejection"
+      ],
+      "flagged_spans": [
+        {
+          "text": "Each pancake is represented as a node in a singly linked list, with each node containing the pancake's size and a pointer to the next pancake in the stack.",
+          "reason": "unsupported claim: no entry in the local reference corpus covers this claim (best match 0.35, below 0.38). The corpus is incomplete, so this is unverifiable rather than false.",
+          "start": 68,
+          "end": 223,
+          "severity": "medium",
+          "claim_type": "factual",
+          "best_evidence": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the lis",
+          "best_similarity": 0.3527
+        },
+        {
+          "text": "The function should take the head of the linked list as input and return the new head of the reversed stack.",
+          "reason": "only partially supported: only weakly related to 'In-place algorithms and auxiliary space' (0.55 similarity, below the 0.55 support threshold)",
+          "start": 406,
+          "end": 514,
+          "severity": "low",
+          "claim_type": "factual",
+          "best_evidence": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory.",
+          "best_similarity": 0.546
+        }
+      ],
+      "evidence": [
+        {
+          "claim": "You are tasked with organizing a stack of pancakes in a restaurant.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.1854,
+          "keyword_grounding": 0.2,
+          "source_id": "prog-008",
+          "source_title": "Stack and queue ordering",
+          "source_text": "A stack is a last-in, first-out (LIFO) structure supporting push and pop at one end. A queue is first-in, first-out (FIFO), with enqueue at the rear and dequeue at the front. Both support these operations in O(1) time."
+        },
+        {
+          "claim": "Each pancake is represented as a node in a singly linked list, with each node containing the pancake's size and a pointer to the next pancake in the stack.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3527,
+          "keyword_grounding": 0.5833,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        },
+        {
+          "claim": "Your goal is to implement a recursive function that reverses the order of pancakes in the stack, so that the largest pancake is at the bottom and the smallest pancake is at the top.",
+          "supported": false,
+          "status": "unsupported",
+          "similarity": 0.3659,
+          "keyword_grounding": 0.1818,
+          "source_id": "prog-002",
+          "source_title": "Recursive linked list reversal space cost",
+          "source_text": "A recursive reversal of a singly linked list uses O(n) space because each of the n recursive calls occupies a stack frame. It is not a constant-space solution."
+        },
+        {
+          "claim": "The function should take the head of the linked list as input and return the new head of the reversed stack.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.546,
+          "keyword_grounding": 0.5556,
+          "source_id": "prog-014",
+          "source_title": "In-place algorithms and auxiliary space",
+          "source_text": "An in-place algorithm uses O(1) auxiliary space beyond its input. Iterative linked list reversal is in-place; creating a new list of the reversed nodes is not, because it allocates O(n) additional memory."
+        },
+        {
+          "claim": "Assume that each node in the linked list contains a `size` attribute representing the pancake's size and a `next` attribute pointing to the next pancake in the stack.",
+          "supported": false,
+          "status": "partially_supported",
+          "similarity": 0.4469,
+          "keyword_grounding": 0.3846,
+          "source_id": "prog-001",
+          "source_title": "Singly linked list reversal",
+          "source_text": "Reversing a singly linked list iteratively requires three pointers (previous, current, next) and runs in O(n) time with O(1) extra space. Each node's next pointer is redirected to its predecessor while traversing the list once."
+        }
+      ],
+      "structural_reasons": []
     }
   ],
   "resolved": [

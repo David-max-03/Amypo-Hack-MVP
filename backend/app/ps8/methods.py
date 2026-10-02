@@ -8,6 +8,11 @@ it, and the validator checks the answer key actually uses it.
 Every method carries evidence checks, so a method label is a verified claim rather
 than whatever the model said it did. Only coding questions have a method axis for
 now: code is where "did it use recursion?" can be checked mechanically.
+
+A method is only planned when it applies to the seed (`applicable_methods`). Asking
+for "a non-destructive rebuild" of a primality test, or "a recursive solution" to a
+SQL query, cannot be satisfied without changing what the question is about - so
+those seeds simply have fewer methods, or none.
 """
 
 from __future__ import annotations
@@ -106,6 +111,10 @@ def _builds_new_nodes(answer_key: str) -> bool:
     return bool(copies) and not _REWIRES_LINK_RE.search(code)
 
 
+# Node-linked structures: the ones the auxiliary-store and rebuild methods are about.
+_LINKED_STRUCTURES = frozenset({"linked list", "binary tree", "graph"})
+
+
 @dataclass(frozen=True)
 class Method:
     id: str
@@ -117,6 +126,16 @@ class Method:
     answer_evidence: Callable[[str], bool]
     # How the question text signals the method, so the learner is asked for it.
     question_pattern: str | None = None
+    # Structures the method presupposes: it is only planned for a seed that operates
+    # on one of them. None means any procedural coding seed.
+    needs_structure: frozenset[str] | None = None
+    # A worked construction per structure, appended to the instruction for seeds on
+    # that structure (a 7B model follows a shown construction far better than a rule).
+    examples: dict[str, str] | None = None
+
+    def instruction_for(self, structure: str | None) -> str:
+        example = (self.examples or {}).get(structure or "")
+        return f"{self.instruction} {example}" if example else self.instruction
 
     def evidenced_in_answer(self, answer_key: str) -> bool:
         return self.answer_evidence(answer_key)
@@ -131,10 +150,7 @@ CODING_METHODS: list[Method] = [
     Method(
         id="iterative",
         label="Iterative solution",
-        instruction=(
-            "The intended solution is iterative: a single loop that updates the data "
-            "structure step by step."
-        ),
+        instruction="The intended solution is iterative: it uses a loop, not recursion.",
         is_default=True,
         answer_evidence=_uses_loop,
     ),
@@ -160,6 +176,7 @@ CODING_METHODS: list[Method] = [
         is_default=False,
         answer_evidence=_uses_auxiliary_store,
         question_pattern=r"\bstack\b|\barray\b|\b(auxiliary|extra|additional)\b",
+        needs_structure=_LINKED_STRUCTURES,
     ),
     Method(
         id="rebuild",
@@ -170,14 +187,20 @@ CODING_METHODS: list[Method] = [
             "The question must state that the original input must NOT be modified and "
             "that a brand-new structure is returned. The answer_key must never assign "
             "to a `.next` of an input node. Instead it creates a NEW node for every "
-            "element, copying the value, e.g. for a linked list:\n"
-            "    new_head = None\n"
-            "    node = head\n"
-            "    while node:\n"
-            "        new_head = ListNode(node.val, new_head)\n"
-            "        node = node.next\n"
-            "    return new_head"
+            "element, copying the value,"
         ),
+        examples={
+            "linked list": (
+                "e.g. for a linked list:\n"
+                "    new_head = None\n"
+                "    node = head\n"
+                "    while node:\n"
+                "        new_head = ListNode(node.val, new_head)\n"
+                "        node = node.next\n"
+                "    return new_head"
+            ),
+        },
+        needs_structure=frozenset({"linked list"}),
         is_default=False,
         answer_evidence=_builds_new_nodes,
         question_pattern=r"unmodified|unchanged|not (be )?modif|without modifying|"
@@ -191,6 +214,44 @@ _BY_ID = {m.id: m for m in CODING_METHODS}
 def methods_for(question_type: str) -> list[Method]:
     """Methods to rotate through for a seed of this question type (may be empty)."""
     return CODING_METHODS if question_type == "coding" else []
+
+
+# A coding seed is one of three shapes. Only a procedure - "write a function that
+# computes X" - has a solution method to vary.
+_ARTIFACT_RE = re.compile(
+    r"\b(sql|query|queries|html|css|xml|markup|stylesheet|schema|regex|regular expression|"
+    r"yaml|dockerfile|shell command|configuration file)\b",
+    re.I,
+)
+_STRUCTURE_DESIGN_RE = re.compile(
+    r"\b(that supports?|supporting|with (?:the )?operations?|data structure that|"
+    r"class that|design (?:a|an) (?:class|data structure|api|interface))\b",
+    re.I,
+)
+
+
+def task_shape(seed_text: str, question_type: str) -> str:
+    """procedure | structure | artifact | non_code - what kind of thing the seed asks for."""
+    if question_type != "coding":
+        return "non_code"
+    if _ARTIFACT_RE.search(seed_text or ""):
+        return "artifact"  # a query, a page, a pattern: declarative, no control flow to vary
+    if _STRUCTURE_DESIGN_RE.search(seed_text or ""):
+        return "structure"  # "a stack that supports push and pop": a design, not one routine
+    return "procedure"
+
+
+def applicable_methods(seed) -> list[Method]:
+    """Methods that can be asked of this seed without changing what it is about."""
+    if task_shape(seed.raw_seed, seed.question_type) != "procedure":
+        return []
+    from .validation.validators import seed_data_structure  # local: avoids a cycle
+
+    structure = seed_data_structure(seed)
+    return [
+        m for m in CODING_METHODS
+        if m.needs_structure is None or structure in m.needs_structure
+    ]
 
 
 def get_method(method_id: str | None) -> Method | None:

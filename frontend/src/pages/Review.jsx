@@ -2,12 +2,15 @@ import { useCallback, useEffect, useState } from 'react';
 import { api } from '../api.js';
 import { AttemptTimeline, EvidenceTable, RegenerationDetail } from '../components/CandidateCard.jsx';
 import FlaggedSpans from '../components/FlaggedSpans.jsx';
+import PageHeader from '../components/PageHeader.jsx';
 import ScoreBar from '../components/ScoreBar.jsx';
+import { useToast } from '../components/Toast.jsx';
 import TaxonomyFilters from '../components/TaxonomyFilters.jsx';
 import { areaLabel, areaOf, matchesFilters, useAppData } from '../state/AppData.jsx';
 
 export default function ReviewPage() {
   const { taxonomy, refreshHealth } = useAppData();
+  const toast = useToast();
   const [tf, setTf] = useState({ area: '', difficulty: '' });
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -29,6 +32,7 @@ export default function ReviewPage() {
       setMessage(action === 'approve'
         ? `Approved — "${item.question.slice(0, 70)}…" moved to the Question Bank.`
         : `Rejected — "${item.question.slice(0, 70)}…" removed from the queue.`);
+      toast(action === 'approve' ? 'Approved — moved to the Question Bank' : 'Rejected — removed from the queue', action === 'approve' ? 'success' : 'warn');
       load();
       refreshHealth();
     } catch (e) {
@@ -39,17 +43,15 @@ export default function ReviewPage() {
   }
 
   return (
+    <>
+    <PageHeader eyebrow="Human in the loop" title="Review Queue"
+      description="Candidates the system could not confirm either way are routed to a human instead of being discarded. Approve moves a question into the bank; reject records the decision.">
+      <button className="btn ghost" onClick={load}>Refresh</button>
+    </PageHeader>
     <div className="panel" data-testid="review">
       <div className="toolbar">
-        <h2>Review queue <span className="status-pill">{data?.count ?? 0} waiting</span></h2>
-        <div className="actions"><button className="ghost" onClick={load}>Refresh</button></div>
+        <h2>Waiting for a decision <span className="status-pill">{data?.count ?? 0}</span></h2>
       </div>
-
-      <p className="lede">
-        Candidates the system could not confirm either way — an incomplete corpus is not proof a
-        claim is wrong, so these are routed to a human instead of being discarded. Approve moves a
-        question into the bank; reject records the decision.
-      </p>
 
       <div className="filters filters-2">
         <TaxonomyFilters idPrefix="rev" value={tf} onChange={setTf} />
@@ -130,5 +132,6 @@ export default function ReviewPage() {
         ))
       )}
     </div>
+    </>
   );
 }

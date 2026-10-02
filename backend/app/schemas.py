@@ -21,6 +21,36 @@ DifficultyLabel = Literal["easy", "medium", "hard", "expert"]
 # ======================================================================
 # PS8 - seed / generation
 # ======================================================================
+class SeedContract(BaseModel):
+    """What a variation of a seed must keep, and what it is allowed to change.
+
+    Derived locally from the seed and its analysis (see ps8/contract.py). Fields that
+    cannot be determined reliably stay empty.
+    """
+
+    domain: str
+    core_concept: str
+    learning_objective: str
+    task_type: str
+    # The seed itself: what the learner is asked to do.
+    task: str
+    # Concept-bearing terms a variation must still be about.
+    required_elements: list[str] = Field(default_factory=list)
+    # Every content term's measured share of the seed's meaning.
+    element_weights: dict[str, float] = Field(default_factory=dict)
+    # Technologies / proper names the seed states (SQL, TCP, HTML, Python).
+    named_elements: list[str] = Field(default_factory=list)
+    # The data structure a programming seed operates on, if it names one.
+    structure_anchor: str | None = None
+    # Explicit constraint clauses stated in the seed.
+    constraints: list[str] = Field(default_factory=list)
+    # Concrete numeric values in the seed (what a parameter variation changes).
+    parameters: list[str] = Field(default_factory=list)
+    # Human-readable statement of everything that must stay the same.
+    immutable_elements: list[str] = Field(default_factory=list)
+    allowed_variation_dimensions: list[str] = Field(default_factory=list)
+
+
 class SeedMetadata(BaseModel):
     """What the Seed Parser extracts from a raw seed question."""
 
@@ -34,6 +64,8 @@ class SeedMetadata(BaseModel):
     learning_objective: str
     keywords: list[str] = Field(default_factory=list)
     raw_seed: str
+    # Set by the pipeline once the seed is parsed; None on a bare parse.
+    contract: SeedContract | None = None
 
 
 class VariationPlanItem(BaseModel):
@@ -45,6 +77,9 @@ class VariationPlanItem(BaseModel):
     instruction: str
     preserve: list[str]
     change: list[str]
+    # Strategy contract: the one dimension this variation varies, and what is off limits.
+    dimension: str = ""
+    must_not_change: list[str] = Field(default_factory=list)
     # Solution-method axis (coding only); None when the seed has no method axis.
     method: str | None = None
     method_label: str = ""
@@ -88,6 +123,8 @@ class StructuralValidation(BaseModel):
     difficulty_match: bool
     is_duplicate: bool
     meaningful_variation: bool
+    # True / False when the requested strategy could be checked, None when it could not.
+    strategy_followed: bool | None = None
     passed: bool
     semantic_similarity: float = Field(ge=0.0, le=1.0)
     lexical_similarity: float = Field(ge=0.0, le=1.0)
@@ -129,7 +166,14 @@ class EvidenceItem(BaseModel):
 
 class Claim(BaseModel):
     text: str
-    claim_type: Literal["factual", "answer", "citation", "assumption", "opinion", "inference"]
+    # factual / answer / citation are held to source grounding. The rest are not:
+    # an opinion, an assumption or an inference asserts no checkable fact, and in a
+    # generated question an instruction to the learner, a premise the problem sets up
+    # and a description of the candidate's own solution are not claims about the world.
+    claim_type: Literal[
+        "factual", "answer", "citation", "assumption", "opinion", "inference",
+        "instruction", "setup", "explanation",
+    ]
     start: int
     end: int
 

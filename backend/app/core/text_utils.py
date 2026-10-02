@@ -41,6 +41,18 @@ def content_tokens(text: str) -> list[str]:
     return [t for t in tokenize(text) if t not in STOPWORDS and len(t) > 1]
 
 
+_STEM_SUFFIXES = ("ications", "ication", "ations", "ation", "ings", "ing", "ies", "ied",
+                  "ers", "er", "es", "ed", "s", "e")
+
+
+def light_stem(token: str) -> str:
+    """A light stem: enough to match classify / classifies / classification."""
+    for suffix in _STEM_SUFFIXES:
+        if token.endswith(suffix) and len(token) - len(suffix) >= 3:
+            return token[: -len(suffix)]
+    return token
+
+
 def token_set(text: str) -> set[str]:
     return set(content_tokens(text))
 

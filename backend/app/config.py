@@ -72,6 +72,20 @@ class Settings(BaseSettings):
     # a deterministic lexical vectoriser. That fallback is clearly reported through
     # /api/v1/health so we never silently claim MiniLM was used.
     allow_embedding_fallback: bool = True
+    # Local natural-language-inference model: decides whether a corpus sentence
+    # entails or contradicts a claim. Without it PS2 falls back to similarity +
+    # keyword grounding, which cannot tell a statement from its opposite.
+    entailment_enabled: bool = True
+    entailment_model: str = "cross-encoder/nli-MiniLM2-L6-H768"
+    # A corpus sentence supports (or contradicts) a claim at or above this probability.
+    entailment_decision_min: float = 0.80
+    # Calling a claim contradicted is held to a higher standard than calling it
+    # unconfirmed: this probability, from the corpus sentence closest to the claim,
+    # which must also contain this share of the claim's content words.
+    entailment_contradiction_min: float = 0.90
+    entailment_contradiction_overlap: float = 0.50
+    # Only corpus sentences at least this similar to the claim are read at all.
+    entailment_min_similarity: float = 0.50
 
     # ------------------------------------------------------------------
     # PS8 structural validation thresholds
